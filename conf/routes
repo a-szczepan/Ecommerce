@@ -1,71 +1,81 @@
-
 # Routes
 
-#ProductController
-POST    /products                         controllers.ProductController.createProduct
-GET     /products                         controllers.ProductController.getProducts
-GET     /products/:id                     controllers.ProductController.getProduct(id:Long)
-PUT     /products/:id                     controllers.ProductController.updateProduct(id:Long)
-DELETE  /products/:id                     controllers.ProductController.deleteProduct(id: Long)
-
-#UserController
-POST    /users                            controllers.UserController.createUser
-GET     /users                            controllers.UserController.getUsers
-GET     /users/:id                        controllers.UserController.getUser(id:Long)
-PUT     /users                            controllers.UserController.updateUser(id:Long)
-DELETE  /users/:id                        controllers.UserController.deleteUser(id: Long)
-
-#CartController
-POST    /cart                            controllers.CartController.addToCart(id:Long)
-GET     /cart                            controllers.CartController.getCart
-PUT     /cart                            controllers.CartController.updateCart(id:Long)
-DELETE  /cart/:id                        controllers.CartController.deleteFromCart(id: Long)
+#CategoryFormController
+GET           /categories/all                        controllers.CategoryFormController.allCategories
+GET           /categories/create                     controllers.CategoryFormController.createCategory()
+POST          /categories/createHandle               controllers.CategoryFormController.createCategoryHandle()
+GET           /categories/update/:id                 controllers.CategoryFormController.updateCategory(id: Int)
+POST          /categories/updateHandle               controllers.CategoryFormController.updateCategoryHandle
+GET           /categories/delete/:id                 controllers.CategoryFormController.deleteCategory(id: Int)
+GET           /categories/:categoryId                controllers.CategoryFormController.getById(categoryId: Int)
 
 #CategoryController
-POST    /categories                      controllers.CategoryController.createCategory
-GET     /categories                      controllers.CategoryController.getCategories
-GET     /categories/:id                  controllers.CategoryController.getCategory(id: Long)
-PUT     /categories/:id                  controllers.CategoryController.updateCategory(id: Long)
-DELETE  /categories/:id                  controllers.CategoryController.deleteCategory(id: Long)
+POST          /categories                            controllers.CategoryController.createCategory
+GET           /categories                            controllers.CategoryController.getCategories
+GET           /categories/:id                        controllers.CategoryController.getCategory(id: Int)
+PUT           /categories/:id                        controllers.CategoryController.updateCategory(id: Int)
+DELETE        /categories/:id                        controllers.CategoryController.deleteCategory(id: Int)
+
+
+#ProductController
+POST          /products                              controllers.ProductController.createProduct
+GET           /products                              controllers.ProductController.getProducts
+GET           /products/:id                          controllers.ProductController.getProduct(id:Int)
+GET           /products/category/:category_id        controllers.ProductController.getProductsByCategory(category_id:Int)
+PUT           /products                              controllers.ProductController.updateProduct
+DELETE        /products/:id                          controllers.ProductController.deleteProduct(id: Int)
+
+#UserController
+POST          /users                                 controllers.UserController.createUser
+GET           /users                                 controllers.UserController.getUsers
+GET           /users/:id                             controllers.UserController.getUser(id:Int)
+PUT           /users                                 controllers.UserController.updateUser(id:Int)
+DELETE        /users/:id                             controllers.UserController.deleteUser(id: Int)
+
+#CartController
+POST          /cart                                  controllers.CartController.addToCart(id:Int)
+GET           /cart                                  controllers.CartController.getCart
+PUT           /cart                                  controllers.CartController.updateCart(id:Int)
+DELETE        /cart/:id                              controllers.CartController.deleteFromCart(id: Int)
 
 #OrderController
-POST    /orders                      controllers.OrderController.createOrder
-GET     /orders                      controllers.OrderController.getOrders
-GET     /orders/:id                  controllers.OrderController.getOrder(id: Long)
-PUT     /orders/:id                  controllers.OrderController.updateOrder(id: Long)
-DELETE  /orders/:id                  controllers.OrderController.deleteOrder(id: Long)
+POST          /orders                                controllers.OrderController.createOrder
+GET           /orders                                controllers.OrderController.getOrders
+GET           /orders/:id                            controllers.OrderController.getOrder(id: Int)
+PUT           /orders/:id                            controllers.OrderController.updateOrder(id: Int)
+DELETE        /orders/:id                            controllers.OrderController.deleteOrder(id: Int)
 
 #WishListController
-POST    /wishlist                            controllers.WishlistController.addToWishlist
-GET     /wishlist                            controllers.WishlistController.getWishlist
-PUT     /wishlist/:id                        controllers.WishlistController.updateWishlist(id:Long)
-DELETE  /wishlist/:id                        controllers.WishlistController.deleteFromWishlist(id: Long)
+POST          /wishlist                              controllers.WishlistController.addToWishlist
+GET           /wishlist                              controllers.WishlistController.getWishlist
+PUT           /wishlist/:id                          controllers.WishlistController.updateWishlist(id:Int)
+DELETE        /wishlist/:id                          controllers.WishlistController.deleteFromWishlist(id: Int)
 
 #Payment
-POST    /payments                            controllers.PaymentController.createPayment
-GET     /payments                            controllers.PaymentController.getPayments
-GET     /payments/:id                        controllers.PaymentController.getPayment(id:Long)
-DELETE  /payments/:id                        controllers.PaymentController.deletePayment(id:Long)
+POST          /payments                              controllers.PaymentController.createPayment
+GET           /payments                              controllers.PaymentController.getPayments
+GET           /payments/:id                          controllers.PaymentController.getPayment(id:Int)
+DELETE        /payments/:id                          controllers.PaymentController.deletePayment(id:Int)
 
 #Account
-POST    /acconts                            controllers.AccountController.createAccount
-GET     /acconts                            controllers.AccountController.getAccounts
-GET     /acconts/:id                        controllers.AccountController.getAccount(id:Long)
-PUT     /acconts/:id                        controllers.AccountController.updateAccount(id:Long)
-DELETE  /acconts/:id                        controllers.AccountController.deleteAccount(id: Long)
+POST          /acconts                               controllers.AccountController.createAccount
+GET           /acconts                               controllers.AccountController.getAccounts
+GET           /acconts/:id                           controllers.AccountController.getAccount(id:Int)
+PUT           /acconts/:id                           controllers.AccountController.updateAccount(id:Int)
+DELETE        /acconts/:id                           controllers.AccountController.deleteAccount(id: Int)
 
 #ShippingController
-POST    /shipping                            controllers.ShippingController.createShipping
-GET     /shipping                            controllers.ShippingController.getShipping
-PUT     /shipping                            controllers.ShippingController.updateShipping
-DELETE  /shipping                            controllers.ShippingController.deleteShipping
+POST          /shipping                              controllers.ShippingController.createShipping
+GET           /shipping                              controllers.ShippingController.getShipping
+PUT           /shipping                              controllers.ShippingController.updateShipping
+DELETE        /shipping                              controllers.ShippingController.deleteShipping
 
 #OpinionController
-POST    /opinions                            controllers.OpinionController.createOpinion
-GET     /opinions                            controllers.OpinionController.getOpinions
-GET     /opinions/:id                        controllers.OpinionController.getOpinion(id:Long)
-PUT     /opinions/:id                        controllers.OpinionController.updateOpinion(id:Long)
-DELETE  /opinions/:id                        controllers.OpinionController.deleteOpinion(id: Long)
+POST          /opinions                              controllers.OpinionController.createOpinion
+GET           /opinions                              controllers.OpinionController.getOpinions
+GET           /opinions/:id                          controllers.OpinionController.getOpinion(id:Int)
+PUT           /opinions/:id                          controllers.OpinionController.updateOpinion(id:Int)
+DELETE        /opinions/:id                          controllers.OpinionController.deleteOpinion(id: Int)
 # Map static resources from the /public folder to the /assets URL path
 
 
