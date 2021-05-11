@@ -1,24 +1,25 @@
 package controllers
-import models.{Product, Category, CategoryRepository, ProductRepository}
+import models.{Category, CategoryRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import javax.inject._
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 @Singleton
 class ProductFormController @Inject() (productRepository: ProductRepository, categoryRepository: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc){
   var categoryList: Seq[Category] = Seq[Category]()
-  categoryRepository.list().onComplete{
+
+  categoryRepository.list().onComplete {
     case Success(category) => categoryList = category
     case Failure(e) => print("error while listing categories", e)
   }
 
   val productForm: Form[CreateProductForm] = Form {
     mapping(
-      "categoryId" -> number,
+      "category_id" -> number,
       "name" -> nonEmptyText,
     )(CreateProductForm.apply)(CreateProductForm.unapply)
   }
@@ -26,10 +27,76 @@ class ProductFormController @Inject() (productRepository: ProductRepository, cat
   val updateProductForm: Form[UpdateProductForm] = Form {
     mapping(
       "id" -> number,
-      "categoryId" -> number,
+      "category_id" -> number,
       "name" -> nonEmptyText,
     )(UpdateProductForm.apply)(UpdateProductForm.unapply)
   }
+
+  /* -------------------------------------------- */
+
+  def updateProduct(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
+    val product = productRepository.getById(id)
+    product.map(product => {
+      val productForm = updateProductForm.fill(UpdateProductForm(product.get.id, product.get.category_id, product.get.name))
+      Ok(views.html.product.updateProduct(productForm,categoryList))
+    })
+  }
+
+  def updateProductHandle(): Action[AnyContent] = Action.async { implicit request =>
+    updateProductForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(
+          BadRequest(views.html.product.updateProduct(errorForm, categoryList))
+        )
+      },
+      product => {
+        productRepository.update(product.id, Product(product.id, product.category_id, product.name)).map { _ =>
+          Redirect("/products/all")
+        }
+      }
+    )
+  }
+
+  def deleteProduct(id: Int): Action[AnyContent] = Action {
+    productRepository.delete(id)
+    Redirect("/products")
+  }
+
+  def allProducts: Action[AnyContent] = Action.async { implicit request =>
+    productRepository.list().map(products => Ok(views.html.product.allProducts(products)))
+  }
+
+  def getById(id: Int) = Action.async { implicit request =>
+    val product = productRepository.getById(id)
+    product.map(product => product match {
+      case Some(p) => Ok(views.html.product.productById(p))
+      case None => Redirect(routes.ProductFormController.allProducts)
+    })
+  }
+
+  def createProduct() = Action { implicit request =>
+    val categories = Await.result(categoryRepository.list(), Duration.Inf)
+    Ok(views.html.product.createProduct(productForm, categories))
+  }
+
+  def createProductHandle(): Action[AnyContent] = Action.async { implicit request =>
+    productForm.bindFromRequest.fold(
+      errorForm => {
+        Future.successful(
+          BadRequest(views.html.product.createProduct(errorForm, categoryList))
+        )
+      },
+      product => {
+        productRepository.create(product.category_id, product.name).map { _ =>
+          Redirect("/products/all")
+        }
+      }
+    )
+  }
+
+
+
+
 
 
 }

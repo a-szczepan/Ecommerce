@@ -7,7 +7,7 @@ POST          /categories/createHandle               controllers.CategoryFormCon
 GET           /categories/update/:id                 controllers.CategoryFormController.updateCategory(id: Int)
 POST          /categories/updateHandle               controllers.CategoryFormController.updateCategoryHandle
 GET           /categories/delete/:id                 controllers.CategoryFormController.deleteCategory(id: Int)
-GET           /categories/:categoryId                controllers.CategoryFormController.getById(categoryId: Int)
+GET           /categories/byId/:categoryId           controllers.CategoryFormController.getById(categoryId: Int)
 
 #CategoryController
 POST          /categories                            controllers.CategoryController.createCategory
@@ -16,6 +16,14 @@ GET           /categories/:id                        controllers.CategoryControl
 PUT           /categories/:id                        controllers.CategoryController.updateCategory(id: Int)
 DELETE        /categories/:id                        controllers.CategoryController.deleteCategory(id: Int)
 
+#ProductFormController
+GET           /products/all                          controllers.ProductFormController.allProducts
+GET           /products/create                       controllers.ProductFormController.createProduct()
+POST          /products/createHandle                 controllers.ProductFormController.createProductHandle()
+GET           /products/update/:id                   controllers.ProductFormController.updateProduct(id: Int)
+POST          /products/updateHandle                 controllers.ProductFormController.updateProductHandle()
+GET           /products/delete/:id                   controllers.ProductFormController.deleteProduct(id: Int)
+GET           /products/byId/:productId              controllers.ProductFormController.getById(productId: Int)
 
 #ProductController
 POST          /products                              controllers.ProductController.createProduct

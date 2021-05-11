@@ -1,18 +1,22 @@
-@import controllers.CreateCategoryForm
-@(category: Form[CreateCategoryForm])(implicit request: MessagesRequestHeader, flash: Flash)
+@import controllers.CreateProductForm
+@(product: Form[CreateProductForm], categories: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
 @flash.get("success").getOrElse("")
 
-@form(controllers.routes.CategoryFormController.createCategoryHandle()) {
+@form(controllers.routes.ProductFormController.createProductHandle()) {
     @helper.CSRF.formField
-    @inputText(category("name"), '_label -> "Name")
+    @inputText(product("name"))
 
-    <div class="buttons" style="margin-top: 10px">
-        <input type="submit" value="Add Category"/>
+    <label for="category"></label>
+    <select name="category_id" id="category">
+    @for(entry <- categories) {
+        <option value="@entry.id">@entry.name</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add Product"/>
     </div>
 }
-
-
-

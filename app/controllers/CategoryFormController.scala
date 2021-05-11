@@ -57,7 +57,7 @@ class CategoryFormController @Inject()(categoryRepository: CategoryRepository, c
     val category = categoryRepository.getById(id)
     category.map(category => category match {
       case Some(p) => Ok(views.html.category.categoryById(p))
-      //case None => Redirect(routes.CategoryFormController.allCategories)
+      case None => Redirect(routes.CategoryFormController.allCategories)
     })
   }
 

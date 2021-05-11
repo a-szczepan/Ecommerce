@@ -50,7 +50,7 @@ class ProductController @Inject()(val productRepository: ProductRepository,
         productRepository.update(product.id, product).map { res =>
           Ok(Json.toJson(res))
         }
-    }.getOrElse(Future.successful(BadRequest("invalid json")))
+    }.getOrElse(Future.successful(BadRequest("")))
   }
 
   def deleteProduct(id: Int): Action[AnyContent] = Action.async {
