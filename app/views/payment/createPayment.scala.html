@@ -7,8 +7,7 @@
 
 @form(controllers.routes.PaymentFormController.createPaymentHandle()) {
     @helper.CSRF.formField
-    @inputText(payment("id"))
-
+    
     <label for="order"></label>
     <select name="order_id" id="order">
     @for(entry <- orders) {
