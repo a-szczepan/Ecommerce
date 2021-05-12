@@ -1,0 +1,29 @@
+@import controllers.UpdateOrderForm
+@(order: Form[UpdateOrderForm], carts: Seq[Cart], shippings: Seq[Shipping])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.OrderFormController.updateOrderHandle) {
+    @helper.CSRF.formField
+    <input name="id" id="id" value="@order("id").value" type="hidden" />
+    <label for="cart"></label>
+    <select name="cart_id" id="cart">
+    @for(entry <- carts) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+    <label for="shipping"></label>
+    <select name="shipping_id" id="shipping">
+    @for(entry <- shippings) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+
+    <div class="buttons">
+        <input type="submit" value="Update Category"/>
+    </div>
+}

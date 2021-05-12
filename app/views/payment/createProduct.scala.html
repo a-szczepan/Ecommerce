@@ -1,0 +1,22 @@
+@import controllers.CreateProductForm
+@(product: Form[CreateProductForm], categories: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.ProductFormController.createProductHandle()) {
+    @helper.CSRF.formField
+    @inputText(product("name"))
+
+    <label for="category"></label>
+    <select name="category_id" id="category">
+    @for(entry <- categories) {
+        <option value="@entry.id">@entry.name</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add Product"/>
+    </div>
+}

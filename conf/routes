@@ -58,11 +58,21 @@ GET           /users/:id                             controllers.UserController.
 PUT           /users                                 controllers.UserController.updateUser(id:Int)
 DELETE        /users/:id                             controllers.UserController.deleteUser(id: Int)
 
+#OrderFormController
+GET           /orders/all                             controllers.OrderFormController.allOrders
+GET           /orders/create                          controllers.OrderFormController.createOrder()
+POST          /orders/createHandle                    controllers.OrderFormController.createOrderHandle()
+GET           /orders/update/:id                      controllers.OrderFormController.updateOrder(id: Int)
+POST          /orders/updateHandle                    controllers.OrderFormController.updateOrderHandle()
+GET           /orders/delete/:id                      controllers.OrderFormController.deleteOrder(id: Int)
+GET           /orders/byId/:orderId                    controllers.OrderFormController.getById(orderId: Int)
 
 #OrderController
 POST          /orders                                controllers.OrderController.createOrder
 GET           /orders                                controllers.OrderController.getOrders
 GET           /orders/:id                            controllers.OrderController.getOrder(id: Int)
+GET           /orders/cart/:cart_id                  controllers.OrderController.getOrdersByCart(cart_id: Int)
+GET           /orders/shipping/:shipping_id          controllers.OrderController.getOrdersByShipping(shipping_id: Int)
 PUT           /orders/:id                            controllers.OrderController.updateOrder(id: Int)
 DELETE        /orders/:id                            controllers.OrderController.deleteOrder(id: Int)
 

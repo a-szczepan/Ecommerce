@@ -56,4 +56,12 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val ca
     order.filter(_.id === id).result.headOption
   }
 
+  def getByCart(cart_id: Int): Future[Seq[Order]] = db.run {
+    order.filter(_.cart_id === cart_id).result
+  }
+
+  def getByShipping(shipping_id: Int): Future[Seq[Order]] = db.run {
+    order.filter(_.shipping_id === shipping_id).result
+  }
+
 }

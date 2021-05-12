@@ -1,0 +1,28 @@
+@import controllers.CreateOrderForm
+@(order: Form[CreateOrderForm], carts: Seq[Cart], shippings: Seq[Shipping])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.OrderFormController.createOrderHandle()) {
+    @helper.CSRF.formField
+
+    <label for="cart"></label>
+    <select name="cart_id" id="cart">
+    @for(entry <- carts) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+    <label for="shipping"></label>
+    <select name="shipping_id" id="shipping">
+    @for(entry <- shippings) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+    <div class="buttons">
+        <input type="submit" value="Add Product"/>
+    </div>
+}
