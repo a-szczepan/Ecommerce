@@ -1,0 +1,26 @@
+@import controllers.UpdateUserForm
+@(user: Form[UpdateUserForm], accounts: Seq[Account])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.UserFormController.updateUserHandle) {
+    @helper.CSRF.formField
+
+    <label for="account"></label>
+    <select name="account_id" id="account">
+    @for(entry <- accounts) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+
+    @inputText(user("email"))
+    @inputText(user("password"))
+
+
+    <div class="buttons">
+        <input type="submit" value="Update Category"/>
+    </div>
+}

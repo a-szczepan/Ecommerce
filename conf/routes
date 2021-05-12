@@ -51,11 +51,21 @@ GET           /cart/user/:user_id                       controllers.CartControll
 PUT           /cart                                     controllers.CartController.updateCart
 DELETE        /cart/:id                                 controllers.CartController.deleteCart(id: Int)
 
+#UserFormController
+GET           /users/all                                controllers.UserFormController.allUsers
+GET           /users/create                             controllers.UserFormController.createUser()
+POST          /users/createHandle                       controllers.UserFormController.createUserHandle()
+GET           /users/update/:id                         controllers.UserFormController.updateUser(id: Int)
+POST          /users/updateHandle                       controllers.UserFormController.updateUserHandle()
+GET           /users/delete/:id                         controllers.UserFormController.deleteUser(id: Int)
+GET           /users/byId/:userId                       controllers.UserFormController.getById(userId: Int)
+
 #UserController
 POST          /users                                    controllers.UserController.createUser
 GET           /users                                    controllers.UserController.getUsers
-GET           /users/:id                                controllers.UserController.getUser(id:Int)
-PUT           /users                                    controllers.UserController.updateUser(id:Int)
+GET           /users/:id                                controllers.UserController.getUser(id: Int)
+GET           /users/account/:account_id                controllers.UserController.getUserByAccount(account_id: Int)
+PUT           /users/:id                                controllers.UserController.updateUser(id: Int)
 DELETE        /users/:id                                controllers.UserController.deleteUser(id: Int)
 
 #OrderFormController
