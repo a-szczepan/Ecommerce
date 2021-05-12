@@ -45,11 +45,23 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
     cart.result
   }
 
-  def update(id: Int, new_cart: Cart): Future[Unit] = {
+  def update(id: Int, new_cart: Cart): Future[Int] = {
     val cartToUpdate: Cart = new_cart.copy(id)
-    db.run(cart.filter(_.id === id).update(cartToUpdate)).map(_ => ())
+    db.run(cart.filter(_.id === id).update(cartToUpdate))
   }
 
   def delete(id: Int): Future[Int] = db.run(cart.filter(_.id === id).delete)
+
+  def getById(id: Int): Future[Option[Cart]] = db.run {
+    cart.filter(_.id === id).result.headOption
+  }
+
+  def getByUserId(user_id: Int): Future[Seq[Cart]] = db.run {
+    cart.filter(_.user_id === user_id).result
+  }
+
+  def getByProductId(product_id: Int): Future[Seq[Cart]] = db.run {
+    cart.filter(_.product_id === product_id).result
+  }
 
 }

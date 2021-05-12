@@ -1,4 +1,5 @@
 package controllers
+
 import models.{Category, CategoryRepository, Product, ProductRepository}
 import play.api.data.Form
 import play.api.data.Forms._
@@ -9,12 +10,12 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 @Singleton
-class ProductFormController @Inject() (productRepository: ProductRepository, categoryRepository: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc){
+class ProductFormController @Inject()(productRepository: ProductRepository, categoryRepository: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
   var categoryList: Seq[Category] = Seq[Category]()
 
   categoryRepository.list().onComplete {
     case Success(category) => categoryList = category
-    case Failure(e) => print("error while listing categories", e)
+    case Failure(e) => print("", e)
   }
 
   val productForm: Form[CreateProductForm] = Form {
@@ -38,7 +39,7 @@ class ProductFormController @Inject() (productRepository: ProductRepository, cat
     val product = productRepository.getById(id)
     product.map(product => {
       val productForm = updateProductForm.fill(UpdateProductForm(product.get.id, product.get.category_id, product.get.name))
-      Ok(views.html.product.updateProduct(productForm,categoryList))
+      Ok(views.html.product.updateProduct(productForm, categoryList))
     })
   }
 
@@ -94,12 +95,8 @@ class ProductFormController @Inject() (productRepository: ProductRepository, cat
     )
   }
 
-
-
-
-
-
 }
 
 case class CreateProductForm(category_id: Int, name: String)
+
 case class UpdateProductForm(id: Int = 0, category_id: Int, name: String)

@@ -16,6 +16,7 @@ GET           /categories/:id                        controllers.CategoryControl
 PUT           /categories/:id                        controllers.CategoryController.updateCategory(id: Int)
 DELETE        /categories/:id                        controllers.CategoryController.deleteCategory(id: Int)
 
+
 #ProductFormController
 GET           /products/all                          controllers.ProductFormController.allProducts
 GET           /products/create                       controllers.ProductFormController.createProduct()
@@ -33,6 +34,23 @@ GET           /products/category/:category_id        controllers.ProductControll
 PUT           /products                              controllers.ProductController.updateProduct
 DELETE        /products/:id                          controllers.ProductController.deleteProduct(id: Int)
 
+#CartFormController
+GET           /carts/all                             controllers.CartFormController.allCarts
+GET           /carts/create                          controllers.CartFormController.createCart()
+POST          /carts/createHandle                    controllers.CartFormController.createCartHandle()
+GET           /carts/update/:id                      controllers.CartFormController.updateCart(id: Int)
+POST          /carts/updateHandle                    controllers.CartFormController.updateCartHandle()
+GET           /carts/delete/:id                      controllers.CartFormController.deleteCart(id: Int)
+GET           /carts/byId/:cartId                    controllers.CartFormController.getById(cartId: Int)
+
+#CartController
+POST          /cart                                  controllers.CartController.createCart
+GET           /cart                                  controllers.CartController.getCarts
+GET           /cart/product/:product_id              controllers.CartController.getCartsByProduct(product_id: Int)
+GET           /cart/user/:user_id                    controllers.CartController.getCartsByUser(user_id: Int)
+PUT           /cart                                  controllers.CartController.updateCart
+DELETE        /cart/:id                              controllers.CartController.deleteCart(id: Int)
+
 #UserController
 POST          /users                                 controllers.UserController.createUser
 GET           /users                                 controllers.UserController.getUsers
@@ -40,11 +58,6 @@ GET           /users/:id                             controllers.UserController.
 PUT           /users                                 controllers.UserController.updateUser(id:Int)
 DELETE        /users/:id                             controllers.UserController.deleteUser(id: Int)
 
-#CartController
-POST          /cart                                  controllers.CartController.addToCart(id:Int)
-GET           /cart                                  controllers.CartController.getCart
-PUT           /cart                                  controllers.CartController.updateCart(id:Int)
-DELETE        /cart/:id                              controllers.CartController.deleteFromCart(id: Int)
 
 #OrderController
 POST          /orders                                controllers.OrderController.createOrder
@@ -65,6 +78,15 @@ GET           /payments                              controllers.PaymentControll
 GET           /payments/:id                          controllers.PaymentController.getPayment(id:Int)
 DELETE        /payments/:id                          controllers.PaymentController.deletePayment(id:Int)
 
+#AccountFormController
+GET           /accounts/all                          controllers.AccountFormController.allAccounts
+GET           /accounts/create                       controllers.AccountFormController.createAccount()
+POST          /accounts/createHandle                 controllers.AccountFormController.createAccountHandle()
+GET           /accounts/update/:id                   controllers.AccountFormController.updateAccount(id: Int)
+POST          /accounts/updateHandle                 controllers.AccountFormController.updateAccountHandle()
+GET           /accounts/delete/:id                   controllers.AccountFormController.deleteAccount(id: Int)
+GET           /accounts/byId/:accountId              controllers.AccountFormController.getById(accountId: Int)
+
 #Account
 POST          /acconts                               controllers.AccountController.createAccount
 GET           /acconts                               controllers.AccountController.getAccounts
@@ -78,10 +100,21 @@ GET           /shipping                              controllers.ShippingControl
 PUT           /shipping                              controllers.ShippingController.updateShipping
 DELETE        /shipping                              controllers.ShippingController.deleteShipping
 
+#OpinionFormController
+GET           /opinions/all                          controllers.OpinionFormController.allOpinions
+GET           /opinions/create                       controllers.OpinionFormController.createOpinion()
+POST          /opinions/createHandle                 controllers.OpinionFormController.createOpinionHandle()
+GET           /opinions/update/:id                   controllers.OpinionFormController.updateOpinion(id: Int)
+POST          /opinions/updateHandle                 controllers.OpinionFormController.updateOpinionHandle()
+GET           /opinions/delete/:id                   controllers.OpinionFormController.deleteOpinion(id: Int)
+GET           /opinions/byId/:opinionId              controllers.OpinionFormController.getById(opinionId: Int)
+
 #OpinionController
 POST          /opinions                              controllers.OpinionController.createOpinion
 GET           /opinions                              controllers.OpinionController.getOpinions
 GET           /opinions/:id                          controllers.OpinionController.getOpinion(id:Int)
+GET           /opinions/user/:user_id                controllers.OpinionController.getOpinionByUser(user_id:Int)
+GET           /opinions/product/:product_id          controllers.OpinionController.getOpinionByProduct(product_id:Int)
 PUT           /opinions/:id                          controllers.OpinionController.updateOpinion(id:Int)
 DELETE        /opinions/:id                          controllers.OpinionController.deleteOpinion(id: Int)
 # Map static resources from the /public folder to the /assets URL path

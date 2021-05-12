@@ -43,8 +43,10 @@ class CategoryController @Inject()(val categoryRepository: CategoryRepository, c
     }.getOrElse(Future.successful(BadRequest("")))
   }
 
-  def deleteCategory(id: Int): Action[AnyContent] = Action {
-    NoContent
+  def deleteCategory(id: Int): Action[AnyContent] = Action.async {
+    categoryRepository.delete(id).map { res =>
+      Ok(Json.toJson(res))
+    }
   }
 
 }

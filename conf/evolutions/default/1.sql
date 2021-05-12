@@ -12,10 +12,8 @@ CREATE TABLE "apporder"
 CREATE TABLE "account"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "user_id"    INTEGER NOT NULL,
     "first_name" VARCHAR NOT NULL,
-    "last_name"  VARCHAR NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES appuser (id)
+    "last_name"  VARCHAR NOT NULL
 );
 
 
@@ -84,15 +82,10 @@ CREATE TABLE "appuser"
 (
     "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "account_id"  INTEGER NOT NULL,
-    "order_id"    INTEGER NOT NULL,
-    "wishlist_id" INTEGER NOT NULL,
-    "cart_id"     INTEGER NOT NULL,
     "email"       VARCHAR NOT NULL,
     "password"    VARCHAR NOT NULL,
-    FOREIGN KEY (account_id) REFERENCES account (id),
-    FOREIGN KEY (order_id) REFERENCES apporder (id),
-    FOREIGN KEY (wishlist_id) REFERENCES wishlist (id),
-    FOREIGN KEY (cart_id) REFERENCES cart (id)
+    FOREIGN KEY (account_id) REFERENCES account (id)
+
 );
 
 # --- !Downs

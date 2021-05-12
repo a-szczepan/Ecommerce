@@ -1,38 +1,50 @@
 package controllers
-
 import play.api.mvc._
 import javax.inject._
 import scala.concurrent.{ExecutionContext, Future}
+import models.{Account, AccountRepository}
+import play.api.libs.json.{JsValue, Json}
 
 @Singleton
-class AccountController @Inject()(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc){
+class AccountController @Inject()(accountRepository: AccountRepository,cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc){
 
-  def createAccount: Action[AnyContent] = Action.async {
-    Future{
-      Ok("ok")
-    }
+  def createAccount: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    request.body.validate[Account].map {
+      account =>
+        accountRepository.create(account.first_name, account.last_name).map { res =>
+          Ok(Json.toJson(res))
+        }
+    }.getOrElse(Future.successful(BadRequest("")))
   }
 
   def getAccounts: Action[AnyContent] = Action.async {
-    Future{
-      Ok("")
+    val accounts = accountRepository.list()
+    accounts.map { categories =>
+      Ok(Json.toJson(categories))
     }
   }
 
-  def getAccount(id: Long): Action[AnyContent] = Action async {
-    Future{
-      Ok("")
+  def getAccount(id: Int): Action[AnyContent] = Action async {
+    val account = accountRepository.getById(id)
+    account.map {
+      case Some(res) => Ok(Json.toJson(res))
+      case None => NotFound("")
     }
   }
 
-  def updateAccount(id: Long): Action[AnyContent] = Action async {
-    Future{
-      Ok("")
-    }
+  def updateAccount(id: Int):  Action[JsValue] = Action.async(parse.json) { request =>
+    request.body.validate[Account].map {
+      account =>
+        accountRepository.update(account.id, account).map { res =>
+          Ok(Json.toJson(res))
+        }
+    }.getOrElse(Future.successful(BadRequest("")))
   }
 
-  def deleteAccount(id: Long): Action[AnyContent] = Action {
-    NoContent
+  def deleteAccount(id: Int): Action[AnyContent] = Action.async {
+    accountRepository.delete(id).map { res =>
+      Ok(Json.toJson(res))
+    }
   }
 
 }

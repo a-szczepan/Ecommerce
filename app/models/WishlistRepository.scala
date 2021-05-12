@@ -45,11 +45,14 @@ class WishlistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val
     wishlist.result
   }
 
-  def update(id: Int, new_wishlist: Wishlist): Future[Unit] = {
+  def update(id: Int, new_wishlist: Wishlist): Future[Int] = {
     val wishlistToUpdate: Wishlist = new_wishlist.copy(id)
-    db.run(wishlist.filter(_.id === id).update(wishlistToUpdate)).map(_ => ())
+    db.run(wishlist.filter(_.id === id).update(wishlistToUpdate))
   }
 
   def delete(id: Int): Future[Int] = db.run(wishlist.filter(_.id === id).delete)
 
+  def getById(id: Int): Future[Option[Wishlist]] = db.run {
+    wishlist.filter(_.id === id).result.headOption
+  }
 }

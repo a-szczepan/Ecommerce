@@ -47,11 +47,22 @@ class OpinionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     opinion.result
   }
 
-  def update(id: Int, new_opinion: Opinion): Future[Unit] = {
+  def update(id: Int, new_opinion: Opinion): Future[Int] = {
     val opinionToUpdate: Opinion = new_opinion.copy(id)
-    db.run(opinion.filter(_.id === id).update(opinionToUpdate)).map(_ => ())
+    db.run(opinion.filter(_.id === id).update(opinionToUpdate))
   }
 
   def delete(id: Int): Future[Int] = db.run(opinion.filter(_.id === id).delete)
 
+  def getById(id: Int): Future[Option[Opinion]] = db.run {
+    opinion.filter(_.id === id).result.headOption
+  }
+
+  def getByUser(user_id: Int): Future[Seq[Opinion]] = db.run {
+    opinion.filter(_.user_id === user_id).result
+  }
+
+  def getByProduct(product_id: Int): Future[Seq[Opinion]] = db.run {
+    opinion.filter(_.product_id === product_id).result
+  }
 }

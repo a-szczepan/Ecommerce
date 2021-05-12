@@ -1,0 +1,9 @@
+
+@(opinions: Seq[Opinion])
+@for(opinion <- opinions) {
+    <p>@opinion.opinion_txt</p>
+    @opinion.id
+    <a href="@controllers.routes.OpinionFormController.updateOpinion(opinion.id)">Edit</a>
+    <a href="@controllers.routes.OpinionFormController.deleteOpinion(opinion.id)">Delete</a>
+    <br>
+}

@@ -1,0 +1,15 @@
+@import controllers.UpdateOpinionForm
+@(opinion: Form[UpdateOpinionForm], users: Seq[User], products: Seq[Product])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.OpinionFormController.updateOpinionHandle()) {
+    @helper.CSRF.formField
+    <input name="id" id="id" value="@opinion("id").value" type="hidden" />
+    @inputText(opinion("opinion_txt"))
+    <div class="buttons">
+        <input type="submit" value="Update Opinion"/>
+    </div>
+}
