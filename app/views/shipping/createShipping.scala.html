@@ -1,22 +1,19 @@
-@import controllers.CreateProductForm
-@(product: Form[CreateProductForm], categories: Seq[Category])(implicit request: MessagesRequestHeader, flash: Flash)
+@import controllers.CreateShippingForm
+@(shipping: Form[CreateShippingForm])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
 @flash.get("success").getOrElse("")
 
-@form(controllers.routes.ProductFormController.createProductHandle()) {
+@form(controllers.routes.ShippingFormController.createShippingHandle()) {
     @helper.CSRF.formField
-    @inputText(product("name"))
-
-    <label for="category"></label>
-    <select name="category_id" id="category">
-    @for(entry <- categories) {
-        <option value="@entry.id">@entry.name</option>
-    }
-    </select>
+    @inputText(shipping("street_name"))
+    @inputText(shipping("building_number"))
+    @inputText(shipping("apartment_number"))
+    @inputText(shipping("postal_code"))
+    @inputText(shipping("city"))
 
     <div class="buttons">
-        <input type="submit" value="Add Product"/>
+        <input type="submit" value="Add Shipping"/>
     </div>
 }

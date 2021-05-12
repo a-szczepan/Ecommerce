@@ -1,9 +1,13 @@
 
-@(products: Seq[Product])
-@for(product <- products) {
-    <strong>@product.name</strong>
-    @product.id
-    <a href="@controllers.routes.ProductFormController.updateProduct(product.id)">Edit</a>
-    <a href="@controllers.routes.ProductFormController.deleteProduct(product.id)">Delete</a>
+@(shippings: Seq[Shipping])
+@for(shipping <- shippings) {
+    <strong>@shipping.id</strong>
+    @shipping.street_name
+    @shipping.building_number
+    @shipping.apartment_number
+    @shipping.postal_code
+    @shipping.city
+    <a href="@controllers.routes.ShippingFormController.updateShipping(shipping.id)">Edit</a>
+    <a href="@controllers.routes.ShippingFormController.deleteShipping(shipping.id)">Delete</a>
     <br>
 }
