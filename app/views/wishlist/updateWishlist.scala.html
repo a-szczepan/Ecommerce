@@ -1,0 +1,29 @@
+@import controllers.UpdateWishlistForm
+@(wishlist: Form[UpdateWishlistForm], users: Seq[User], products: Seq[Product])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.WishlistFormController.updateWishlistHandle) {
+    @helper.CSRF.formField
+    <input name="id" id="id" value="@wishlist("id").value" type="hidden" />
+    <label for="user"></label>
+    <select name="user_id" id="user">
+    @for(entry <- users) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+    <label for="product"></label>
+    <select name="product_id" id="product">
+    @for(entry <- products) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+
+    <div class="buttons">
+        <input type="submit" value="Update Category"/>
+    </div>
+}

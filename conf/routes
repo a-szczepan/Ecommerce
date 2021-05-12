@@ -86,11 +86,22 @@ GET           /orders/shipping/:shipping_id             controllers.OrderControl
 PUT           /orders/:id                               controllers.OrderController.updateOrder(id: Int)
 DELETE        /orders/:id                               controllers.OrderController.deleteOrder(id: Int)
 
+#WishlistFormController
+GET           /wishlist/all                             controllers.WishlistFormController.allWishlists
+GET           /wishlist/create                          controllers.WishlistFormController.createWishlist()
+POST          /wishlist/createHandle                    controllers.WishlistFormController.createWishlistHandle()
+GET           /wishlist/update/:id                      controllers.WishlistFormController.updateWishlist(id: Int)
+POST          /wishlist/updateHandle                    controllers.WishlistFormController.updateWishlistHandle()
+GET           /wishlist/delete/:id                      controllers.WishlistFormController.deleteWishlist(id: Int)
+GET           /wishlist/byId/:wishlistId                controllers.WishlistFormController.getById(wishlistId: Int)
+
 #WishListController
-POST          /wishlist                                 controllers.WishlistController.addToWishlist
-GET           /wishlist                                 controllers.WishlistController.getWishlist
+POST          /wishlist                                 controllers.WishlistController.createWishlist
+GET           /wishlist/:id                             controllers.WishlistController.getWishlist(id: Int)
+GET           /wishlist/user/:user_id                   controllers.WishlistController.getWishlistByUser(user_id: Int)
+GET           /wishlist/product/:product_id             controllers.WishlistController.getWishlistByProduct(product_id: Int)
 PUT           /wishlist/:id                             controllers.WishlistController.updateWishlist(id:Int)
-DELETE        /wishlist/:id                             controllers.WishlistController.deleteFromWishlist(id: Int)
+DELETE        /wishlist/:id                             controllers.WishlistController.deleteWishlist(id: Int)
 
 #PaymentFormController
 GET           /payments/all                             controllers.PaymentFormController.allPayments
@@ -155,6 +166,7 @@ GET           /opinions/user/:user_id                   controllers.OpinionContr
 GET           /opinions/product/:product_id             controllers.OpinionController.getOpinionByProduct(product_id:Int)
 PUT           /opinions/:id                             controllers.OpinionController.updateOpinion(id:Int)
 DELETE        /opinions/:id                             controllers.OpinionController.deleteOpinion(id: Int)
+
 # Map static resources from the /public folder to the /assets URL path
 
 
