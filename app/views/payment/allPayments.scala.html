@@ -1,0 +1,9 @@
+@(payments: Seq[Payment])
+@for(payment <- payments) {
+    <strong>@payment.id</strong>
+    @payment.order_id
+    @payment.date
+    @payment.amount
+    <a href="@controllers.routes.PaymentFormController.deletePayment(payment.id)">Delete</a>
+    <br>
+}

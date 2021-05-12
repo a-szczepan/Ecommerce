@@ -1,0 +1,25 @@
+@import controllers.CreatePaymentForm
+@(payment: Form[CreatePaymentForm], orders: Seq[Order])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import helper._
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.routes.PaymentFormController.createPaymentHandle()) {
+    @helper.CSRF.formField
+    @inputText(payment("id"))
+
+    <label for="order"></label>
+    <select name="order_id" id="order">
+    @for(entry <- orders) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
+    @inputText(payment("date"))
+    @inputText(payment("amount"))
+
+    <div class="buttons">
+        <input type="submit" value="Add Payment"/>
+    </div>
+}

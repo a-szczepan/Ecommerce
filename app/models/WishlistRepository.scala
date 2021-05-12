@@ -55,4 +55,12 @@ class WishlistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val
   def getById(id: Int): Future[Option[Wishlist]] = db.run {
     wishlist.filter(_.id === id).result.headOption
   }
+
+  def getByUser(user_id: Int): Future[Seq[Wishlist]] = db.run {
+    wishlist.filter(_.user_id === user_id).result
+  }
+
+  def getByProduct(product_id: Int): Future[Seq[Wishlist]] = db.run {
+    wishlist.filter(_.product_id === product_id).result
+  }
 }

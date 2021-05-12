@@ -50,4 +50,12 @@ class UserRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val acc
 
   def delete(id: Int): Future[Int] = db.run(usr.filter(_.id === id).delete)
 
+  def getById(id: Int): Future[Option[User]] = db.run {
+    usr.filter(_.id === id).result.headOption
+  }
+
+  def getByAccount(account_id: Int): Future[Seq[User]] = db.run {
+    usr.filter(_.account_id === account_id).result
+  }
+
 }

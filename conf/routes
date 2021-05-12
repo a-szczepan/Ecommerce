@@ -59,13 +59,13 @@ PUT           /users                                 controllers.UserController.
 DELETE        /users/:id                             controllers.UserController.deleteUser(id: Int)
 
 #OrderFormController
-GET           /orders/all                             controllers.OrderFormController.allOrders
-GET           /orders/create                          controllers.OrderFormController.createOrder()
-POST          /orders/createHandle                    controllers.OrderFormController.createOrderHandle()
-GET           /orders/update/:id                      controllers.OrderFormController.updateOrder(id: Int)
-POST          /orders/updateHandle                    controllers.OrderFormController.updateOrderHandle()
-GET           /orders/delete/:id                      controllers.OrderFormController.deleteOrder(id: Int)
-GET           /orders/byId/:orderId                    controllers.OrderFormController.getById(orderId: Int)
+GET           /orders/all                            controllers.OrderFormController.allOrders
+GET           /orders/create                         controllers.OrderFormController.createOrder()
+POST          /orders/createHandle                   controllers.OrderFormController.createOrderHandle()
+GET           /orders/update/:id                     controllers.OrderFormController.updateOrder(id: Int)
+POST          /orders/updateHandle                   controllers.OrderFormController.updateOrderHandle()
+GET           /orders/delete/:id                     controllers.OrderFormController.deleteOrder(id: Int)
+GET           /orders/byId/:orderId                  controllers.OrderFormController.getById(orderId: Int)
 
 #OrderController
 POST          /orders                                controllers.OrderController.createOrder
@@ -82,10 +82,18 @@ GET           /wishlist                              controllers.WishlistControl
 PUT           /wishlist/:id                          controllers.WishlistController.updateWishlist(id:Int)
 DELETE        /wishlist/:id                          controllers.WishlistController.deleteFromWishlist(id: Int)
 
+#PaymentFormController
+GET           /payments/all                          controllers.PaymentFormController.allPayments
+GET           /payments/create                       controllers.PaymentFormController.createPayment()
+POST          /payments/createHandle                 controllers.PaymentFormController.createPaymentHandle()
+GET           /payments/delete/:id                   controllers.PaymentFormController.deletePayment(id: Int)
+GET           /payments/byId/:paymentId              controllers.PaymentFormController.getById(paymentId: Int)
+
 #Payment
 POST          /payments                              controllers.PaymentController.createPayment
 GET           /payments                              controllers.PaymentController.getPayments
 GET           /payments/:id                          controllers.PaymentController.getPayment(id:Int)
+GET           /payments/order/:order_id              controllers.PaymentController.getPaymentByOrder(order_id: Int)
 DELETE        /payments/:id                          controllers.PaymentController.deletePayment(id:Int)
 
 #AccountFormController

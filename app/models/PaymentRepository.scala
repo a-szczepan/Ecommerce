@@ -22,7 +22,7 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def date = column[String]("date")
 
-    def amount = column[Float]("amount")
+    def amount = column[Int]("amount")
 
     def * = (id, order_id, date, amount) <> ((Payment.apply _).tupled, Payment.unapply)
   }
@@ -32,7 +32,7 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   val order = TableQuery[OrderTable]
   val payment = TableQuery[PaymentTable]
 
-  def create(order_id: Int, date: String, amount: Float): Future[Payment] = db.run {
+  def create(order_id: Int, date: String, amount: Int): Future[Payment] = db.run {
     (payment.map(o => (o.order_id, o.date, o.amount))
       returning payment.map(_.id)
       into { case ((order_id, date, amount), id) => Payment(id, order_id, date, amount) }
@@ -52,6 +52,10 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
   def getById(id: Int): Future[Option[Payment]] = db.run {
     payment.filter(_.id === id).result.headOption
+  }
+
+  def getByOrder(order_id: Int): Future[Seq[Payment]] = db.run {
+    payment.filter(_.order_id === order_id).result
   }
 
 }
