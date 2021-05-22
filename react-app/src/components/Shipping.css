@@ -3,3 +3,8 @@
     justify-content: center;
     background-color: #F48668;
 }
+
+.shippingData{
+    display: flex;
+    justify-content: center;
+}
