@@ -5,22 +5,14 @@ import {Products} from './components/Products'
 import {Shipping} from './components/Shipping'
 import {LandingPage} from './components/LandingPage'
 import {Categories} from './components/Categories'
+import {Opinion} from './components/Opinion'
 
-const renderPosts = async() => {
-  try {
-    const res = await axios.get('http://localhost:9000/categories');
-    const posts = res.data;
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Categories></Categories>
+        <Opinion></Opinion>
       </header>
     </div>
   );
