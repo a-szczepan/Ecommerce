@@ -4,6 +4,7 @@ import {Product} from './components/Product'
 import {Products} from './components/Products'
 import {Shipping} from './components/Shipping'
 import {LandingPage} from './components/LandingPage'
+import {Categories} from './components/Categories'
 
 const renderPosts = async() => {
   try {
@@ -19,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <LandingPage></LandingPage>
+        <Categories></Categories>
       </header>
     </div>
   );
