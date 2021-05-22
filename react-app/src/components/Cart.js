@@ -1,4 +1,4 @@
-import '../components/Cart.css';
+import '../components/styles/Cart.css';
 import {Row, Col, Container} from 'react-bootstrap';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';

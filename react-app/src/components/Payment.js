@@ -1,4 +1,4 @@
-import '../components/Payment.css';
+import '../components/styles/Payment.css';
 import {Row, Col, Container} from 'react-bootstrap';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';

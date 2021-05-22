@@ -1,4 +1,4 @@
-import '../components/Shipping.css';
+import '../components/styles/Shipping.css';
 import {Row, Col, Container} from 'react-bootstrap';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
@@ -36,7 +36,6 @@ export const Shipping = () => {
                     </Row>
                 </>)}
             </>
-
     }
 
     return (

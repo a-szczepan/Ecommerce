@@ -1,4 +1,4 @@
-import '../components/LandingPage.css';
+import '../components/styles/LandingPage.css';
 import Box from '@material-ui/core/Box';
 import {Row, Col, Container} from 'react-bootstrap';
 

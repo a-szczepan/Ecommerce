@@ -1,4 +1,4 @@
-import '../components/Opinion.css';
+import '../components/styles/Opinion.css';
 import {Row, Col, Container} from 'react-bootstrap';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
