@@ -7,13 +7,14 @@ import {LandingPage} from './components/LandingPage'
 import {Categories} from './components/Categories'
 import {Opinion} from './components/Opinion'
 import {Payment} from './components/Payment'
+import {Cart} from './components/Cart'
 
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Payment></Payment>
+        <Cart></Cart>
       </header>
     </div>
   );
