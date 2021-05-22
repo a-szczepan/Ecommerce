@@ -1,0 +1,12 @@
+.product{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.productName{
+    align-self: center;
+}
+
+.productInfo{
+    align-self: center;
+}
