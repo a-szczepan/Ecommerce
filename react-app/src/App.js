@@ -6,13 +6,14 @@ import {Shipping} from './components/Shipping'
 import {LandingPage} from './components/LandingPage'
 import {Categories} from './components/Categories'
 import {Opinion} from './components/Opinion'
+import {Payment} from './components/Payment'
 
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Opinion></Opinion>
+        <Payment></Payment>
       </header>
     </div>
   );
