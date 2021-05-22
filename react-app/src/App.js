@@ -2,6 +2,7 @@ import './App.css';
 import axios from 'axios';
 import {Product} from './components/Product'
 import {Products} from './components/Products'
+import {Shipping} from './components/Shipping'
 
 const renderPosts = async() => {
   try {
@@ -17,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Products></Products>
+        <Shipping></Shipping>
       </header>
     </div>
   );

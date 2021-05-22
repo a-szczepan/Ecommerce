@@ -30,7 +30,7 @@ export const Products = () => {
     }
 
     return (
-        <Container className="product">
+        <Container className="products">
             {content}
         </Container>
     );
