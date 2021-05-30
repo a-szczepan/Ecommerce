@@ -3,8 +3,8 @@
 CREATE TABLE "apporder"
 (
     "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "cart_id"     INT NOT NULL,
-    "shipping_id" INT NOT NULL,
+    "cart_id"     INT     NOT NULL,
+    "shipping_id" INT     NOT NULL,
     FOREIGN KEY (cart_id) REFERENCES cart (id),
     FOREIGN KEY (shipping_id) REFERENCES shipping (id)
 );
@@ -39,8 +39,8 @@ CREATE TABLE "shipping"
 (
     "id"               INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "street_name"      VARCHAR NOT NULL,
-    "building_number"  INT NOT NULL,
-    "apartment_number" INT NOT NULL,
+    "building_number"  INT     NOT NULL,
+    "apartment_number" INT     NOT NULL,
     "postal_code"      VARCHAR NOT NULL,
     "city"             VARCHAR NOT NULL
 );
@@ -50,6 +50,9 @@ CREATE TABLE "product"
     "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "category_id" INTEGER NOT NULL,
     "name"        VARCHAR NOT NULL,
+    "description" VARCHAR NOT NULL,
+    "image"       VARCHAR NOT NULL,
+    "price"       VARCHAR NOT NULL,
     FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
@@ -80,10 +83,10 @@ CREATE TABLE "payment"
 
 CREATE TABLE "appuser"
 (
-    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "account_id"  INTEGER NOT NULL,
-    "email"       VARCHAR NOT NULL,
-    "password"    VARCHAR NOT NULL,
+    "id"         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "account_id" INTEGER NOT NULL,
+    "email"      VARCHAR NOT NULL,
+    "password"   VARCHAR NOT NULL,
     FOREIGN KEY (account_id) REFERENCES account (id)
 
 );

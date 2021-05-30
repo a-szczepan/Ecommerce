@@ -22,7 +22,13 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def name: Rep[String] = column[String]("name")
 
-    def * = (id, category_id, name) <> ((Product.apply _).tupled, Product.unapply)
+    def description: Rep[String] = column[String]("description")
+
+    def image: Rep[String] = column[String]("image")
+
+    def price: Rep[String] = column[String]("price")
+
+    def * = (id, category_id, name, description, image, price) <> ((Product.apply _).tupled, Product.unapply)
   }
 
   import categoryRepository.CategoryTable
@@ -30,11 +36,11 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   val category = TableQuery[CategoryTable]
   val product = TableQuery[ProductTable]
 
-  def create(category_id: Int, name: String): Future[Product] = db.run {
-    (product.map(p => (p.category_id, p.name))
+  def create(category_id: Int, name: String, description: String, image: String, price: String): Future[Product] = db.run {
+    (product.map(p => (p.category_id, p.name, p.description, p.image, p.price))
       returning product.map(_.id)
-      into { case ((category_id, name), id) => Product(id, category_id, name) }
-      ) += (category_id, name)
+      into { case ((category_id, name, description, image, price), id) => Product(id, category_id, name, description, image, price) }
+      ) += (category_id, name, description, image, price)
   }
 
   def list(): Future[Seq[Product]] = db.run {

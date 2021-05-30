@@ -16,7 +16,7 @@ class ProductController @Inject()(val productRepository: ProductRepository,
     implicit request =>
       request.body.validate[Product].map {
         product =>
-          productRepository.create(product.category_id, product.name).map { res =>
+          productRepository.create(product.category_id, product.name, product.description, product.image, product.price).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))

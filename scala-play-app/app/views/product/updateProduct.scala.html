@@ -9,7 +9,9 @@
     @helper.CSRF.formField
     <input name="id" id="id" value="@product("id").value" type="hidden" />
     @inputText(product("name"))
-
+    @inputText(product("description"))
+    @inputText(product("image"))
+    @inputText(product("price"))
 
     <div class="buttons">
         <input type="submit" value="Update Category"/>

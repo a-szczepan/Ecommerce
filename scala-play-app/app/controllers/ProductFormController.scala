@@ -22,6 +22,9 @@ class ProductFormController @Inject()(productRepository: ProductRepository, cate
     mapping(
       "category_id" -> number,
       "name" -> nonEmptyText,
+      "description" -> nonEmptyText,
+      "image" -> nonEmptyText,
+      "price" -> nonEmptyText,
     )(CreateProductForm.apply)(CreateProductForm.unapply)
   }
 
@@ -30,6 +33,9 @@ class ProductFormController @Inject()(productRepository: ProductRepository, cate
       "id" -> number,
       "category_id" -> number,
       "name" -> nonEmptyText,
+      "description" -> nonEmptyText,
+      "image" -> nonEmptyText,
+      "price" -> nonEmptyText,
     )(UpdateProductForm.apply)(UpdateProductForm.unapply)
   }
 
@@ -38,7 +44,7 @@ class ProductFormController @Inject()(productRepository: ProductRepository, cate
   def updateProduct(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val product = productRepository.getById(id)
     product.map(product => {
-      val productForm = updateProductForm.fill(UpdateProductForm(product.get.id, product.get.category_id, product.get.name))
+      val productForm = updateProductForm.fill(UpdateProductForm(product.get.id, product.get.category_id, product.get.name, product.get.description, product.get.image, product.get.price))
       Ok(views.html.product.updateProduct(productForm, categoryList))
     })
   }
@@ -51,7 +57,7 @@ class ProductFormController @Inject()(productRepository: ProductRepository, cate
         )
       },
       product => {
-        productRepository.update(product.id, Product(product.id, product.category_id, product.name)).map { _ =>
+        productRepository.update(product.id, Product(product.id, product.category_id, product.name, product.description, product.image, product.price)).map { _ =>
           Redirect("/products/all")
         }
       }
@@ -88,7 +94,7 @@ class ProductFormController @Inject()(productRepository: ProductRepository, cate
         )
       },
       product => {
-        productRepository.create(product.category_id, product.name).map { _ =>
+        productRepository.create(product.category_id, product.name, product.description, product.image, product.price).map { _ =>
           Redirect("/products/all")
         }
       }
@@ -97,6 +103,6 @@ class ProductFormController @Inject()(productRepository: ProductRepository, cate
 
 }
 
-case class CreateProductForm(category_id: Int, name: String)
+case class CreateProductForm(category_id: Int, name: String, description: String, image: String, price: String)
 
-case class UpdateProductForm(id: Int = 0, category_id: Int, name: String)
+case class UpdateProductForm(id: Int = 0, category_id: Int, name: String, description: String, image: String, price: String)

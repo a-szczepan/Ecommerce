@@ -8,7 +8,9 @@
 @form(controllers.routes.ProductFormController.createProductHandle()) {
     @helper.CSRF.formField
     @inputText(product("name"))
-
+    @inputText(product("description"))
+    @inputText(product("image"))
+    @inputText(product("price"))
     <label for="category"></label>
     <select name="category_id" id="category">
     @for(entry <- categories) {
