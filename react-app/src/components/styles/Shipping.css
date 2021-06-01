@@ -1,10 +1,10 @@
-.heading{
-    display: flex;
-    justify-content: center;
-    background-color: #F48668;
+.heading {
+  display: flex;
+  justify-content: center;
+  background-color: #f48668;
 }
 
-.shippingData{
-    display: flex;
-    justify-content: center;
+.shippingData {
+  display: flex;
+  justify-content: center;
 }
