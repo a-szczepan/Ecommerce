@@ -11,14 +11,14 @@
     <label for="user"></label>
     <select name="user_id" id="user">
     @for(entry <- users) {
-        <option value="@entry.id">@entry.id</option>
+        <option value="@entry.id">@entry.email</option>
     }
     </select>
 
     <label for="product"></label>
     <select name="product_id" id="product">
     @for(entry <- products) {
-        <option value="@entry.id">@entry.id</option>
+        <option value="@entry.id">@entry.name</option>
     }
     </select>
 

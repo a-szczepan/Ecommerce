@@ -11,7 +11,7 @@
     <label for="account"></label>
     <select name="account_id" id="account">
     @for(entry <- accounts) {
-        <option value="@entry.id">@entry.id</option>
+        <option value="@entry.id">@entry.first_name @entry.last_name</option>
     }
     </select>
 
