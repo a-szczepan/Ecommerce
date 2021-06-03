@@ -1,0 +1,64 @@
+.landingPage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.header{
+  display: flex;
+  background-color: #ffffff;
+  justify-content: center;
+  margin: 0 5% 0 5%;
+}
+
+.navbar {
+  padding-top: 5px;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 20%;
+  background-color: #ffffff;
+
+}
+
+.headerTitle{
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+}
+
+.logo{
+  align-self: flex-start;
+  padding-top: 1%;
+}
+
+.headerText{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20%;
+  color: #212529;
+}
+
+.headerImage{
+  display: flex;
+  justify-content: stretch;
+  max-width: 50%;
+}
+
+.shopContent{
+  margin: 0 5% 0 5%;
+  background-color: #6dae38;
+}
+
+@media screen and (max-width: 650px) {
+  .headerImage{
+    display: none;
+  }
+  .header{
+    margin: 0 0 0 0;
+  }
+  .shopContent{
+    margin: 0 0 0 0;
+  }
+}
