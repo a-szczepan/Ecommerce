@@ -9,7 +9,7 @@
   display: flex;
   background-color: #ffffff;
   justify-content: center;
-  margin: 0 5% 0 5%;
+  margin: 0 8% 0 8%;
 }
 
 .navbar {
@@ -47,9 +47,29 @@
 }
 
 .shopContent{
-  margin: 0 5% 0 5%;
+  padding-top: 4%;
+  display: flex;
+  margin: 0 8% 0 8%;
   background-color: #6dae38;
 }
+
+.sideBar{
+  width: 20%;
+}
+
+.products{
+  min-width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0 13%;
+  grid-template-rows: 1fr 1fr 1fr;
+  background-color: #4c4742;
+}
+
+.MuiCardMedia{
+  height: 100px;
+}
+
 
 @media screen and (max-width: 650px) {
   .headerImage{

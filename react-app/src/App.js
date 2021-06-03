@@ -3,9 +3,7 @@ import React, { useContext } from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { useLocalObservable, useLocalStore, useObserver } from "mobx-react";
 import axios from "axios";
-import { Product } from "./components/Product";
-import { Products } from "./components/Products";
-import { Shipping } from "./components/Shipping";
+
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import { Categories } from "./components/Categories";
 import { Opinion } from "./components/Opinion";

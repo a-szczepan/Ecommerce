@@ -3,7 +3,6 @@ import Box from "@material-ui/core/Box";
 import headerImage from "../../images/header-image.jpg";
 import React from "react";
 import {Navbar} from "./Navbar";
-import {Typography} from "@material-ui/core";
 import logo from "../../images/logo.png"
 
 
@@ -12,7 +11,7 @@ export  const Header = () => {
         <Row className="header">
             <Col className="headerTitle">
                 <Row className="logo">
-                    <img src={logo} height={70} width={70}/>
+                    <img src={logo} height={70} width={70} alt="logo"/>
                 </Row>
                 <Row className="headerText">
                     <Box fontSize={48} >The Plant Corner</Box>
