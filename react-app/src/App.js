@@ -1,16 +1,18 @@
 import "./App.css";
 import React, { useContext } from "react";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { useLocalObservable, useLocalStore, useObserver } from "mobx-react";
 import axios from "axios";
 import { Product } from "./components/Product";
 import { Products } from "./components/Products";
 import { Shipping } from "./components/Shipping";
-import { Header } from "./components/Header/Header";
+import { LandingPage } from "./components/LandingPage/LandingPage";
 import { Categories } from "./components/Categories";
 import { Opinion } from "./components/Opinion";
 import { Payment } from "./components/Payment";
 import { Cart } from "./components/Cart";
+import { Account } from "./components/Account/Account";
+import {Wishlist} from "./components/Wishlist/Wishlist";
 
 const StoreContext = React.createContext();
 
@@ -57,23 +59,33 @@ const BugsForm = () => {
 function App() {
   const store = useContext(StoreContext);
 
-  return (
+  /*return (
     <StoreProvider>
+      <BrowserRouter>
+          <Switch>
+              <Route path="/" component={Header} />
+              <Route path="/account" component={Account} />
+          </Switch>
+      </BrowserRouter>
       <BugsList />
       <div className="App">
         <header className="App-header">
           <Cart />
         </header>
-        <BrowserRouter>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-          </ul>
-          <BugsForm />
-          <Route path="/" component={Header} />
-        </BrowserRouter>
+        <BugsForm />
       </div>
+    </StoreProvider>
+  );*/
+  return (
+    <StoreProvider>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact component={LandingPage} />
+          <Route path="/account" exact component={Account} />
+          <Route path="/cart" exact component={Cart} />
+          <Route path="/wishlist" exact component={Wishlist}/>
+        </Switch>
+      </BrowserRouter>
     </StoreProvider>
   );
 }
