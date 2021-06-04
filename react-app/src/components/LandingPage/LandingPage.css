@@ -50,7 +50,8 @@
   padding-top: 4%;
   display: flex;
   margin: 0 8% 0 8%;
-  background-color: #6dae38;
+  background-color: #ffffff;
+  min-height: inherit;
 }
 
 .sideBar{
@@ -60,14 +61,16 @@
 .products{
   min-width: 80%;
   display: grid;
+  grid-auto-flow: row;
+  justify-items: right;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0 13%;
-  grid-template-rows: 1fr 1fr 1fr;
-  background-color: #4c4742;
+  background-color: #ffffff;
 }
 
-.MuiCardMedia{
-  height: 100px;
+.product{
+  background-color: #ffffff;
+  max-height: 29rem;
+  padding-bottom: 6%;
 }
 
 

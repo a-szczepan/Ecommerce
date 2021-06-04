@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 export const Categories = () => {
   const url = `http://localhost:9000/categories`;
   const [categories, setCategories] = useState(null);
-  let content = null;
   useEffect(() => {
     axios.get(url).then((response) => {
       console.log(response.data);
@@ -19,7 +18,7 @@ export const Categories = () => {
   return (
     <>
       <h1 className="categoryHeading">Kategorie produktów</h1>
-      {categories.map((category) => (
+      {categories && categories.map((category) => (
         <>
           <Row className="shippingData">
             <Button color="primary">{category.name}</Button>

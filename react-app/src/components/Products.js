@@ -11,6 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 
 const useStyles = makeStyles({
@@ -23,28 +24,31 @@ function ImgMediaCard(props) {
   const classes = useStyles();
   return (
       <Card className={classes.root}>
-        <CardActionArea>
+        <CardActionArea onClick={()=>alert("f")}>
           <CardMedia
               component="img"
               alt="product"
-
-
+              height="320"
               image={props.product.image}
               title={props.product.name}
           />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+          <CardContent style={{overflow: "hidden", textOverflow: "ellipsis", width: '19rem'}}>
+            <Typography noWrap gutterBottom variant="h5" component="h2">
               {props.product.name}
             </Typography>
-
+            <Typography >
+              { new Intl.NumberFormat('pl-PL', {
+                style: 'currency',
+                currency: 'PLN',}).format(props.product.price) }
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
-            Share
+          <Button size="small" style={{color: '#212529'}}>
+            <FavoriteBorderIcon />
           </Button>
-          <Button size="small" color="primary">
-            Learn More
+          <Button size="small" style={{color: '#212529'}}>
+            Do koszyka
           </Button>
         </CardActions>
       </Card>
