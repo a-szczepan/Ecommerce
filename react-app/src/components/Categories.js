@@ -10,21 +10,19 @@ export const Categories = () => {
   const [categories, setCategories] = useState(null);
   useEffect(() => {
     axios.get(url).then((response) => {
-      console.log(response.data);
       setCategories(response.data);
     });
   }, [url]);
 
   return (
-    <>
+    <div>
       <h1 className="categoryHeading">Kategorie produktów</h1>
-      {categories && categories.map((category) => (
-        <>
-          <Row className="shippingData">
+      {categories &&
+        categories.map((category, index) => (
+          <Row key={index} className="shippingData">
             <Button color="primary">{category.name}</Button>
           </Row>
-        </>
-      ))}
-    </>
+        ))}
+    </div>
   );
 };

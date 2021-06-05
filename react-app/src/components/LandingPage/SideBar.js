@@ -1,9 +1,9 @@
-import {Categories} from "../Categories";
+import { Categories } from "../Categories";
 
 export const SideBar = () => {
-    return (
-        <>
-            <Categories/>
-        </>
-    );
-}
+  return (
+    <>
+      <Categories />
+    </>
+  );
+};
