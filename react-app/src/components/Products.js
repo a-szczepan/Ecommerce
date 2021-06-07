@@ -1,6 +1,6 @@
 import "../components/styles/Product.css";
 import { Col } from "react-bootstrap";
-import { Component } from "react";
+import { Component, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,9 +11,14 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import Service from "../services/service";
 import { connect } from "react-redux";
-import { getProducts } from "../store/actions/productsActions";
+import {
+  addToWishlist,
+  fetchProducts,
+  fetchWishlist,
+  loadWishlistProducts,
+} from "../redux/Shopping/shopping-actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -22,11 +27,12 @@ const useStyles = makeStyles({
 });
 
 function ImgMediaCard(props) {
-  const [products, setProducts] = React.useState();
+  const dispatch = useDispatch();
+  const post = useSelector((state) => state);
 
-  const addProductToWishlist = async (product) => {
-    const res = await Service.addToWishlist(1, product.id);
-  };
+  useEffect(() => {
+    dispatch(fetchWishlist(1));
+  }, []);
 
   const classes = useStyles();
   return (
@@ -62,7 +68,7 @@ function ImgMediaCard(props) {
           <FavoriteBorderIcon
             onClick={(e) => {
               e.preventDefault();
-              addProductToWishlist(props.product);
+              dispatch(addToWishlist(1, props.product.id));
             }}
           />
         </Button>
@@ -74,26 +80,31 @@ function ImgMediaCard(props) {
   );
 }
 
-class Products extends Component {
-  componentDidMount() {
-    this.props.getProducts();
-  }
-  render() {
-    const { products } = this.props.products;
-    console.log(this.props.products);
+const Products = (products, wishlist) => {
+  const dispatch = useDispatch();
+  const post = useSelector((state) => state);
 
-    return (
-      <>
-        {products.map((u, index) => (
-          <Col key={index} className="product">
-            <ImgMediaCard key={index} product={u} />
-          </Col>
-        ))}
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
 
-const mapStateToProps = (state) => ({ products: state.products });
+  return (
+    <>
+      {post.shop.products.map((el, index) => (
+        <ImgMediaCard key={index} product={el} wishlist={wishlist}>
+          {" "}
+        </ImgMediaCard>
+      ))}
+    </>
+  );
+};
 
-export default connect(mapStateToProps, { getProducts })(Products);
+const mapStateToProps = (state) => {
+  //co chce ze state reducera - mamy dostęp do propsów
+  return {
+    products: state.shop.products,
+    wishlist: state.shop.wishlist,
+    wishlistProducts: state.shop.wishlistProducts,
+  };
+};
+export default connect(mapStateToProps)(Products);
