@@ -22,7 +22,7 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def date = column[String]("date")
 
-    def amount = column[Int]("amount")
+    def amount = column[String]("amount")
 
     def * = (id, order_id, date, amount) <> ((Payment.apply _).tupled, Payment.unapply)
   }
