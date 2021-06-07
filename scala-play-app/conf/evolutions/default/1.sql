@@ -32,6 +32,8 @@ CREATE TABLE "cart"
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "user_id"    INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
+    "quantity"   INTEGER NOT NULL,
+    UNIQUE (product_id)
     FOREIGN KEY (user_id) REFERENCES appuser (id),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );

@@ -19,7 +19,7 @@ class CartController @Inject()(val cartRepository: CartRepository,
     implicit request =>
       request.body.validate[Cart].map {
         cart =>
-          cartRepository.create(cart.user_id,cart.product_id).map { res =>
+          cartRepository.create(cart.user_id,cart.product_id,cart.quantity).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))

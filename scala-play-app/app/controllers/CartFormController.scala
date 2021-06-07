@@ -28,6 +28,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
     mapping(
       "user_id" -> number,
       "product_id" -> number,
+      "quantity" -> number,
     )(CreateCartForm.apply)(CreateCartForm.unapply)
   }
 
@@ -36,6 +37,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
       "id" -> number,
       "user_id" -> number,
       "product_id" -> number,
+      "quantity" -> number,
     )(UpdateCartForm.apply)(UpdateCartForm.unapply)
   }
 
@@ -44,7 +46,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   def updateCart(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val cart = cartRepository.getById(id)
     cart.map(cart => {
-      val cartForm = updateCartForm.fill(UpdateCartForm(cart.get.id, cart.get.user_id, cart.get.product_id))
+      val cartForm = updateCartForm.fill(UpdateCartForm(cart.get.id, cart.get.user_id, cart.get.product_id, cart.get.quantity))
       Ok(views.html.cart.updateCart(cartForm,userList,productList))
     })
   }
@@ -57,7 +59,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
         )
       },
       cart => {
-        cartRepository.update(cart.id, Cart(cart.id, cart.user_id, cart.product_id)).map { _ =>
+        cartRepository.update(cart.id, Cart(cart.id, cart.user_id, cart.product_id, cart.quantity)).map { _ =>
           Redirect("/carts/all")
         }
       }
@@ -95,7 +97,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
         )
       },
       cart => {
-        cartRepository.create(cart.user_id, cart.product_id).map { _ =>
+        cartRepository.create(cart.user_id, cart.product_id, cart.quantity).map { _ =>
           Redirect("/carts/all")
         }
       }
@@ -103,5 +105,5 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   }
 
 }
-case class CreateCartForm(user_id: Int, product_id: Int)
-case class UpdateCartForm(id: Int = 0, user_id: Int, product_id: Int)
+case class CreateCartForm(user_id: Int, product_id: Int, quantity: Int)
+case class UpdateCartForm(id: Int = 0, user_id: Int, product_id: Int, quantity: Int)

@@ -24,7 +24,9 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
 
     def product_fk = foreignKey("product_id", product_id, product)(_.id)
 
-    def * = (id, user_id, product_id) <> ((Cart.apply _).tupled, Cart.unapply)
+    def quantity = column[Int]("quantity")
+
+    def * = (id, user_id, product_id, quantity) <> ((Cart.apply _).tupled, Cart.unapply)
   }
 
   import userRepository.UserTable
@@ -34,11 +36,11 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
   val product = TableQuery[ProductTable]
   var cart = TableQuery[CartTable]
 
-  def create(user_id: Int, product_id: Int): Future[Cart] = db.run {
-    (cart.map(c => (c.user_id, c.product_id))
+  def create(user_id: Int, product_id: Int, quantity: Int): Future[Cart] = db.run {
+    (cart.map(c => (c.user_id, c.product_id, c.quantity))
       returning cart.map(_.id)
-      into { case ((user_id, product_id), id) => Cart(id, user_id, product_id) }
-      ) += (user_id, product_id)
+      into { case ((user_id, product_id, quantity), id) => Cart(id, user_id, product_id, quantity) }
+      ) += (user_id, product_id, quantity)
   }
 
   def list(): Future[Seq[Cart]] = db.run {
