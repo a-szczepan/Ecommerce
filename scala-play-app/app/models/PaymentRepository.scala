@@ -32,7 +32,7 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   val order = TableQuery[OrderTable]
   val payment = TableQuery[PaymentTable]
 
-  def create(order_id: Int, date: String, amount: Int): Future[Payment] = db.run {
+  def create(order_id: Int, date: String, amount: String): Future[Payment] = db.run {
     (payment.map(o => (o.order_id, o.date, o.amount))
       returning payment.map(_.id)
       into { case ((order_id, date, amount), id) => Payment(id, order_id, date, amount) }

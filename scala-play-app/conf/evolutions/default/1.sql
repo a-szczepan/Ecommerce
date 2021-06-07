@@ -23,7 +23,7 @@ CREATE TABLE "wishlist"
     "user_id"    INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
     UNIQUE (product_id)
-    FOREIGN KEY (user_id) REFERENCES appuser (id),
+        FOREIGN KEY (user_id) REFERENCES appuser (id),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
@@ -78,7 +78,7 @@ CREATE TABLE "payment"
     "id"       INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "order_id" INTEGER NOT NULL,
     "date"     VARCHAR NOT NULL,
-    "amount"   FLOAT   NOT NULL,
+    "amount"   VARCHAR NOT NULL,
     FOREIGN KEY (order_id) REFERENCES apporder (id)
 );
 

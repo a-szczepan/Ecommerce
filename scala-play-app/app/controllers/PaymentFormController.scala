@@ -26,7 +26,7 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
     mapping(
       "order_id" -> number,
       "date" -> nonEmptyText,
-      "amount" -> number,
+      "amount" -> nonEmptyText,
     )(CreatePaymentForm.apply)(CreatePaymentForm.unapply)
   }
 
@@ -35,7 +35,7 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
       "id" -> number,
       "order_id" -> number,
       "date" -> nonEmptyText,
-      "amount" -> number,
+      "amount" -> nonEmptyText,
     )(UpdatePaymentForm.apply)(UpdatePaymentForm.unapply)
   }
 
@@ -79,6 +79,6 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
   }
 
 }
-case class CreatePaymentForm(order_id: Int, date: String, amount: Int)
+case class CreatePaymentForm(order_id: Int, date: String, amount: String)
 
-case class UpdatePaymentForm(id: Int = 0, order_id: Int, date: String, amount: Int)
+case class UpdatePaymentForm(id: Int = 0, order_id: Int, date: String, amount: String)
