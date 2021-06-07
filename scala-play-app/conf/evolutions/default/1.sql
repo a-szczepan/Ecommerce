@@ -2,7 +2,7 @@
 
 CREATE TABLE "apporder"
 (
-    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "cart_id"     INT     NOT NULL,
     "shipping_id" INT     NOT NULL,
     FOREIGN KEY (cart_id) REFERENCES cart (id),
@@ -11,7 +11,7 @@ CREATE TABLE "apporder"
 
 CREATE TABLE "account"
 (
-    "id"         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "first_name" VARCHAR NOT NULL,
     "last_name"  VARCHAR NOT NULL
 );
@@ -19,16 +19,17 @@ CREATE TABLE "account"
 
 CREATE TABLE "wishlist"
 (
-    "id"         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "user_id"    INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
+    UNIQUE (product_id)
     FOREIGN KEY (user_id) REFERENCES appuser (id),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
 CREATE TABLE "cart"
 (
-    "id"         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "user_id"    INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES appuser (id),
@@ -37,7 +38,7 @@ CREATE TABLE "cart"
 
 CREATE TABLE "shipping"
 (
-    "id"               INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"               INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "street_name"      VARCHAR NOT NULL,
     "building_number"  INT     NOT NULL,
     "apartment_number" INT     NOT NULL,
@@ -47,7 +48,7 @@ CREATE TABLE "shipping"
 
 CREATE TABLE "product"
 (
-    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "category_id" INTEGER NOT NULL,
     "name"        VARCHAR NOT NULL,
     "description" VARCHAR NOT NULL,
@@ -58,13 +59,13 @@ CREATE TABLE "product"
 
 CREATE TABLE "category"
 (
-    "id"   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"   INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "name" VARCHAR NOT NULL
 );
 
 CREATE TABLE "opinion"
 (
-    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "user_id"     INTEGER NOT NULL,
     "product_id"  INTEGER NOT NULL,
     "opinion_txt" VARCHAR NOT NULL,
@@ -74,7 +75,7 @@ CREATE TABLE "opinion"
 
 CREATE TABLE "payment"
 (
-    "id"       INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"       INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "order_id" INTEGER NOT NULL,
     "date"     VARCHAR NOT NULL,
     "amount"   FLOAT   NOT NULL,
@@ -83,7 +84,7 @@ CREATE TABLE "payment"
 
 CREATE TABLE "appuser"
 (
-    "id"         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "account_id" INTEGER NOT NULL,
     "email"      VARCHAR NOT NULL,
     "password"   VARCHAR NOT NULL,

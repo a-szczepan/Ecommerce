@@ -7,14 +7,14 @@ import javax.inject._
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class WishlistController @Inject()(wishlistRepository: WishlistRepository,
-                                   userRepository: UserRepository,
-                                   productRepository: ProductRepository,
+class WishlistController @Inject()(val wishlistRepository: WishlistRepository,
+                                   val userRepository: UserRepository,
+                                   val productRepository: ProductRepository,
                                 cc: ControllerComponents)
                                (implicit ec: ExecutionContext)
   extends AbstractController(cc){
 
-  def createWishlist: Action[JsValue] = Action.async(parse.json) {
+  def createWishlist(): Action[JsValue] = Action.async(parse.json) {
     implicit request =>
       request.body.validate[Wishlist].map {
         wishlist =>
