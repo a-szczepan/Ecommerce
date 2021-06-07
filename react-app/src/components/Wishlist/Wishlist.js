@@ -16,6 +16,9 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { Container, Row } from "react-bootstrap";
+import { Divider } from "@material-ui/core";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const useStyles = makeStyles({
   root: {
@@ -72,8 +75,8 @@ function ImgMediaCard(props) {
             }}
           />
         </Button>
-        <Button size="small" style={{ color: "#212529" }}>
-          Do koszyka
+        <Button>
+          <ShoppingCartIcon />
         </Button>
       </CardActions>
     </Card>
@@ -91,18 +94,22 @@ export const Wishlist = () => {
   }, []);
 
   return (
-    <div>
-      {post.shop.wishlistProducts &&
-        post.shop.wishlistProducts.map((product, index) => (
-          <ImgMediaCard key={index} product={product} />
-        ))}
-    </div>
+    <Container className="wishlist">
+      <Row className="wishlistHeader">
+        <Typography variant="h4">WISHLIST</Typography>
+        <Divider />
+      </Row>
+      <Row className="wishlistProducts">
+        {post.shop.wishlistProducts &&
+          post.shop.wishlistProducts.map((product, index) => (
+            <ImgMediaCard key={index} product={product} />
+          ))}
+      </Row>
+    </Container>
   );
 };
 
 const mapStateToProps = (state) => {
-  //co chce ze state reducera - mamy dostęp do propsów
-
   return {
     products: state.shop.products,
     wishlist: state.shop.wishlist,

@@ -58,7 +58,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         wishlist: state.wishlist,
       };
     default:
-      //jesli nic sie nie zmieni
       return state;
   }
 };
