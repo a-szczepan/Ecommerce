@@ -15,7 +15,7 @@ import {
   addToCart,
   addToWishlist, fetchCart,
   fetchProducts,
-  fetchWishlist,
+  fetchWishlist, updateCartSum,
 } from "../redux/Shopping/shopping-actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -72,7 +72,9 @@ function ImgMediaCard(props) {
             }}
           />
         </Button>
-        <Button size="small" style={{ color: "#212529" }} onClick={() => dispatch(addToCart(1, props.product.id)) }> Do koszyka
+        <Button size="small" style={{ color: "#212529" }} onClick={
+          () => {dispatch(addToCart(1, props.product.id));}
+        }> Do koszyka
         </Button>
       </CardActions>
     </Card>
@@ -90,9 +92,7 @@ const Products = (products, wishlist) => {
   return (
     <>
       {post.shop.products.map((el, index) => (
-        <ImgMediaCard key={index} product={el} wishlist={wishlist}>
-          {" "}
-        </ImgMediaCard>
+        <ImgMediaCard key={index} product={el} wishlist={wishlist}/>
       ))}
     </>
   );

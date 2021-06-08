@@ -35,10 +35,17 @@ const shopReducer = (state = INITIAL_STATE, action) => {
               }
           )
         })
+      let sumAfterLoad = 0
+      cart.map(product => sumAfterLoad += parseFloat(product.price))
+      sumAfterLoad = new Intl.NumberFormat("pl-PL", {
+        style: "currency",
+        currency: "PLN",
+      }).format(sumAfterLoad)
       return {
         ...state,
         loading: false,
-        cart: cart
+        cart: cart,
+        cartSum: sumAfterLoad
       };
 
     case actionTypes.ADD_TO_CART:
@@ -48,10 +55,17 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         product["cart_id"] = action.payload.id
         product["user_id"] = action.payload.user_id
       state.cart.push(product);
+      let sum = 0
+        state.cart.map(product => sum += parseFloat(product.price))
+      sum= new Intl.NumberFormat("pl-PL", {
+        style: "currency",
+        currency: "PLN",
+      }).format(sum)
       return {
         ...state,
         loading: false,
         cart: state.cart,
+        cartSum: sum
       };
     case actionTypes.REMOVE_FROM_CART:
       let newCart = []
@@ -60,21 +74,19 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         } else {
           newCart = []
         }
+      let newSum = 0
+      newCart.map(product => newSum += parseFloat(product.price))
+        newSum = new Intl.NumberFormat("pl-PL", {
+          style: "currency",
+          currency: "PLN",
+        }).format(newSum)
       return {
         ...state,
         loading: false,
-        cart: newCart
+        cart: newCart,
+        cartSum: newSum
       };
 
-    case actionTypes.UPDATE_CART_SUM:
-      let updatedSum = 0
-          state.cart.map(x=> updatedSum+=x.price)
-        console.log(updatedSum)
-      return {
-        ...state,
-        loading: false,
-        cartSum: updatedSum
-      }
     case actionTypes.LOAD_WISHLIST:
       return {
         ...state,

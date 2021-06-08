@@ -67,15 +67,6 @@ export const deleteFromCart = (cart_id) => async (dispatch) => {
     }
 };
 
-export const updateCartSum = () =>  {
-    return (dispatch) => {
-        dispatch({
-            type: actionTypes.UPDATE_CART_SUM,
-        })
-    }
-
-}
-
 export const loadWishlistProducts = (wishlist, products) => {
     return (dispatch, getState) => {
         const productsId = wishlist.map((x) => x.product_id);

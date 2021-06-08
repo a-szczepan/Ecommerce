@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import {useDispatch, useSelector} from "react-redux";
-import {deleteFromCart, fetchCart, fetchProducts, updateCartSum} from "../../redux/Shopping/shopping-actions";
+import {deleteFromCart, fetchProducts} from "../../redux/Shopping/shopping-actions";
 import {Col, Row} from "react-bootstrap";
 import Box from "@material-ui/core/Box";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -65,20 +65,19 @@ export function CustomizedDialogs() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const post = useSelector((state) => state);
-  const [sum, setSum ] = useState(0)
+
   useEffect(()=>{
     dispatch(fetchProducts())
-
 
   },[])
 
   const handleClickOpen = () => {
     setOpen(true);
-
   };
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
       <div>
