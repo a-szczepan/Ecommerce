@@ -12,7 +12,8 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { connect } from "react-redux";
 import {
-  addToWishlist,
+  addToCart,
+  addToWishlist, fetchCart,
   fetchProducts,
   fetchWishlist,
 } from "../redux/Shopping/shopping-actions";
@@ -30,6 +31,7 @@ function ImgMediaCard(props) {
 
   useEffect(() => {
     dispatch(fetchWishlist(1));
+    dispatch(fetchCart(1))
   }, []);
 
   const classes = useStyles();
@@ -70,8 +72,7 @@ function ImgMediaCard(props) {
             }}
           />
         </Button>
-        <Button size="small" style={{ color: "#212529" }}>
-          Do koszyka
+        <Button size="small" style={{ color: "#212529" }} onClick={() => dispatch(addToCart(1, props.product.id)) }> Do koszyka
         </Button>
       </CardActions>
     </Card>
@@ -103,6 +104,7 @@ const mapStateToProps = (state) => {
     products: state.shop.products,
     wishlist: state.shop.wishlist,
     wishlistProducts: state.shop.wishlistProducts,
+    cart: state.shop.cart
   };
 };
 export default connect(mapStateToProps)(Products);

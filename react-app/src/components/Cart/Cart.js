@@ -1,5 +1,5 @@
-import "../styles/Cart.css";
-import React from 'react';
+import "../Cart/Cart.css";
+import React, {useEffect, useState} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,6 +12,14 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import {useDispatch, useSelector} from "react-redux";
+import {deleteFromCart, fetchCart, fetchProducts, updateCartSum} from "../../redux/Shopping/shopping-actions";
+import {Col, Row} from "react-bootstrap";
+import Box from "@material-ui/core/Box";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 const styles = (theme) => ({
   root: {
@@ -54,10 +62,19 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const post = useSelector((state) => state);
+  const [sum, setSum ] = useState(0)
+  useEffect(()=>{
+    dispatch(fetchProducts())
+
+
+  },[])
 
   const handleClickOpen = () => {
     setOpen(true);
+
   };
   const handleClose = () => {
     setOpen(false);
@@ -73,16 +90,42 @@ export function CustomizedDialogs() {
             Koszyk
           </DialogTitle>
           <DialogContent dividers>
-            <Paper style={{maxHeight: '80vh', overflow: 'auto', backgroundColor: 'inherit'}}
+            <Paper style={{maxHeight: '80vh', minWidth:'30vw', overflow: 'auto', backgroundColor: 'inherit'}}
                    elevation={0}>
             <List>
-              {<ListItem/>}
+              {post.shop.cart.map((x, index)=>
+                  <ListItem key={index} className="cartListItem">
+                    <Row>
+                      <img height="100px" src={x.image}/>
+                    </Row>
+                    <Row>
+                      <Typography variant="h6" style={{paddingLeft: "10px"}}>{x.name}</Typography>
+                      <Box  style={{paddingLeft: "10px"}}>{new Intl.NumberFormat("pl-PL", {
+                        style: "currency",
+                        currency: "PLN",
+                      }).format(x.price)}</Box>
+                    </Row>
+                      <Row className="quantity" style={{display: "flex", paddingLeft:"40px"}}>
+                        <Button> <AddCircleOutlineIcon fontSize="small" /> </Button>
+                        <Typography variant="h6" style={{padding: "0 10px 0 10px"}}>{x.quantity}</Typography>
+                        <Button> <RemoveCircleOutlineIcon fontSize="small" /> </Button>
+                        <Typography variant="h6">{new Intl.NumberFormat("pl-PL", {
+                          style: "currency",
+                          currency: "PLN",
+                        }).format(x.price * x.quantity)}</Typography>
+                        <Button onClick={()=>
+                            dispatch(deleteFromCart(x.cart_id))
+                        }> <DeleteIcon/> </Button>
+                      </Row>
+                  </ListItem>
+              )}
             </List>
             </Paper>
+            <Box fontSize="20px"> Suma: {post.shop.cartSum} </Box>
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose} color="primary">
-              Save changes
+              Przejdź do płatności
             </Button>
           </DialogActions>
         </Dialog>

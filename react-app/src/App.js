@@ -12,15 +12,16 @@ import theme from "./theme";
 function App() {
   return (
     <BrowserRouter>
+      <React.StrictMode>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Switch>
           <Route path="/" exact component={LandingPage} />
           <Route path="/account" exact component={Account} />
-          {/*<Route path="/cart" exact component={Cart} />*/}
           <Route path="/wishlist" exact component={Wishlist} />
         </Switch>
       </ThemeProvider>
+      </React.StrictMode>
     </BrowserRouter>
   );
 }

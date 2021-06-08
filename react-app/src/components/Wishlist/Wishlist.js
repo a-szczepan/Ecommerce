@@ -2,10 +2,11 @@ import "./Wishlist.css";
 import React, { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
-  deleteFromWishlist,
-  fetchProducts,
-  fetchWishlist,
-  loadWishlistProducts,
+    addToCart,
+    deleteFromWishlist,
+    fetchProducts,
+    fetchWishlist,
+    loadWishlistProducts,
 } from "../../redux/Shopping/shopping-actions";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Card from "@material-ui/core/Card";
@@ -76,7 +77,7 @@ function ImgMediaCard(props) {
           />
         </Button>
         <Button>
-          <ShoppingCartIcon />
+          <ShoppingCartIcon onClick={() => dispatch(addToCart(1, props.product.id))} />
         </Button>
       </CardActions>
     </Card>

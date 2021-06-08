@@ -1,3 +1,17 @@
 .MuiPaper-root::-webkit-scrollbar {
     width: 0;
 }
+.cartListItem{
+    display: flex;
+}
+
+.cartData{
+    display: flex;
+    flex-direction: row;
+    width: available;
+}
+
+.quantity{
+    display: flex;
+
+}
