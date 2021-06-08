@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { Col, Row } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import {
   fetchWishlist,
   loadWishlistProducts,
 } from "../../redux/Shopping/shopping-actions";
+import {CustomizedDialogs} from "../Cart/Cart";
 
 function AccountButton() {
   const history = useHistory();
@@ -43,14 +44,15 @@ function WishlistButton() {
   );
 }
 
+
 export const Navbar = () => {
+
   return (
     <Col className="navbar">
-      <Row>
         <WishlistButton />
-        <Button>Koszyk</Button>
+        <CustomizedDialogs />
         <AccountButton />
-      </Row>
+
     </Col>
   );
 };
