@@ -47,7 +47,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: cart,
         cartSum: sumAfterLoad
       };
-
     case actionTypes.ADD_TO_CART:
       let product = state.products.filter(product=> product.id === action.payload.product_id)
         product=product[0]
@@ -67,6 +66,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: state.cart,
         cartSum: sum
       };
+
     case actionTypes.REMOVE_FROM_CART:
       let newCart = []
         if(state.cart.length > 1 ){
@@ -86,6 +86,41 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: newCart,
         cartSum: newSum
       };
+
+    case actionTypes.CART_QUANTITY_UP:
+      state.cart.map(product => product.cart_id === action.payload ? product.quantity+=1 : product.quantity)
+
+      let quantityUpSum = 0
+      state.cart.map(product => quantityUpSum += parseFloat(product.price)*product.quantity)
+      quantityUpSum = new Intl.NumberFormat("pl-PL", {
+        style: "currency",
+        currency: "PLN",
+      }).format(quantityUpSum)
+
+      return {
+        ...state,
+        loading: false,
+        cart: state.cart,
+        cartSum: quantityUpSum
+      }
+
+
+    case actionTypes.CART_QUANTITY_DOWN:
+      state.cart.map(product => product.cart_id === action.payload ? product.quantity > 0 ? product.quantity-=1 : product.quantity : product.quantity)
+
+      let quantityDownSum = 0
+      state.cart.map(product => quantityDownSum += parseFloat(product.price)*product.quantity)
+      quantityDownSum = new Intl.NumberFormat("pl-PL", {
+        style: "currency",
+        currency: "PLN",
+      }).format(quantityDownSum)
+
+      return {
+        ...state,
+        loading: false,
+        cart: state.cart,
+        cartSum: quantityDownSum
+      }
 
     case actionTypes.LOAD_WISHLIST:
       return {

@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import {useDispatch, useSelector} from "react-redux";
-import {deleteFromCart, fetchProducts} from "../../redux/Shopping/shopping-actions";
+import {deleteFromCart, fetchProducts, quantityDown, quantityUp} from "../../redux/Shopping/shopping-actions";
 import {Col, Row} from "react-bootstrap";
 import Box from "@material-ui/core/Box";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -78,7 +78,6 @@ export function CustomizedDialogs() {
     setOpen(false);
   };
 
-
   return (
       <div>
         <Button  onClick={handleClickOpen}>
@@ -105,9 +104,9 @@ export function CustomizedDialogs() {
                       }).format(x.price)}</Box>
                     </Row>
                       <Row className="quantity" style={{display: "flex", paddingLeft:"40px"}}>
-                        <Button> <AddCircleOutlineIcon fontSize="small" /> </Button>
+                        <Button onClick={() => dispatch(quantityUp(x))}> <AddCircleOutlineIcon fontSize="small" /> </Button>
                         <Typography variant="h6" style={{padding: "0 10px 0 10px"}}>{x.quantity}</Typography>
-                        <Button> <RemoveCircleOutlineIcon fontSize="small" /> </Button>
+                        <Button onClick={() => dispatch(quantityDown(x))}> <RemoveCircleOutlineIcon fontSize="small" /> </Button>
                         <Typography variant="h6">{new Intl.NumberFormat("pl-PL", {
                           style: "currency",
                           currency: "PLN",
