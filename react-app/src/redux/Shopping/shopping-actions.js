@@ -67,6 +67,47 @@ export const deleteFromCart = (cart_id) => async (dispatch) => {
     }
 };
 
+export const quantityUp = (cart_state) => async (dispatch) => {
+    try{
+        const newQuantity = cart_state.quantity +1
+        const res = await Axios.put(
+            `http://localhost:9000/cart/${cart_state.cart_id}`, {
+                "id": cart_state.cart_id,
+                "user_id": cart_state.user_id,
+                "product_id": cart_state.id,
+                "quantity": newQuantity
+            })
+        dispatch({
+            type: actionTypes.CART_QUANTITY_UP,
+            payload: cart_state.cart_id
+        });
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const quantityDown = (cart_state) => async (dispatch) => {
+    try{
+        let newQuantity = 0
+        if (cart_state.quantity>0){
+            newQuantity = cart_state.quantity - 1
+        }
+        const res = await Axios.put(
+            `http://localhost:9000/cart/${cart_state.cart_id}`, {
+                "id": cart_state.cart_id,
+                "user_id": cart_state.user_id,
+                "product_id": cart_state.id,
+                "quantity": newQuantity
+            })
+        dispatch({
+            type: actionTypes.CART_QUANTITY_DOWN,
+            payload: cart_state.cart_id
+        });
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export const loadWishlistProducts = (wishlist, products) => {
     return (dispatch, getState) => {
         const productsId = wishlist.map((x) => x.product_id);
