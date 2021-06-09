@@ -46,7 +46,7 @@ class CartController @Inject()(val cartRepository: CartRepository,
     }
   }
 
-  def updateCart(): Action[JsValue] = Action.async(parse.json) { request =>
+  def updateCart(id: Int): Action[JsValue] = Action.async(parse.json) { request =>
     request.body.validate[Cart].map {
       cart =>
         cartRepository.update(cart.id, cart).map { res =>
