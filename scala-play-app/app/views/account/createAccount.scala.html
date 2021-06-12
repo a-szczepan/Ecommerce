@@ -1,5 +1,5 @@
 @import controllers.CreateAccountForm
-@(account: Form[CreateAccountForm])(implicit request: MessagesRequestHeader, flash: Flash)
+@(account: Form[CreateAccountForm], users: Seq[User])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
@@ -7,6 +7,14 @@
 
 @form(controllers.routes.AccountFormController.createAccountHandle()) {
     @helper.CSRF.formField
+
+    <label for="user"></label>
+    <select name="providerKey" id="user">
+    @for(entry <- users) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
     @inputText(account("first_name"), '_label -> "First name")
     @inputText(account("last_name"), '_label -> "Last name")
 

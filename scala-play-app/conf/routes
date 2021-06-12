@@ -1,5 +1,11 @@
 # Routes
 
+# Authentication
+GET           /authenticate/:provider                   controllers.SocialAuthController.authenticate(provider: String)
+
+#User
+GET           /users/:key                               controllers.UserController.getUserByKey(key: String)
+
 #CategoryFormController
 GET           /categories/all                           controllers.CategoryFormController.allCategories
 GET           /categories/create                        controllers.CategoryFormController.createCategory()
@@ -47,26 +53,9 @@ GET           /carts/byId/:cartId                       controllers.CartFormCont
 POST          /cart                                     controllers.CartController.createCart
 GET           /cart                                     controllers.CartController.getCarts
 GET           /cart/product/:product_id                 controllers.CartController.getCartsByProduct(product_id: Int)
-GET           /cart/user/:user_id                       controllers.CartController.getCartsByUser(user_id: Int)
+GET           /cart/user/:providerKey                   controllers.CartController.getCartsByUserKey(providerKey: String)
 PUT           /cart/:id                                 controllers.CartController.updateCart(id: Int)
 DELETE        /cart/:id                                 controllers.CartController.deleteCart(id: Int)
-
-#UserFormController
-GET           /users/all                                controllers.UserFormController.allUsers
-GET           /users/create                             controllers.UserFormController.createUser()
-POST          /users/createHandle                       controllers.UserFormController.createUserHandle()
-GET           /users/update/:id                         controllers.UserFormController.updateUser(id: Int)
-POST          /users/updateHandle                       controllers.UserFormController.updateUserHandle()
-GET           /users/delete/:id                         controllers.UserFormController.deleteUser(id: Int)
-GET           /users/byId/:userId                       controllers.UserFormController.getById(userId: Int)
-
-#UserController
-POST          /users                                    controllers.UserController.createUser
-GET           /users                                    controllers.UserController.getUsers
-GET           /users/:id                                controllers.UserController.getUser(id: Int)
-GET           /users/account/:account_id                controllers.UserController.getUserByAccount(account_id: Int)
-PUT           /users/:id                                controllers.UserController.updateUser(id: Int)
-DELETE        /users/:id                                controllers.UserController.deleteUser(id: Int)
 
 #OrderFormController
 GET           /orders/all                               controllers.OrderFormController.allOrders
@@ -98,7 +87,7 @@ GET           /wishlist/byId/:wishlistId                controllers.WishlistForm
 #WishListController
 POST          /wishlist/create-new                      controllers.WishlistController.createWishlist
 GET           /wishlist/:id                             controllers.WishlistController.getWishlist(id: Int)
-GET           /wishlist/user/:user_id                   controllers.WishlistController.getWishlistByUser(user_id: Int)
+GET           /wishlist/user/:providerKey                   controllers.WishlistController.getWishlistByUserKey(providerKey: String)
 GET           /wishlist/product/:product_id             controllers.WishlistController.getWishlistByProduct(product_id: Int)
 PUT           /wishlist/:id                             controllers.WishlistController.updateWishlist(id:Int)
 DELETE        /wishlist/:id                             controllers.WishlistController.deleteWishlist(id: Int)
@@ -163,7 +152,7 @@ GET           /opinions/byId/:opinionId                 controllers.OpinionFormC
 POST          /opinions                                 controllers.OpinionController.createOpinion
 GET           /opinions                                 controllers.OpinionController.getOpinions
 GET           /opinions/:id                             controllers.OpinionController.getOpinion(id:Int)
-GET           /opinions/user/:user_id                   controllers.OpinionController.getOpinionByUser(user_id:Int)
+GET           /opinions/user/:providerKey                   controllers.OpinionController.getOpinionByUserKey(providerKey:String)
 GET           /opinions/product/:product_id             controllers.OpinionController.getOpinionByProduct(product_id:Int)
 PUT           /opinions/:id                             controllers.OpinionController.updateOpinion(id:Int)
 DELETE        /opinions/:id                             controllers.OpinionController.deleteOpinion(id: Int)

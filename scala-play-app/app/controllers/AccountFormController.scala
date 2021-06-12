@@ -1,15 +1,26 @@
 package controllers
-import models.{Account,AccountRepository}
+import models.{Account,AccountRepository, User, UserRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
 import javax.inject._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.util.{Failure, Success}
+import scala.concurrent.duration.Duration
 
 @Singleton
-class AccountFormController @Inject()(accountRepository: AccountRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc){
+class AccountFormController @Inject()(accountRepository: AccountRepository, userRepository: UserRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc){
+  var userList: Seq[User] = Seq[User]()
+
+  userRepository.getAll().onComplete {
+    case Success(user) => userList = user
+    case Failure(e) => print("", e)
+  }
+
+
   val accountForm: Form[CreateAccountForm] = Form {
     mapping(
+      "providerKey" -> nonEmptyText,
       "first_name" -> nonEmptyText,
       "last_name" -> nonEmptyText,
     )(CreateAccountForm.apply)(CreateAccountForm.unapply)
@@ -18,6 +29,7 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, cc: 
   val updateAccountForm: Form[UpdateAccountForm] = Form {
     mapping(
       "id" -> number,
+      "providerKey" -> nonEmptyText,
       "first_name" -> nonEmptyText,
       "last_name" -> nonEmptyText,
     )(UpdateAccountForm.apply)(UpdateAccountForm.unapply)
@@ -26,8 +38,8 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, cc: 
   def updateAccount(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val account = accountRepository.getById(id)
     account.map(account => {
-      val accountForm = updateAccountForm.fill(UpdateAccountForm(account.get.id, account.get.first_name, account.get.last_name))
-      Ok(views.html.account.updateAccount(accountForm))
+      val accountForm = updateAccountForm.fill(UpdateAccountForm(account.get.id, account.get.providerKey, account.get.first_name, account.get.last_name))
+      Ok(views.html.account.updateAccount(accountForm, userList))
     })
   }
 
@@ -35,11 +47,11 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, cc: 
     updateAccountForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.account.updateAccount(errorForm))
+          BadRequest(views.html.account.updateAccount(errorForm, userList))
         )
       },
       account => {
-        accountRepository.update(account.id, Account(account.id, account.first_name, account.last_name)).map { _ =>
+        accountRepository.update(account.id, Account(account.id, account.providerKey, account.first_name, account.last_name)).map { _ =>
           Redirect("/accounts/all")
         }
       }
@@ -63,25 +75,25 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, cc: 
     })
   }
 
-  def createAccount(): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    val accounts = accountRepository.list()
-    accounts.map(_ => Ok(views.html.account.createAccount(accountForm)))
+  def createAccount(): Action[AnyContent] = Action { implicit request: MessagesRequest[AnyContent] =>
+    val users = Await.result(userRepository.getAll(), Duration.Inf)
+    Ok(views.html.account.createAccount(accountForm, users))
   }
 
   def createAccountHandle(): Action[AnyContent] = Action.async { implicit request =>
     accountForm.bindFromRequest.fold(
       errorForm => {
         Future.successful(
-          BadRequest(views.html.account.createAccount(errorForm))
+          BadRequest(views.html.account.createAccount(errorForm, userList))
         )
       },
       account => {
-        accountRepository.create(account.first_name, account.last_name).map { _ =>
+        accountRepository.create(account.providerKey, account.first_name, account.last_name).map { _ =>
           Redirect("/accounts/all")
         }
       }
     )
   }
 }
-case class CreateAccountForm(first_name: String, last_name: String)
-case class UpdateAccountForm(id: Int, first_name: String, last_name: String)
+case class CreateAccountForm(providerKey: String, first_name: String, last_name: String)
+case class UpdateAccountForm(id: Int, providerKey: String, first_name: String, last_name: String)

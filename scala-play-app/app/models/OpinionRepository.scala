@@ -16,9 +16,9 @@ class OpinionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   class OpinionTable(tag: Tag) extends Table[Opinion](tag, "opinion") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def user_id = column[Int]("user_id")
+    def providerKey = column[String]("providerKey")
 
-    def user_fk = foreignKey("user_id", user_id, usr)(_.id)
+    def user_fk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
 
     def product_id = column[Int]("product_id")
 
@@ -26,7 +26,7 @@ class OpinionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def opinion_txt = column[String]("opinion_txt")
 
-    def * = (id, user_id, product_id, opinion_txt) <> ((Opinion.apply _).tupled, Opinion.unapply)
+    def * = (id, providerKey, product_id, opinion_txt) <> ((Opinion.apply _).tupled, Opinion.unapply)
   }
 
   import userRepository.UserTable
@@ -36,11 +36,11 @@ class OpinionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   val product = TableQuery[ProductTable]
   val opinion = TableQuery[OpinionTable]
 
-  def create(user_id: Int, product_id: Int, opinion_txt: String): Future[Opinion] = db.run {
-    (opinion.map(o => (o.user_id, o.product_id, o.opinion_txt))
+  def create(providerKey: String, product_id: Int, opinion_txt: String): Future[Opinion] = db.run {
+    (opinion.map(o => (o.providerKey, o.product_id, o.opinion_txt))
       returning opinion.map(_.id)
-      into { case ((user_id, product_id, opinion_txt), id) => Opinion(id, user_id, product_id, opinion_txt) }
-      ) += (user_id, product_id, opinion_txt)
+      into { case ((providerKey, product_id, opinion_txt), id) => Opinion(id, providerKey, product_id, opinion_txt) }
+      ) += (providerKey, product_id, opinion_txt)
   }
 
   def list(): Future[Seq[Opinion]] = db.run {
@@ -58,8 +58,8 @@ class OpinionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     opinion.filter(_.id === id).result.headOption
   }
 
-  def getByUser(user_id: Int): Future[Seq[Opinion]] = db.run {
-    opinion.filter(_.user_id === user_id).result
+  def getByUserKey(providerKey: String): Future[Seq[Opinion]] = db.run {
+    opinion.filter(_.providerKey === providerKey).result
   }
 
   def getByProduct(product_id: Int): Future[Seq[Opinion]] = db.run {

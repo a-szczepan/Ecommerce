@@ -6,7 +6,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class AccountRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class AccountRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val userRepository: UserRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -15,21 +15,26 @@ class AccountRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impl
   class AccountTable(tag: Tag) extends Table[Account](tag, "account") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
+    def providerKey = column[String]("providerKey")
+
+    def user_fk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
+
     def first_name: Rep[String] = column[String]("first_name")
 
     def last_name: Rep[String] = column[String]("last_name")
 
-    def * = (id, first_name, last_name) <> ((Account.apply _).tupled, Account.unapply)
+    def * = (id,providerKey, first_name, last_name) <> ((Account.apply _).tupled, Account.unapply)
   }
 
-
+  import userRepository.UserTable
   val account = TableQuery[AccountTable]
+  val usr = TableQuery[UserTable]
 
-  def create(first_name: String, last_name: String): Future[Account] = db.run {
-    (account.map(a => ( a.first_name, a.last_name))
+  def create(providerKey: String, first_name: String, last_name: String): Future[Account] = db.run {
+    (account.map(a => (a.providerKey, a.first_name, a.last_name))
       returning account.map(_.id)
-      into { case ((first_name, last_name), id) => Account(id,first_name,last_name) }
-      ) += (first_name, last_name)
+      into { case ((providerKey, first_name, last_name), id) => Account(id, providerKey, first_name,last_name) }
+      ) += (providerKey, first_name, last_name)
   }
 
   def list(): Future[Seq[Account]] = db.run {

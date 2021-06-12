@@ -13,7 +13,7 @@ class OpinionController @Inject()(opinionRepository: OpinionRepository, userRepo
     implicit request =>
       request.body.validate[Opinion].map {
         opinion =>
-          opinionRepository.create(opinion.user_id, opinion.product_id, opinion.opinion_txt).map { res =>
+          opinionRepository.create(opinion.providerKey, opinion.product_id, opinion.opinion_txt).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))
@@ -49,8 +49,8 @@ class OpinionController @Inject()(opinionRepository: OpinionRepository, userRepo
     }
   }
 
-  def getOpinionByUser(user_id:Int): Action[AnyContent] = Action.async{
-    val opinions = opinionRepository.getByUser(user_id)
+  def getOpinionByUserKey(providerKey:String): Action[AnyContent] = Action.async{
+    val opinions = opinionRepository.getByUserKey(providerKey)
     opinions.map {
       opinions => Ok(Json.toJson(opinions))
     }
