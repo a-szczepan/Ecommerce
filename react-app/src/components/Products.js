@@ -13,9 +13,11 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { connect } from "react-redux";
 import {
   addToCart,
-  addToWishlist, fetchCart,
+  addToWishlist,
+  fetchCart,
   fetchProducts,
-  fetchWishlist, updateCartSum,
+  fetchWishlist,
+  updateCartSum,
 } from "../redux/Shopping/shopping-actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,8 +32,8 @@ function ImgMediaCard(props) {
   const post = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(fetchWishlist(1));
-    dispatch(fetchCart(1))
+    dispatch(fetchWishlist(post.shop.user));
+    dispatch(fetchCart(post.shop.user));
   }, []);
 
   const classes = useStyles();
@@ -68,13 +70,19 @@ function ImgMediaCard(props) {
           <FavoriteBorderIcon
             onClick={(e) => {
               e.preventDefault();
-              dispatch(addToWishlist(1, props.product.id));
+              dispatch(addToWishlist(post.shop.user, props.product.id));
             }}
           />
         </Button>
-        <Button size="small" style={{ color: "#212529" }} onClick={
-          () => {dispatch(addToCart(1, props.product.id));}
-        }> Do koszyka
+        <Button
+          size="small"
+          style={{ color: "#212529" }}
+          onClick={() => {
+            dispatch(addToCart(post.shop.user, props.product.id));
+          }}
+        >
+          {" "}
+          Do koszyka
         </Button>
       </CardActions>
     </Card>
@@ -92,7 +100,7 @@ const Products = (products, wishlist) => {
   return (
     <>
       {post.shop.products.map((el, index) => (
-        <ImgMediaCard key={index} product={el} wishlist={wishlist}/>
+        <ImgMediaCard key={index} product={el} wishlist={wishlist} />
       ))}
     </>
   );
@@ -104,7 +112,7 @@ const mapStateToProps = (state) => {
     products: state.shop.products,
     wishlist: state.shop.wishlist,
     wishlistProducts: state.shop.wishlistProducts,
-    cart: state.shop.cart
+    cart: state.shop.cart,
   };
 };
 export default connect(mapStateToProps)(Products);

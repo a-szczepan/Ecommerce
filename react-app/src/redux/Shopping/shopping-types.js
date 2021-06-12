@@ -1,6 +1,8 @@
 export const LOAD_PRODUCTS = "LOAD_PRODUCTS";
 
-export const LOAD_CART = "LOAD_CART"
+export const SET_USER = "SET_USER"
+
+export const LOAD_CART = "LOAD_CART";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const UPDATE_CART_SUM = "UPDATE_CART_SUM";
