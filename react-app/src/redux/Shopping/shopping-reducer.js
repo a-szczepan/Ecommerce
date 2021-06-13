@@ -1,6 +1,7 @@
 import * as actionTypes from "./shopping-types";
 
 const INITIAL_STATE = {
+  user: "",
   products: [],
   wishlist: [],
   wishlistProducts: [],
@@ -11,6 +12,13 @@ const INITIAL_STATE = {
 
 const shopReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case actionTypes.SET_USER:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+
     case actionTypes.LOAD_PRODUCTS:
       return {
         ...state,
@@ -29,7 +37,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
             let newProd = product;
             newProd["quantity"] = cart_item.quantity;
             newProd["cart_id"] = cart_item.id;
-            newProd["user_id"] = cart_item.user_id;
+            newProd["providerKey"] = cart_item.providerKey;
             cart.push(newProd);
           }
         });
@@ -53,7 +61,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       product = product[0];
       product["quantity"] = action.payload.quantity;
       product["cart_id"] = action.payload.id;
-      product["user_id"] = action.payload.user_id;
+      product["providerKey"] = action.payload.providerKey;
       state.cart.push(product);
       let sum = 0;
       state.cart.map(
@@ -69,7 +77,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: state.cart,
         cartSum: sum,
       };
-
     case actionTypes.REMOVE_FROM_CART:
       let newCart = [];
 
@@ -95,7 +102,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: newCart,
         cartSum: newSum,
       };
-
     case actionTypes.CART_QUANTITY_UP:
       state.cart.map((product) =>
         product.cart_id === action.payload
@@ -119,7 +125,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: state.cart,
         cartSum: quantityUpSum,
       };
-
     case actionTypes.CART_QUANTITY_DOWN:
       state.cart.map((product) =>
         product.cart_id === action.payload
@@ -181,6 +186,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         wishlist: state.wishlist,
       };
+
     default:
       return state;
   }
