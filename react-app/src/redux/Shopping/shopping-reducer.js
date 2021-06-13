@@ -2,6 +2,8 @@ import * as actionTypes from "./shopping-types";
 
 const INITIAL_STATE = {
   user: "",
+  account: 'create',
+  shipping: 'create',
   products: [],
   wishlist: [],
   wishlistProducts: [],
@@ -18,6 +20,46 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         user: action.payload,
       };
+
+    case actionTypes.LOAD_ACCOUNT_INFO:
+      return {
+        ...state,
+        loading: false,
+        account: action.payload,
+      };
+
+    case actionTypes.CREATE_ACCOUNT_INFO:
+      return {
+        ...state,
+        loading: false,
+        account: action.payload
+      }
+    case actionTypes.DELETE_ACCOUNT_INFO:
+      return {
+        ...state,
+        loading: false,
+        account: action.payload
+      }
+    case actionTypes.LOAD_SHIPMENT_INFO:
+      return {
+        ...state,
+        loading: false,
+        shipping: action.payload,
+      };
+
+    case actionTypes.CREATE_SHIPMENT_INFO:
+      return {
+        ...state,
+        loading: false,
+        shipping: action.payload,
+      };
+
+    case actionTypes.DELETE_SHIPMENT_INFO:
+      return {
+        ...state,
+        loading: false,
+        shipping: action.payload
+      }
 
     case actionTypes.LOAD_PRODUCTS:
       return {
