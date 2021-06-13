@@ -1,0 +1,18 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.paymentSummary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  min-width: 80vw;
+  padding-top: 2%;
+}
+
+.shippingInfo {
+  padding: 2% 0 2% 0;
+}

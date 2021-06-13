@@ -1,6 +1,6 @@
 import "./Order.css";
 import { Row, Container } from "react-bootstrap";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
@@ -8,36 +8,38 @@ import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {
-    deleteFromCart,
-    fetchCart,
-    fetchProducts,
-    getAccountInfo, getShippingInfo,
-    quantityDown,
-    quantityUp,
-    setUser,
+  deleteFromCart,
+  fetchCart,
+  fetchProducts,
+  getAccountInfo,
+  getShippingInfo,
+  quantityDown,
+  quantityUp,
+  setUser,
 } from "../../redux/Shopping/shopping-actions";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "@material-ui/core";
-import {AccountInfo} from "./AccountInfo";
-import {ShippingInfo} from "./ShippingInfo";
+import { AccountInfo } from "./AccountInfo";
+import { ShippingInfo } from "./ShippingInfo";
 
 const AcceptButton = (props) => {
-    if (props.account !== 'create' && props.shipping !== 'create'){
-        return(
-            <Button variant="contained" color="primary" >Przejdź dalej</Button>
-        );
-    } else {
-        return (<></>)
-    }
-}
+  if (props.account !== "create" && props.shipping !== "create") {
+    return (
+      <Button variant="contained" color="primary">
+        Przejdź dalej
+      </Button>
+    );
+  } else {
+    return <></>;
+  }
+};
 
 export const Order = () => {
   const post = useSelector((state) => state);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     dispatch(setUser());
@@ -51,7 +53,11 @@ export const Order = () => {
     <Container className="order">
       <Typography
         variant="h5"
-        style={{ display: "flex", justifyContent: "center", paddingTop:"10px" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "10px",
+        }}
       >
         Koszyk ({post.shop.cart.length} art.){" "}
       </Typography>
@@ -119,11 +125,14 @@ export const Order = () => {
         </Box>
         <Row className="shippingInfo">
           <AccountInfo account={post.shop.account} user={post.shop.user} />
-            <ShippingInfo shipping={post.shop.shipping} user={post.shop.user}/>
+          <ShippingInfo shipping={post.shop.shipping} user={post.shop.user} />
         </Row>
-          <Row style={{ alignSelf: "flex-end", paddingBottom: "3%"}} >
-              <AcceptButton account={post.shop.account} shipping={post.shop.shipping}/>
-          </Row>
+        <Row style={{ alignSelf: "flex-end", paddingBottom: "3%" }}>
+          <AcceptButton
+            account={post.shop.account}
+            shipping={post.shop.shipping}
+          />
+        </Row>
       </Row>
     </Container>
   );
