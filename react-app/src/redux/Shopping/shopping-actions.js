@@ -1,21 +1,20 @@
 import * as actionTypes from "./shopping-types";
-import Axios from "axios";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 export const setUser = () => {
   return async (dispatch) => {
-    const email = Cookies.get('providerKey')
+    const email = Cookies.get("providerKey");
     dispatch({
       type: actionTypes.SET_USER,
-      payload: email
-    })
-  }
-}
+      payload: email,
+    });
+  };
+};
 
 export const fetchProducts = () => {
   return async (dispatch, getState) => {
-    const res = await Axios.get(`http://localhost:9000/products`);
+    const res = await axios.get(`http://localhost:9000/products`);
     dispatch({
       type: actionTypes.LOAD_PRODUCTS,
       payload: res.data,
@@ -25,7 +24,7 @@ export const fetchProducts = () => {
 
 export const fetchWishlist = (providerKey) => {
   return async (dispatch, getState) => {
-    const res = await Axios.get(
+    const res = await axios.get(
       `http://localhost:9000/wishlist/user/${providerKey}`
     );
     dispatch({
@@ -37,7 +36,9 @@ export const fetchWishlist = (providerKey) => {
 
 export const fetchCart = (providerKey) => {
   return async (dispatch) => {
-    const res = await axios.get(`http://localhost:9000/cart/user/${providerKey}`);
+    const res = await axios.get(
+      `http://localhost:9000/cart/user/${providerKey}`
+    );
     dispatch({
       type: actionTypes.LOAD_CART,
       payload: res.data,
@@ -64,7 +65,7 @@ export const addToCart = (providerKey, product_id) => async (dispatch) => {
 
 export const deleteFromCart = (cart_id) => async (dispatch) => {
   try {
-    const res = await Axios.delete(`http://localhost:9000/cart/${cart_id}`);
+    const res = await axios.delete(`http://localhost:9000/cart/${cart_id}`);
     dispatch({
       type: actionTypes.REMOVE_FROM_CART,
       payload: cart_id,
@@ -77,7 +78,7 @@ export const deleteFromCart = (cart_id) => async (dispatch) => {
 export const quantityUp = (cart_state) => async (dispatch) => {
   try {
     const newQuantity = cart_state.quantity + 1;
-    const res = await Axios.put(
+    const res = await axios.put(
       `http://localhost:9000/cart/${cart_state.cart_id}`,
       {
         id: cart_state.cart_id,
@@ -101,7 +102,7 @@ export const quantityDown = (cart_state) => async (dispatch) => {
     if (cart_state.quantity > 0) {
       newQuantity = cart_state.quantity - 1;
     }
-    const res = await Axios.put(
+    const res = await axios.put(
       `http://localhost:9000/cart/${cart_state.cart_id}`,
       {
         id: cart_state.cart_id,
@@ -148,7 +149,7 @@ export const addToWishlist = (providerKey, product_id) => async (dispatch) => {
 
 export const deleteFromWishlist = (wishlist_id) => async (dispatch) => {
   try {
-    const res = await Axios.delete(
+    const res = await axios.delete(
       `http://localhost:9000/wishlist/${wishlist_id[0].id}`
     );
     dispatch({

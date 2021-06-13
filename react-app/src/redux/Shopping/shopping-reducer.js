@@ -1,8 +1,7 @@
 import * as actionTypes from "./shopping-types";
-import Cookies from "js-cookie";
 
 const INITIAL_STATE = {
-  user: '',
+  user: "",
   products: [],
   wishlist: [],
   wishlistProducts: [],
@@ -14,12 +13,12 @@ const INITIAL_STATE = {
 const shopReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case actionTypes.SET_USER:
-
       return {
         ...state,
         loading: false,
-        user: action.payload
+        user: action.payload,
       };
+
     case actionTypes.LOAD_PRODUCTS:
       return {
         ...state,
@@ -78,7 +77,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: state.cart,
         cartSum: sum,
       };
-
     case actionTypes.REMOVE_FROM_CART:
       let newCart = [];
 
@@ -104,7 +102,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: newCart,
         cartSum: newSum,
       };
-
     case actionTypes.CART_QUANTITY_UP:
       state.cart.map((product) =>
         product.cart_id === action.payload
@@ -128,7 +125,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cart: state.cart,
         cartSum: quantityUpSum,
       };
-
     case actionTypes.CART_QUANTITY_DOWN:
       state.cart.map((product) =>
         product.cart_id === action.payload
@@ -190,6 +186,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         wishlist: state.wishlist,
       };
+
     default:
       return state;
   }

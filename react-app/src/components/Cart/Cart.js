@@ -19,7 +19,7 @@ import {
   quantityDown,
   quantityUp,
 } from "../../redux/Shopping/shopping-actions";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import Box from "@material-ui/core/Box";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
@@ -69,7 +69,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export function CustomizedDialogs() {
+export function CartDialog() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const post = useSelector((state) => state);

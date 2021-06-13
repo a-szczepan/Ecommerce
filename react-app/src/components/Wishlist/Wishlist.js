@@ -78,7 +78,9 @@ function ImgMediaCard(props) {
         </Button>
         <Button>
           <ShoppingCartIcon
-            onClick={() => dispatch(addToCart(post.shop.user, props.product.id))}
+            onClick={() =>
+              dispatch(addToCart(post.shop.user, props.product.id))
+            }
           />
         </Button>
       </CardActions>
