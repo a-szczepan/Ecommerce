@@ -52,4 +52,8 @@ class AccountRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     account.filter(_.id === id).result.headOption
   }
 
+  def getByKey(providerKey: String): Future[Option[Account]] = db.run {
+    account.filter(_.providerKey === providerKey).result.headOption
+  }
+
 }

@@ -32,6 +32,14 @@ class AccountController @Inject()(accountRepository: AccountRepository,userRepos
     }
   }
 
+  def getAccountByUserKey(providerKey: String): Action[AnyContent] = Action async {
+    val account = accountRepository.getByKey(providerKey)
+    account.map {
+      case Some(res) => Ok(Json.toJson(res))
+      case None => NotFound("")
+    }
+  }
+
   def updateAccount(id: Int):  Action[JsValue] = Action.async(parse.json) { request =>
     request.body.validate[Account].map {
       account =>

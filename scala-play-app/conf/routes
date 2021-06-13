@@ -117,11 +117,12 @@ GET           /accounts/delete/:id                      controllers.AccountFormC
 GET           /accounts/byId/:accountId                 controllers.AccountFormController.getById(accountId: Int)
 
 #Account
-POST          /acconts                                  controllers.AccountController.createAccount
-GET           /acconts                                  controllers.AccountController.getAccounts
-GET           /acconts/:id                              controllers.AccountController.getAccount(id:Int)
-PUT           /acconts/:id                              controllers.AccountController.updateAccount(id:Int)
-DELETE        /acconts/:id                              controllers.AccountController.deleteAccount(id: Int)
+POST          /accounts                                  controllers.AccountController.createAccount
+GET           /accounts                                  controllers.AccountController.getAccounts
+GET           /accounts/:id                              controllers.AccountController.getAccount(id:Int)
+GET            /accounts/user/:providerKey             controllers.AccountController.getAccountByUserKey(providerKey: String)
+PUT           /accounts/:id                              controllers.AccountController.updateAccount(id:Int)
+DELETE        /accounts/:id                              controllers.AccountController.deleteAccount(id: Int)
 
 #ShippingFormController
 GET           /shipping/all                             controllers.ShippingFormController.allShippings
