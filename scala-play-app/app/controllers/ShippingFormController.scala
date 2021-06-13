@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Shipping, ShippingRepository}
+import models.{Shipping, ShippingRepository, User, UserRepository}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
@@ -10,16 +10,23 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 @Singleton
-class ShippingFormController @Inject()(shippingRepository: ShippingRepository,
+class ShippingFormController @Inject()(shippingRepository: ShippingRepository,userRepository: UserRepository,
                                        cc: MessagesControllerComponents)
                                       (implicit ec: ExecutionContext)
   extends MessagesAbstractController(cc) {
 
+  var userList: Seq[User] = Seq[User]()
+
+  userRepository.getAll().onComplete {
+    case Success(user) => userList = user
+    case Failure(e) => print("", e)
+  }
+
   val shippingForm: Form[CreateShippingForm] = Form {
     mapping(
+      "providerKey" -> nonEmptyText,
       "street_name" -> nonEmptyText,
-      "building_number" -> number,
-      "apartment_number" -> number,
+      "building_number" -> nonEmptyText,
       "postal_code" -> nonEmptyText,
       "city" -> nonEmptyText,
     )(CreateShippingForm.apply)(CreateShippingForm.unapply)
@@ -28,9 +35,9 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,
   val updateShippingForm: Form[UpdateShippingForm] = Form {
     mapping(
       "id" -> number,
+      "providerKey" -> nonEmptyText,
       "street_name" -> nonEmptyText,
-      "building_number" -> number,
-      "apartment_number" -> number,
+      "building_number" -> nonEmptyText,
       "postal_code" -> nonEmptyText,
       "city" -> nonEmptyText,
     )(UpdateShippingForm.apply)(UpdateShippingForm.unapply)
@@ -39,7 +46,7 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,
   def updateShipping(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val shipping = shippingRepository.getById(id)
     shipping.map(shipping => {
-      val shippingForm = updateShippingForm.fill(UpdateShippingForm(shipping.get.id, shipping.get.street_name, shipping.get.building_number, shipping.get.apartment_number, shipping.get.postal_code, shipping.get.city))
+      val shippingForm = updateShippingForm.fill(UpdateShippingForm(shipping.get.id,shipping.get.providerKey, shipping.get.street_name, shipping.get.building_number, shipping.get.postal_code, shipping.get.city))
       Ok(views.html.shipping.updateShipping(shippingForm))
     })
   }
@@ -52,7 +59,7 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,
         )
       },
       shipping => {
-        shippingRepository.update(shipping.id, Shipping(shipping.id, shipping.street_name, shipping.building_number, shipping.apartment_number, shipping.postal_code, shipping.city)).map { _ =>
+        shippingRepository.update(shipping.id, Shipping(shipping.id, shipping.providerKey, shipping.street_name, shipping.building_number, shipping.postal_code, shipping.city)).map { _ =>
           Redirect("/shipping")
         }
       }
@@ -89,7 +96,7 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,
         )
       },
       shipping => {
-        shippingRepository.create(shipping.street_name, shipping.building_number, shipping.apartment_number, shipping.postal_code, shipping.city).map { _ =>
+        shippingRepository.create(shipping.providerKey, shipping.street_name, shipping.building_number, shipping.postal_code, shipping.city).map { _ =>
           Redirect("/shipping/all")
         }
       }
@@ -97,6 +104,6 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,
   }
 }
 
-case class CreateShippingForm(street_name: String, building_number: Int, apartment_number: Int, postal_code: String, city: String)
+case class CreateShippingForm(providerKey: String, street_name: String, building_number: String, postal_code: String, city: String)
 
-case class UpdateShippingForm(id: Int = 0, street_name: String, building_number: Int, apartment_number: Int, postal_code: String, city: String)
+case class UpdateShippingForm(id: Int = 0, providerKey: String, street_name: String, building_number: String, postal_code: String, city: String)

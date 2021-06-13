@@ -24,7 +24,7 @@ CREATE TABLE "wishlist"
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "providerKey"    VARCHAR NOT NULL,
     "product_id" INTEGER NOT NULL,
-    UNIQUE (product_id)
+    UNIQUE (product_id, providerKey)
         FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
@@ -35,7 +35,7 @@ CREATE TABLE "cart"
     "providerKey"    VARCHAR NOT NULL,
     "product_id" INTEGER NOT NULL,
     "quantity"   INTEGER NOT NULL,
-    UNIQUE (product_id)
+    UNIQUE (product_id, providerKey)
         FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
@@ -43,11 +43,12 @@ CREATE TABLE "cart"
 CREATE TABLE "shipping"
 (
     "id"               INTEGER NOT NULL PRIMARY KEY UNIQUE,
+    "providerKey"    VARCHAR     NOT NULL,
     "street_name"      VARCHAR NOT NULL,
-    "building_number"  INT     NOT NULL,
-    "apartment_number" INT     NOT NULL,
+    "building_number"  VARCHAR     NOT NULL,
     "postal_code"      VARCHAR NOT NULL,
-    "city"             VARCHAR NOT NULL
+    "city"             VARCHAR NOT NULL,
+    FOREIGN KEY (providerKey) REFERENCES appuser (providerKey)
 );
 
 CREATE TABLE "product"
