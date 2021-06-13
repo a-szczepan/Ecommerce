@@ -12,29 +12,31 @@ CREATE TABLE "apporder"
 CREATE TABLE "account"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
+    "providerKey"    VARCHAR     NOT NULL,
     "first_name" VARCHAR NOT NULL,
-    "last_name"  VARCHAR NOT NULL
+    "last_name"  VARCHAR NOT NULL,
+    FOREIGN KEY (providerKey) REFERENCES appuser (providerKey)
 );
 
 
 CREATE TABLE "wishlist"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "user_id"    INTEGER NOT NULL,
+    "providerKey"    VARCHAR NOT NULL,
     "product_id" INTEGER NOT NULL,
     UNIQUE (product_id)
-        FOREIGN KEY (user_id) REFERENCES appuser (id),
+        FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
 CREATE TABLE "cart"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "user_id"    INTEGER NOT NULL,
+    "providerKey"    VARCHAR NOT NULL,
     "product_id" INTEGER NOT NULL,
     "quantity"   INTEGER NOT NULL,
     UNIQUE (product_id)
-    FOREIGN KEY (user_id) REFERENCES appuser (id),
+        FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
@@ -68,10 +70,10 @@ CREATE TABLE "category"
 CREATE TABLE "opinion"
 (
     "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "user_id"     INTEGER NOT NULL,
+    "providerKey"     VARCHAR NOT NULL,
     "product_id"  INTEGER NOT NULL,
     "opinion_txt" VARCHAR NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES appuser (id),
+    FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
     FOREIGN KEY (product_id) REFERENCES product (id)
 );
 
@@ -86,19 +88,44 @@ CREATE TABLE "payment"
 
 CREATE TABLE "appuser"
 (
-    "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "account_id" INTEGER NOT NULL,
-    "email"      VARCHAR NOT NULL,
-    "password"   VARCHAR NOT NULL,
-    FOREIGN KEY (account_id) REFERENCES account (id)
-
+    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "providerId"  VARCHAR NOT NULL,
+    "providerKey" VARCHAR NOT NULL,
+    "email"       VARCHAR NOT NULL
 );
+
+CREATE TABLE "authToken"
+(
+    "id"     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "userId" INT     NOT NULL,
+    FOREIGN KEY (userId) references user (id)
+);
+
+CREATE TABLE "passwordInfo"
+(
+    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "providerId"  VARCHAR NOT NULL,
+    "providerKey" VARCHAR NOT NULL,
+    "hasher"      VARCHAR NOT NULL,
+    "password"    VARCHAR NOT NULL,
+    "salt"        VARCHAR
+);
+
+CREATE TABLE "oAuth2Info"
+(
+    "id"          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "providerId"  VARCHAR NOT NULL,
+    "providerKey" VARCHAR NOT NULL,
+    "accessToken" VARCHAR NOT NULL,
+    "tokenType"   VARCHAR,
+    "expiresIn"   INTEGER
+);
+
 
 # --- !Downs
 
 DROP TABLE "payment";
 DROP TABLE "apporder";
-DROP TABLE "appuser";
 DROP TABLE "account";
 DROP TABLE "wishlist";
 DROP TABLE "cart";
@@ -106,5 +133,9 @@ DROP TABLE "shipping";
 DROP TABLE "product";
 DROP TABLE "category";
 DROP TABLE "opinion";
+DROP TABLE "appuser";
+DROP TABLE "authToken";
+DROP TABLE "passwordInfo";
+DROP TABLE "oAuth2Info";
 
 

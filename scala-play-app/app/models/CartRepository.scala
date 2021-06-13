@@ -16,9 +16,9 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
   class CartTable(tag: Tag) extends Table[Cart](tag, "cart") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def user_id = column[Int]("user_id")
+    def providerKey = column[String]("providerKey")
 
-    def user_fk = foreignKey("user_id", user_id, usr)(_.id)
+    def user_fk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
 
     def product_id = column[Int]("product_id")
 
@@ -26,7 +26,7 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
 
     def quantity = column[Int]("quantity")
 
-    def * = (id, user_id, product_id, quantity) <> ((Cart.apply _).tupled, Cart.unapply)
+    def * = (id, providerKey, product_id, quantity) <> ((Cart.apply _).tupled, Cart.unapply)
   }
 
   import userRepository.UserTable
@@ -36,11 +36,11 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
   val product = TableQuery[ProductTable]
   var cart = TableQuery[CartTable]
 
-  def create(user_id: Int, product_id: Int, quantity: Int): Future[Cart] = db.run {
-    (cart.map(c => (c.user_id, c.product_id, c.quantity))
+  def create(providerKey: String, product_id: Int, quantity: Int): Future[Cart] = db.run {
+    (cart.map(c => (c.providerKey, c.product_id, c.quantity))
       returning cart.map(_.id)
-      into { case ((user_id, product_id, quantity), id) => Cart(id, user_id, product_id, quantity) }
-      ) += (user_id, product_id, quantity)
+      into { case ((providerKey, product_id, quantity), id) => Cart(id, providerKey, product_id, quantity) }
+      ) += (providerKey, product_id, quantity)
   }
 
   def list(): Future[Seq[Cart]] = db.run {
@@ -58,8 +58,8 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
     cart.filter(_.id === id).result.headOption
   }
 
-  def getByUserId(user_id: Int): Future[Seq[Cart]] = db.run {
-    cart.filter(_.user_id === user_id).result
+  def getByUserKey(providerKey: String): Future[Seq[Cart]] = db.run {
+    cart.filter(_.providerKey === providerKey).result
   }
 
   def getByProductId(product_id: Int): Future[Seq[Cart]] = db.run {

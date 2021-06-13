@@ -1,5 +1,5 @@
 @import controllers.UpdateAccountForm
-@(account: Form[UpdateAccountForm])(implicit request: MessagesRequestHeader, flash: Flash)
+@(account: Form[UpdateAccountForm], users: Seq[User])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
@@ -8,6 +8,13 @@
 @form(controllers.routes.AccountFormController.updateAccountHandle()) {
     @helper.CSRF.formField
     <input name="id" id="id" value="@account("id").value" type="hidden" />
+
+    <select name="providerKey" id="user">
+    @for(entry <- users) {
+        <option value="@entry.id">@entry.id</option>
+    }
+    </select>
+
     @inputText(account("first_name"))
     @inputText(account("last_name"))
 

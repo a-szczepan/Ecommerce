@@ -16,15 +16,15 @@ class WishlistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val
   class WishlistTable(tag: Tag) extends Table[Wishlist](tag, "wishlist") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def user_id = column[Int]("user_id")
+    def providerKey = column[String]("providerKey")
 
-    def user_fk = foreignKey("user_id", user_id, usr)(_.id)
+    def user_fk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
 
     def product_id = column[Int]("product_id")
 
     def product_fk = foreignKey("product_id", product_id, product)(_.id)
 
-    def * = (id, user_id, product_id) <> ((Wishlist.apply _).tupled, Wishlist.unapply)
+    def * = (id, providerKey, product_id) <> ((Wishlist.apply _).tupled, Wishlist.unapply)
   }
 
   import productRepository.ProductTable
@@ -34,11 +34,11 @@ class WishlistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val
   val product = TableQuery[ProductTable]
   var wishlist = TableQuery[WishlistTable]
 
-  def create(user_id: Int, product_id: Int): Future[Wishlist] = db.run {
-    (wishlist.map(w => (w.user_id, w.product_id))
+  def create(providerKey: String, product_id: Int): Future[Wishlist] = db.run {
+    (wishlist.map(w => (w.providerKey, w.product_id))
       returning wishlist.map(_.id)
-      into { case ((user_id, product_id), id) => Wishlist(id, user_id, product_id) }
-      ) += (user_id, product_id)
+      into { case ((providerKey, product_id), id) => Wishlist(id, providerKey, product_id) }
+      ) += (providerKey, product_id)
   }
 
   def list(): Future[Seq[Wishlist]] = db.run {
@@ -56,8 +56,8 @@ class WishlistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val
     wishlist.filter(_.id === id).result.headOption
   }
 
-  def getByUser(user_id: Int): Future[Seq[Wishlist]] = db.run {
-    wishlist.filter(_.user_id === user_id).result
+  def getByUserKey(providerKey: String): Future[Seq[Wishlist]] = db.run {
+    wishlist.filter(_.providerKey === providerKey).result
   }
 
   def getByProduct(product_id: Int): Future[Seq[Wishlist]] = db.run {

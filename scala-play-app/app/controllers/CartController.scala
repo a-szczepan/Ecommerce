@@ -19,7 +19,7 @@ class CartController @Inject()(val cartRepository: CartRepository,
     implicit request =>
       request.body.validate[Cart].map {
         cart =>
-          cartRepository.create(cart.user_id,cart.product_id,cart.quantity).map { res =>
+          cartRepository.create(cart.providerKey,cart.product_id,cart.quantity).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))
@@ -39,14 +39,14 @@ class CartController @Inject()(val cartRepository: CartRepository,
     }
   }
 
-  def getCartsByUser(user_id: Int): Action[AnyContent] = Action.async {
-    val carts = cartRepository.getByUserId(user_id)
+  def getCartsByUserKey(providerKey: String): Action[AnyContent] = Action.async {
+    val carts = cartRepository.getByUserKey(providerKey)
     carts.map {
       carts => Ok(Json.toJson(carts))
     }
   }
 
-  def updateCart(): Action[JsValue] = Action.async(parse.json) { request =>
+  def updateCart(id: Int): Action[JsValue] = Action.async(parse.json) { request =>
     request.body.validate[Cart].map {
       cart =>
         cartRepository.update(cart.id, cart).map { res =>

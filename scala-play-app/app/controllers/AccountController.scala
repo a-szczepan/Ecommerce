@@ -2,16 +2,16 @@ package controllers
 import play.api.mvc._
 import javax.inject._
 import scala.concurrent.{ExecutionContext, Future}
-import models.{Account, AccountRepository}
+import models.{Account, AccountRepository, UserRepository}
 import play.api.libs.json.{JsValue, Json}
 
 @Singleton
-class AccountController @Inject()(accountRepository: AccountRepository,cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc){
+class AccountController @Inject()(accountRepository: AccountRepository,userRepository: UserRepository, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc){
 
   def createAccount: Action[JsValue] = Action.async(parse.json) { implicit request =>
     request.body.validate[Account].map {
       account =>
-        accountRepository.create(account.first_name, account.last_name).map { res =>
+        accountRepository.create(account.providerKey, account.first_name, account.last_name).map { res =>
           Ok(Json.toJson(res))
         }
     }.getOrElse(Future.successful(BadRequest("")))
@@ -19,8 +19,8 @@ class AccountController @Inject()(accountRepository: AccountRepository,cc: Contr
 
   def getAccounts: Action[AnyContent] = Action.async {
     val accounts = accountRepository.list()
-    accounts.map { categories =>
-      Ok(Json.toJson(categories))
+    accounts.map { accounts =>
+      Ok(Json.toJson(accounts))
     }
   }
 

@@ -19,14 +19,14 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
     case Failure(e) => print("", e)
   }
 
-  userRepository.list().onComplete {
+  userRepository.getAll().onComplete {
     case Success(user) => userList = user
     case Failure(e) => print("", e)
   }
 
   val cartForm: Form[CreateCartForm] = Form {
     mapping(
-      "user_id" -> number,
+      "providerKey" -> nonEmptyText,
       "product_id" -> number,
       "quantity" -> number,
     )(CreateCartForm.apply)(CreateCartForm.unapply)
@@ -35,7 +35,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   val updateCartForm: Form[UpdateCartForm] = Form {
     mapping(
       "id" -> number,
-      "user_id" -> number,
+      "providerKey" -> nonEmptyText,
       "product_id" -> number,
       "quantity" -> number,
     )(UpdateCartForm.apply)(UpdateCartForm.unapply)
@@ -46,7 +46,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   def updateCart(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val cart = cartRepository.getById(id)
     cart.map(cart => {
-      val cartForm = updateCartForm.fill(UpdateCartForm(cart.get.id, cart.get.user_id, cart.get.product_id, cart.get.quantity))
+      val cartForm = updateCartForm.fill(UpdateCartForm(cart.get.id, cart.get.providerKey, cart.get.product_id, cart.get.quantity))
       Ok(views.html.cart.updateCart(cartForm,userList,productList))
     })
   }
@@ -59,7 +59,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
         )
       },
       cart => {
-        cartRepository.update(cart.id, Cart(cart.id, cart.user_id, cart.product_id, cart.quantity)).map { _ =>
+        cartRepository.update(cart.id, Cart(cart.id, cart.providerKey, cart.product_id, cart.quantity)).map { _ =>
           Redirect("/carts/all")
         }
       }
@@ -84,7 +84,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   }
 
   def createCart() = Action { implicit request =>
-    val user = Await.result(userRepository.list(), Duration.Inf)
+    val user = Await.result(userRepository.getAll(), Duration.Inf)
     val product = Await.result(productRepository.list(), Duration.Inf)
     Ok(views.html.cart.createCart(cartForm,user, product))
   }
@@ -97,7 +97,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
         )
       },
       cart => {
-        cartRepository.create(cart.user_id, cart.product_id, cart.quantity).map { _ =>
+        cartRepository.create(cart.providerKey, cart.product_id, cart.quantity).map { _ =>
           Redirect("/carts/all")
         }
       }
@@ -105,5 +105,5 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   }
 
 }
-case class CreateCartForm(user_id: Int, product_id: Int, quantity: Int)
-case class UpdateCartForm(id: Int = 0, user_id: Int, product_id: Int, quantity: Int)
+case class CreateCartForm(providerKey: String, product_id: Int, quantity: Int)
+case class UpdateCartForm(id: Int = 0, providerKey: String, product_id: Int, quantity: Int)
