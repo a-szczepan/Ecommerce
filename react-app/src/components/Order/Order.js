@@ -8,14 +8,15 @@ import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {
-  deleteFromCart,
-  fetchCart,
-  fetchProducts,
-  getAccountInfo,
-  getShippingInfo,
-  quantityDown,
-  quantityUp,
-  setUser,
+    createOrder, createPayment,
+    deleteFromCart,
+    fetchCart,
+    fetchProducts,
+    getAccountInfo,
+    getShippingInfo,
+    quantityDown,
+    quantityUp,
+    setUser,
 } from "../../redux/Shopping/shopping-actions";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
@@ -24,16 +25,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "@material-ui/core";
 import { AccountInfo } from "./AccountInfo";
 import { ShippingInfo } from "./ShippingInfo";
+import { useHistory } from "react-router-dom";
 
 const AcceptButton = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const post = useSelector((state) => state);
+
+  const redirect = () => {
+      dispatch(createPayment(post.shop.cartId, post.shop.cartSum))
+      history.push("/")
+    }
   if (props.account !== "create" && props.shipping !== "create") {
-    return (
-      <Button variant="contained" color="primary">
-        Przejdź dalej
-      </Button>
-    );
+      return (<Button
+          onClick={() => {
+              dispatch(createOrder(props.cart, props.shipping.id));
+              redirect();
+
+
+          }}
+          variant="contained"
+          color="primary"
+      >
+          Potwierdź
+
+      </Button>);
+
   } else {
-    return <></>;
+      return (
+          <></>
+      );
   }
 };
 
@@ -129,8 +150,10 @@ export const Order = () => {
         </Row>
         <Row style={{ alignSelf: "flex-end", paddingBottom: "3%" }}>
           <AcceptButton
-            account={post.shop.account}
+              account={post.shop.account}
             shipping={post.shop.shipping}
+            cart={post.shop.cart[0].cart_id}
+              amount={post.shop.cartSum}
           />
         </Row>
       </Row>

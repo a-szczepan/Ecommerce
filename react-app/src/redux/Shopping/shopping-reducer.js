@@ -9,6 +9,9 @@ const INITIAL_STATE = {
   wishlistProducts: [],
   cart: [],
   cartSum: 0,
+  cartId: 0,
+  orders: [],
+  payments: [],
   loading: false,
 };
 
@@ -229,6 +232,23 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         wishlist: state.wishlist,
       };
 
+    case actionTypes.CREATE_ORDER:
+      state.orders.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        orders: state.orders,
+        cartSum: state.cartSum,
+        cartId: action.payload.id
+      };
+
+    case actionTypes.CREATE_PAYMENT:
+      state.payments.push(action.payload)
+      return {
+        ...state,
+        loading: false,
+        payments: state.payments
+      }
     default:
       return state;
   }

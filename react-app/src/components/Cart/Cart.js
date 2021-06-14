@@ -14,13 +14,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteFromCart,
-  fetchCart,
+  deleteFromCart, fetchCart,
   fetchProducts,
   getAccountInfo,
   quantityDown,
   quantityUp,
-  setUser,
 } from "../../redux/Shopping/shopping-actions";
 import { Row } from "react-bootstrap";
 import Box from "@material-ui/core/Box";
@@ -98,6 +96,7 @@ export function CartDialog() {
 
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCart(post.shop.user))
   }, []);
 
   const handleClickOpen = () => {

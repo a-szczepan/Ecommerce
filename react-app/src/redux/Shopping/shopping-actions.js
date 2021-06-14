@@ -40,7 +40,6 @@ export const createAccountInfo =
         first_name: first_name,
         last_name: last_name,
       });
-      console.log(res);
       dispatch({
         type: actionTypes.CREATE_ACCOUNT_INFO,
         payload: res.data,
@@ -93,7 +92,6 @@ export const createShippingInfo =
         postal_code: postal_code,
         city: city,
       });
-      console.log(res);
       dispatch({
         type: actionTypes.CREATE_SHIPMENT_INFO,
         payload: res.data,
@@ -163,6 +161,7 @@ export const addToCart = (providerKey, product_id) => async (dispatch) => {
       product_id: product_id,
       quantity: 1,
     });
+    console.log(res)
     dispatch({
       type: actionTypes.ADD_TO_CART,
       payload: res.data,
@@ -269,3 +268,39 @@ export const deleteFromWishlist = (wishlist_id) => async (dispatch) => {
     console.log(err);
   }
 };
+
+export const createOrder = (cart_id, shipping_id ) => async (dispatch) => {
+  try {
+    const res = await axios.post(`http://localhost:9000/orders`, {
+      id: 0,
+      cart_id: cart_id,
+      shipping_id: shipping_id,
+    });
+
+    dispatch({
+      type: actionTypes.CREATE_ORDER,
+      payload: res.data,
+    });
+  } catch (err) {}
+};
+
+export const createPayment = ( order_id, amount ) => async (dispatch) => {
+  console.log(amount)
+  try{
+    const date= new Date().toLocaleString()
+
+    const res = await axios.post(`http://localhost:9000/payments`, {
+      id: 0,
+      order_id: order_id,
+      date: date,
+      amount: amount
+    })
+    console.log(res)
+    dispatch({
+      type: actionTypes.CREATE_PAYMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+
+  }
+}

@@ -81,7 +81,6 @@ function ImgMediaCard(props) {
             dispatch(addToCart(post.shop.user, props.product.id));
           }}
         >
-          {" "}
           Do koszyka
         </Button>
       </CardActions>
