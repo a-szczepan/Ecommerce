@@ -5,8 +5,8 @@ import axios from "axios";
 import Box from "@material-ui/core/Box";
 
 export const Opinion = () => {
-  const opinion_id = 1;
-  const url = `http://localhost:9000/opinions/${opinion_id}`;
+  const opinionId = 1;
+  const url = `http://localhost:9000/opinions/${opinionId}`;
   const [opinion, setOpinion] = useState(null);
   let content = null;
   useEffect(() => {
@@ -19,7 +19,7 @@ export const Opinion = () => {
   if (opinion) {
     content = (
       <Row>
-        <Box fontSize={12}>{opinion.opinion_txt}</Box>
+        <Box fontSize={12}>{opinion.opinionTxt}</Box>
       </Row>
     );
   }

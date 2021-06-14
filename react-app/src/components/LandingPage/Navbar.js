@@ -81,7 +81,7 @@ function AccountButton() {
           <Button
             onClick={() => {
               history.push("/orders");
-              dispatch(fetchOrders(post.shop.cart[0].cart_id));
+              dispatch(fetchOrders(post.shop.cart[0].cartId));
             }}
           >
             Zamówienia

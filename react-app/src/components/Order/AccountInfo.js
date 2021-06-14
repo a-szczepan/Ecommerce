@@ -113,13 +113,13 @@ export const AccountInfo = (props) => {
           <Box fontSize={16} fontWeight={600} style={{ paddingTop: "1%" }}>
             Imię:
           </Box>
-          {props.account.first_name}
+          {props.account.firstName}
         </Row>
         <Row>
           <Box fontSize={16} fontWeight={600} style={{ paddingTop: "1%" }}>
             Nazwisko:
           </Box>
-          {props.account.last_name}
+          {props.account.lastName}
         </Row>
         <Row style={{ display: "flex", padding: "1% 0 0 240px" }}>
           <Button onClick={() => dispatch(deleteAccountInfo(props.account.id))}>

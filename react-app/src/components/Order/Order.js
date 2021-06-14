@@ -128,7 +128,7 @@ export const Order = () => {
                     currency: "PLN",
                   }).format(x.price * x.quantity)}
                 </Typography>
-                <Button onClick={() => dispatch(deleteFromCart(x.cart_id))}>
+                <Button onClick={() => dispatch(deleteFromCart(x.cartId))}>
                   {" "}
                   <DeleteIcon />{" "}
                 </Button>
@@ -150,7 +150,7 @@ export const Order = () => {
           <AcceptButton
             account={post.shop.account}
             shipping={post.shop.shipping}
-            cart={post.shop.cart[0].cart_id}
+            cart={post.shop.cart[0].cartId}
             amount={post.shop.cartSum}
           />
         </Row>

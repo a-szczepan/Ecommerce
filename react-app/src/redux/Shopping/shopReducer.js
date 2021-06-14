@@ -24,10 +24,10 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       const allProducts = state.products;
       allProducts.forEach((product) => {
         action.payload.forEach((cart_item) => {
-          if (product.id === cart_item.product_id) {
+          if (product.id === cart_item.productId) {
             let loadCartNew = {...product,
               quantity: cart_item.quantity,
-              cart_id: cart_item.id,
+              cartId: cart_item.id,
               providerKey: cart_item.providerKey,
             };
             cart.push(loadCartNew);
@@ -51,13 +51,13 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
     case actionTypes.ADD_TO_CART:
       let filteredProd = state.products.filter(
-        (product) => product.id === action.payload.product_id
+        (product) => product.id === action.payload.productId
       );
       filteredProd = filteredProd[0];
       let addToCartProd= {
         ...filteredProd,
         quantity: action.payload.quantity,
-        cart_id: action.payload.id,
+        cartId: action.payload.id,
         providerKey: action.payload.providerKey,
       }
       state.cart.push(addToCartProd);
@@ -93,7 +93,7 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
     case actionTypes.CART_QUANTITY_UP:
       state.cart.forEach((product) =>
-        product.cart_id === action.payload
+        product.cartId === action.payload
             ? product.quantity++
             : product.quantity
       );
@@ -114,7 +114,7 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.forEach((product) => product.cart_id === action.payload ? product.quantity > 0 ? (product.quantity--) : product.quantity : product.quantity);
+      state.cart.forEach((product) => product.cartId === action.payload ? product.quantity > 0 ? (product.quantity--) : product.quantity : product.quantity);
       let quantityDownSum = 0;
       state.cart.forEach(
         (product) =>
@@ -251,7 +251,7 @@ const rmvFromWishlist = (state, action) => {
 const removeFromCart = (state, action) => {
   if (state.cart.length > 0) {
     return state.cart.filter(
-        (product) => product.cart_id !== action.payload
+        (product) => product.cartId !== action.payload
     );
   } else {
     return [];
