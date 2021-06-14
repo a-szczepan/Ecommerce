@@ -1,162 +1,163 @@
 # Routes
 
 # Authentication
-GET           /authenticate/:provider                   controllers.SocialAuthController.authenticate(provider: String)
+GET           /authenticate/:provider                                           controllers.SocialAuthController.authenticate(provider: String)
 
 #User
-GET           /users/:key                               controllers.UserController.getUserByKey(key: String)
+GET           /users/:key                                                       controllers.UserController.getUserByKey(key: String)
 
 #CategoryFormController
-GET           /categories/all                           controllers.CategoryFormController.allCategories
-GET           /categories/create                        controllers.CategoryFormController.createCategory()
-POST          /categories/createHandle                  controllers.CategoryFormController.createCategoryHandle()
-GET           /categories/update/:id                    controllers.CategoryFormController.updateCategory(id: Int)
-POST          /categories/updateHandle                  controllers.CategoryFormController.updateCategoryHandle
-GET           /categories/delete/:id                    controllers.CategoryFormController.deleteCategory(id: Int)
-GET           /categories/byId/:categoryId              controllers.CategoryFormController.getById(categoryId: Int)
+GET           /categories/all                                                   controllers.CategoryFormController.allCategories
+GET           /categories/create                                                controllers.CategoryFormController.createCategory()
+POST          /categories/createHandle                                          controllers.CategoryFormController.createCategoryHandle()
+GET           /categories/update/:id                                            controllers.CategoryFormController.updateCategory(id: Int)
+POST          /categories/updateHandle                                          controllers.CategoryFormController.updateCategoryHandle
+GET           /categories/delete/:id                                            controllers.CategoryFormController.deleteCategory(id: Int)
+GET           /categories/byId/:categoryId                                      controllers.CategoryFormController.getById(categoryId: Int)
 
 #CategoryController
-POST          /categories                               controllers.CategoryController.createCategory
-GET           /categories                               controllers.CategoryController.getCategories
-GET           /categories/:id                           controllers.CategoryController.getCategory(id: Int)
-PUT           /categories/:id                           controllers.CategoryController.updateCategory(id: Int)
-DELETE        /categories/:id                           controllers.CategoryController.deleteCategory(id: Int)
+POST          /categories                                                       controllers.CategoryController.createCategory
+GET           /categories                                                       controllers.CategoryController.getCategories
+GET           /categories/:id                                                   controllers.CategoryController.getCategory(id: Int)
+PUT           /categories/:id                                                   controllers.CategoryController.updateCategory(id: Int)
+DELETE        /categories/:id                                                   controllers.CategoryController.deleteCategory(id: Int)
 
 
 #ProductFormController
-GET           /products/all                             controllers.ProductFormController.allProducts
-GET           /products/create                          controllers.ProductFormController.createProduct()
-POST          /products/createHandle                    controllers.ProductFormController.createProductHandle()
-GET           /products/update/:id                      controllers.ProductFormController.updateProduct(id: Int)
-POST          /products/updateHandle                    controllers.ProductFormController.updateProductHandle()
-GET           /products/delete/:id                      controllers.ProductFormController.deleteProduct(id: Int)
-GET           /products/byId/:productId                 controllers.ProductFormController.getById(productId: Int)
+GET           /products/all                                                     controllers.ProductFormController.allProducts
+GET           /products/create                                                  controllers.ProductFormController.createProduct()
+POST          /products/createHandle                                            controllers.ProductFormController.createProductHandle()
+GET           /products/update/:id                                              controllers.ProductFormController.updateProduct(id: Int)
+POST          /products/updateHandle                                            controllers.ProductFormController.updateProductHandle()
+GET           /products/delete/:id                                              controllers.ProductFormController.deleteProduct(id: Int)
+GET           /products/byId/:productId                                         controllers.ProductFormController.getById(productId: Int)
 
 #ProductController
-POST          /products                                 controllers.ProductController.createProduct
-GET           /products                                 controllers.ProductController.getProducts
-GET           /products/:id                             controllers.ProductController.getProduct(id:Int)
-GET           /products/category/:category_id           controllers.ProductController.getProductsByCategory(category_id:Int)
-PUT           /products                                 controllers.ProductController.updateProduct
-DELETE        /products/:id                             controllers.ProductController.deleteProduct(id: Int)
+POST          /products                                                         controllers.ProductController.createProduct
+GET           /products                                                         controllers.ProductController.getProducts
+GET           /products/:id                                                     controllers.ProductController.getProduct(id:Int)
+GET           /products/category/:category_id                                   controllers.ProductController.getProductsByCategory(category_id:Int)
+PUT           /products                                                         controllers.ProductController.updateProduct
+DELETE        /products/:id                                                     controllers.ProductController.deleteProduct(id: Int)
 
 #CartFormController
-GET           /carts/all                                controllers.CartFormController.allCarts
-GET           /carts/create                             controllers.CartFormController.createCart()
-POST          /carts/createHandle                       controllers.CartFormController.createCartHandle()
-GET           /carts/update/:id                         controllers.CartFormController.updateCart(id: Int)
-POST          /carts/updateHandle                       controllers.CartFormController.updateCartHandle()
-GET           /carts/delete/:id                         controllers.CartFormController.deleteCart(id: Int)
-GET           /carts/byId/:cartId                       controllers.CartFormController.getById(cartId: Int)
+GET           /carts/all                                                        controllers.CartFormController.allCarts
+GET           /carts/create                                                     controllers.CartFormController.createCart()
+POST          /carts/createHandle                                               controllers.CartFormController.createCartHandle()
+GET           /carts/update/:id                                                 controllers.CartFormController.updateCart(id: Int)
+POST          /carts/updateHandle                                               controllers.CartFormController.updateCartHandle()
+GET           /carts/delete/:id                                                 controllers.CartFormController.deleteCart(id: Int)
+GET           /carts/byId/:cartId                                               controllers.CartFormController.getById(cartId: Int)
 
 #CartController
-POST          /cart                                     controllers.CartController.createCart
-GET           /cart                                     controllers.CartController.getCarts
-GET           /cart/product/:product_id                 controllers.CartController.getCartsByProduct(product_id: Int)
-GET           /cart/user/:providerKey                   controllers.CartController.getCartsByUserKey(providerKey: String)
-PUT           /cart/:id                                 controllers.CartController.updateCart(id: Int)
-DELETE        /cart/:id                                 controllers.CartController.deleteCart(id: Int)
+POST          /cart                                                             controllers.CartController.createCart
+GET           /cart                                                             controllers.CartController.getCarts
+GET           /cart/product/:product_id                                         controllers.CartController.getCartsByProduct(product_id: Int)
+GET           /cart/user/:providerKey                                           controllers.CartController.getCartsByUserKey(providerKey: String)
+PUT           /cart/:id                                                         controllers.CartController.updateCart(id: Int)
+DELETE        /cart/:id                                                         controllers.CartController.deleteCart(id: Int)
 
 #OrderFormController
-GET           /orders/all                               controllers.OrderFormController.allOrders
-GET           /orders/create                            controllers.OrderFormController.createOrder()
-POST          /orders/createHandle                      controllers.OrderFormController.createOrderHandle()
-GET           /orders/update/:id                        controllers.OrderFormController.updateOrder(id: Int)
-POST          /orders/updateHandle                      controllers.OrderFormController.updateOrderHandle()
-GET           /orders/delete/:id                        controllers.OrderFormController.deleteOrder(id: Int)
-GET           /orders/byId/:orderId                     controllers.OrderFormController.getById(orderId: Int)
+GET           /orders/all                                                       controllers.OrderFormController.allOrders
+GET           /orders/create                                                    controllers.OrderFormController.createOrder()
+POST          /orders/createHandle                                              controllers.OrderFormController.createOrderHandle()
+GET           /orders/update/:id                                                controllers.OrderFormController.updateOrder(id: Int)
+POST          /orders/updateHandle                                              controllers.OrderFormController.updateOrderHandle()
+GET           /orders/delete/:id                                                controllers.OrderFormController.deleteOrder(id: Int)
+GET           /orders/byId/:orderId                                             controllers.OrderFormController.getById(orderId: Int)
 
 #OrderController
-POST          /orders                                   controllers.OrderController.createOrder
-GET           /orders                                   controllers.OrderController.getOrders
-GET           /orders/:id                               controllers.OrderController.getOrder(id: Int)
-GET           /orders/cart/:cart_id                     controllers.OrderController.getOrdersByCart(cart_id: Int)
-GET           /orders/shipping/:shipping_id             controllers.OrderController.getOrdersByShipping(shipping_id: Int)
-PUT           /orders/:id                               controllers.OrderController.updateOrder(id: Int)
-DELETE        /orders/:id                               controllers.OrderController.deleteOrder(id: Int)
+POST          /orders                                                           controllers.OrderController.createOrder
+GET           /orders                                                           controllers.OrderController.getOrders
+GET           /orders/:id                                                       controllers.OrderController.getOrder(id: Int)
+GET           /orders/cart/:cart_id                                             controllers.OrderController.getOrdersByCart(cart_id: Int)
+GET           /orders/shipping/:shipping_id                                     controllers.OrderController.getOrdersByShipping(shipping_id: Int)
+PUT           /orders/:id                                                       controllers.OrderController.updateOrder(id: Int)
+DELETE        /orders/:id                                                       controllers.OrderController.deleteOrder(id: Int)
 
 #WishlistFormController
-GET           /wishlist/all                             controllers.WishlistFormController.allWishlists
-GET           /wishlist/create                          controllers.WishlistFormController.createWishlist()
-POST          /wishlist/createHandle                    controllers.WishlistFormController.createWishlistHandle()
-GET           /wishlist/update/:id                      controllers.WishlistFormController.updateWishlist(id: Int)
-POST          /wishlist/updateHandle                    controllers.WishlistFormController.updateWishlistHandle()
-GET           /wishlist/delete/:id                      controllers.WishlistFormController.deleteWishlist(id: Int)
-GET           /wishlist/byId/:wishlistId                controllers.WishlistFormController.getById(wishlistId: Int)
+GET           /wishlist/all                                                     controllers.WishlistFormController.allWishlists
+GET           /wishlist/create                                                  controllers.WishlistFormController.createWishlist()
+POST          /wishlist/createHandle                                            controllers.WishlistFormController.createWishlistHandle()
+GET           /wishlist/update/:id                                              controllers.WishlistFormController.updateWishlist(id: Int)
+POST          /wishlist/updateHandle                                            controllers.WishlistFormController.updateWishlistHandle()
+GET           /wishlist/delete/:id                                              controllers.WishlistFormController.deleteWishlist(id: Int)
+GET           /wishlist/byId/:wishlistId                                        controllers.WishlistFormController.getById(wishlistId: Int)
 
 #WishListController
-POST          /wishlist/create-new                      controllers.WishlistController.createWishlist
-GET           /wishlist/:id                             controllers.WishlistController.getWishlist(id: Int)
-GET           /wishlist/user/:providerKey                   controllers.WishlistController.getWishlistByUserKey(providerKey: String)
-GET           /wishlist/product/:product_id             controllers.WishlistController.getWishlistByProduct(product_id: Int)
-PUT           /wishlist/:id                             controllers.WishlistController.updateWishlist(id:Int)
-DELETE        /wishlist/:id                             controllers.WishlistController.deleteWishlist(id: Int)
+POST          /wishlist/create-new                                              controllers.WishlistController.createWishlist
+GET           /wishlist/:id                                                     controllers.WishlistController.getWishlist(id: Int)
+GET           /wishlist/user/:providerKey                                       controllers.WishlistController.getWishlistByUserKey(providerKey: String)
+GET           /wishlist/product/:product_id                                     controllers.WishlistController.getWishlistByProduct(product_id: Int)
+PUT           /wishlist/:id                                                     controllers.WishlistController.updateWishlist(id:Int)
+DELETE        /wishlist/:id                                                     controllers.WishlistController.deleteWishlist(id: Int)
 
 #PaymentFormController
-GET           /payments/all                             controllers.PaymentFormController.allPayments
-GET           /payments/create                          controllers.PaymentFormController.createPayment()
-POST          /payments/createHandle                    controllers.PaymentFormController.createPaymentHandle()
-GET           /payments/delete/:id                      controllers.PaymentFormController.deletePayment(id: Int)
-GET           /payments/byId/:paymentId                 controllers.PaymentFormController.getById(paymentId: Int)
+GET           /payments/all                                                     controllers.PaymentFormController.allPayments
+GET           /payments/create                                                  controllers.PaymentFormController.createPayment()
+POST          /payments/createHandle                                            controllers.PaymentFormController.createPaymentHandle()
+GET           /payments/delete/:id                                              controllers.PaymentFormController.deletePayment(id: Int)
+GET           /payments/byId/:paymentId                                         controllers.PaymentFormController.getById(paymentId: Int)
 
 #Payment
-POST          /payments                                 controllers.PaymentController.createPayment
-GET           /payments                                 controllers.PaymentController.getPayments
-GET           /payments/:id                             controllers.PaymentController.getPayment(id:Int)
-GET           /payments/order/:order_id                 controllers.PaymentController.getPaymentByOrder(order_id: Int)
-DELETE        /payments/:id                             controllers.PaymentController.deletePayment(id:Int)
+POST          /payments                                                         controllers.PaymentController.createPayment
+GET           /payments                                                         controllers.PaymentController.getPayments
+GET           /payments/:id                                                     controllers.PaymentController.getPayment(id:Int)
+GET           /payments/order/:order_id                                         controllers.PaymentController.getPaymentByOrder(order_id: Int)
+DELETE        /payments/:id                                                     controllers.PaymentController.deletePayment(id:Int)
 
 #AccountFormController
 
-GET           /accounts/all                             controllers.AccountFormController.allAccounts
-GET           /accounts/create                          controllers.AccountFormController.createAccount()
-POST          /accounts/createHandle                    controllers.AccountFormController.createAccountHandle()
-GET           /accounts/update/:id                      controllers.AccountFormController.updateAccount(id: Int)
-POST          /accounts/updateHandle                    controllers.AccountFormController.updateAccountHandle()
-GET           /accounts/delete/:id                      controllers.AccountFormController.deleteAccount(id: Int)
-GET           /accounts/byId/:accountId                 controllers.AccountFormController.getById(accountId: Int)
+GET           /accounts/all                                                     controllers.AccountFormController.allAccounts
+GET           /accounts/create                                                  controllers.AccountFormController.createAccount()
+POST          /accounts/createHandle                                            controllers.AccountFormController.createAccountHandle()
+GET           /accounts/update/:id                                              controllers.AccountFormController.updateAccount(id: Int)
+POST          /accounts/updateHandle                                            controllers.AccountFormController.updateAccountHandle()
+GET           /accounts/delete/:id                                              controllers.AccountFormController.deleteAccount(id: Int)
+GET           /accounts/byId/:accountId                                         controllers.AccountFormController.getById(accountId: Int)
 
 #Account
-POST          /accounts                                  controllers.AccountController.createAccount
-GET           /accounts                                  controllers.AccountController.getAccounts
-GET           /accounts/:id                              controllers.AccountController.getAccount(id:Int)
-GET            /accounts/user/:providerKey             controllers.AccountController.getAccountByUserKey(providerKey: String)
-PUT           /accounts/:id                              controllers.AccountController.updateAccount(id:Int)
-DELETE        /accounts/:id                              controllers.AccountController.deleteAccount(id: Int)
+POST          /accounts                                                         controllers.AccountController.createAccount
+GET           /accounts                                                         controllers.AccountController.getAccounts
+GET           /accounts/:id                                                     controllers.AccountController.getAccount(id:Int)
+GET           /accounts/user/:providerKey                                       controllers.AccountController.getAccountByUserKey(providerKey: String)
+PUT           /accounts/:id                                                     controllers.AccountController.updateAccount(id:Int)
+DELETE        /accounts/:id                                                     controllers.AccountController.deleteAccount(id: Int)
 
 #ShippingFormController
-GET           /shipping/all                             controllers.ShippingFormController.allShippings
-GET           /shipping/create                          controllers.ShippingFormController.createShipping()
-POST          /shipping/createHandle                    controllers.ShippingFormController.createShippingHandle()
-GET           /shipping/update/:id                      controllers.ShippingFormController.updateShipping(id: Int)
-POST          /shipping/updateHandle                    controllers.ShippingFormController.updateShippingHandle()
-GET           /shipping/delete/:id                      controllers.ShippingFormController.deleteShipping(id: Int)
-GET           /accoushippingnts/byId/:shippingId        controllers.ShippingFormController.getById(shippingId: Int)
+GET           /shipping/all                                                     controllers.ShippingFormController.allShippings
+GET           /shipping/create                                                  controllers.ShippingFormController.createShipping()
+POST          /shipping/createHandle                                            controllers.ShippingFormController.createShippingHandle()
+GET           /shipping/update/:id                                              controllers.ShippingFormController.updateShipping(id: Int)
+POST          /shipping/updateHandle                                            controllers.ShippingFormController.updateShippingHandle()
+GET           /shipping/delete/:id                                              controllers.ShippingFormController.deleteShipping(id: Int)
+GET           /accoushippingnts/byId/:shippingId                                controllers.ShippingFormController.getById(shippingId: Int)
 
 #ShippingController
-POST          /shipping                                 controllers.ShippingController.createShipping
-GET           /shipping                                 controllers.ShippingController.getShippings
-GET           /shipping/:id                             controllers.ShippingController.getShipping(id: Int)
-PUT           /shipping/:id                             controllers.ShippingController.updateShipping(id: Int)
-DELETE        /shipping/:id                             controllers.ShippingController.deleteShipping(id: Int)
+POST          /shipping                                                         controllers.ShippingController.createShipping
+GET           /shipping                                                         controllers.ShippingController.getShippings
+GET           /shipping/:id                                                     controllers.ShippingController.getShipping(id: Int)
+GET           /shipping/user/:providerKey                                       controllers.ShippingController.getShippingByUserKey(providerKey: String)
+PUT           /shipping/:id                                                     controllers.ShippingController.updateShipping(id: Int)
+DELETE        /shipping/:id                                                     controllers.ShippingController.deleteShipping(id: Int)
 
 #OpinionFormController
-GET           /opinions/all                             controllers.OpinionFormController.allOpinions
-GET           /opinions/create                          controllers.OpinionFormController.createOpinion()
-POST          /opinions/createHandle                    controllers.OpinionFormController.createOpinionHandle()
-GET           /opinions/update/:id                      controllers.OpinionFormController.updateOpinion(id: Int)
-POST          /opinions/updateHandle                    controllers.OpinionFormController.updateOpinionHandle()
-GET           /opinions/delete/:id                      controllers.OpinionFormController.deleteOpinion(id: Int)
-GET           /opinions/byId/:opinionId                 controllers.OpinionFormController.getById(opinionId: Int)
+GET           /opinions/all                                                     controllers.OpinionFormController.allOpinions
+GET           /opinions/create                                                  controllers.OpinionFormController.createOpinion()
+POST          /opinions/createHandle                                            controllers.OpinionFormController.createOpinionHandle()
+GET           /opinions/update/:id                                              controllers.OpinionFormController.updateOpinion(id: Int)
+POST          /opinions/updateHandle                                            controllers.OpinionFormController.updateOpinionHandle()
+GET           /opinions/delete/:id                                              controllers.OpinionFormController.deleteOpinion(id: Int)
+GET           /opinions/byId/:opinionId                                         controllers.OpinionFormController.getById(opinionId: Int)
 
 #OpinionController
-POST          /opinions                                 controllers.OpinionController.createOpinion
-GET           /opinions                                 controllers.OpinionController.getOpinions
-GET           /opinions/:id                             controllers.OpinionController.getOpinion(id:Int)
-GET           /opinions/user/:providerKey                   controllers.OpinionController.getOpinionByUserKey(providerKey:String)
-GET           /opinions/product/:product_id             controllers.OpinionController.getOpinionByProduct(product_id:Int)
-PUT           /opinions/:id                             controllers.OpinionController.updateOpinion(id:Int)
-DELETE        /opinions/:id                             controllers.OpinionController.deleteOpinion(id: Int)
+POST          /opinions                                                         controllers.OpinionController.createOpinion
+GET           /opinions                                                         controllers.OpinionController.getOpinions
+GET           /opinions/:id                                                     controllers.OpinionController.getOpinion(id:Int)
+GET           /opinions/user/:providerKey                                       controllers.OpinionController.getOpinionByUserKey(providerKey:String)
+GET           /opinions/product/:product_id                                     controllers.OpinionController.getOpinionByProduct(product_id:Int)
+PUT           /opinions/:id                                                     controllers.OpinionController.updateOpinion(id:Int)
+DELETE        /opinions/:id                                                     controllers.OpinionController.deleteOpinion(id: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 

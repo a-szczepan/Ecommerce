@@ -4,11 +4,11 @@ import play.api.mvc._
 
 import javax.inject._
 import scala.concurrent.{ExecutionContext, Future}
-import models.{Shipping, ShippingRepository}
+import models.{Shipping, ShippingRepository, UserRepository}
 import play.api.libs.json.{JsValue, Json}
 
 @Singleton
-class ShippingController @Inject()(shippingRepository: ShippingRepository,
+class ShippingController @Inject()(shippingRepository: ShippingRepository, val userRepository: UserRepository,
                                    cc: ControllerComponents)
                                   (implicit ec: ExecutionContext)
   extends AbstractController(cc){
@@ -16,7 +16,7 @@ class ShippingController @Inject()(shippingRepository: ShippingRepository,
   def createShipping(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     request.body.validate[Shipping].map {
       shipping =>
-        shippingRepository.create(shipping.street_name, shipping.building_number, shipping.apartment_number, shipping.postal_code, shipping.city).map { res =>
+        shippingRepository.create(shipping.providerKey, shipping.street_name, shipping.building_number, shipping.postal_code, shipping.city).map { res =>
           Ok(Json.toJson(res))
         }
     }.getOrElse(Future.successful(BadRequest("")))
@@ -31,6 +31,14 @@ class ShippingController @Inject()(shippingRepository: ShippingRepository,
 
   def getShipping(id: Int): Action[AnyContent] = Action async {
     val shipping = shippingRepository.getById(id)
+    shipping.map {
+      case Some(res) => Ok(Json.toJson(res))
+      case None => NotFound("")
+    }
+  }
+
+  def getShippingByUserKey(providerKey: String): Action[AnyContent] = Action async {
+    val shipping = shippingRepository.getByKey(providerKey)
     shipping.map {
       case Some(res) => Ok(Json.toJson(res))
       case None => NotFound("")
