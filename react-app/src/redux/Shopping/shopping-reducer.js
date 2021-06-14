@@ -82,8 +82,8 @@ const shopReducer = (state = INITIAL_STATE, action) => {
     case actionTypes.LOAD_CART:
       const cart = [];
       const allProducts = state.products;
-      allProducts.map((product) => {
-        action.payload.map((cart_item) => {
+      allProducts.forEach((product) => {
+        action.payload.forEach((cart_item) => {
           if (product.id === cart_item.product_id) {
             let newProd = product;
             newProd["quantity"] = cart_item.quantity;
@@ -94,7 +94,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         });
       });
       let sumAfterLoad = 0;
-      cart.map(
+      cart.forEach(
         (product) =>
           (sumAfterLoad += parseFloat(product.price * product.quantity))
       );
@@ -118,7 +118,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       product["providerKey"] = action.payload.providerKey;
       state.cart.push(product);
       let sum = 0;
-      state.cart.map(
+      state.cart.forEach(
         (product) => (sum += parseFloat(product.price) * product.quantity)
       );
       sum = new Intl.NumberFormat("pl-PL", {
@@ -142,7 +142,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         newCart = [];
       }
       let newSum = 0;
-      newCart.map(
+      newCart.forEach(
         (product) => (newSum += parseFloat(product.price) * product.quantity)
       );
       newSum = new Intl.NumberFormat("pl-PL", {
@@ -156,14 +156,14 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: newSum,
       };
     case actionTypes.CART_QUANTITY_UP:
-      state.cart.map((product) =>
+      state.cart.forEach((product) =>
         product.cart_id === action.payload
           ? (product.quantity += 1)
           : product.quantity
       );
 
       let quantityUpSum = 0;
-      state.cart.map(
+      state.cart.forEach(
         (product) =>
           (quantityUpSum += parseFloat(product.price) * product.quantity)
       );
@@ -179,7 +179,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.map((product) =>
+      state.cart.forEach((product) =>
         product.cart_id === action.payload
           ? product.quantity > 0
             ? (product.quantity -= 1)
@@ -188,7 +188,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       );
 
       let quantityDownSum = 0;
-      state.cart.map(
+      state.cart.forEach(
         (product) =>
           (quantityDownSum += parseFloat(product.price) * product.quantity)
       );
