@@ -121,12 +121,12 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.forEach((product) =>
+      state.cart.map((product) =>
         product.cart_id === action.payload
-          ? product.quantity > 0
-            ? (product.quantity -= 1)
+            ? product.quantity > 0
+            ? (product.quantity--)
             : product.quantity
-          : product.quantity
+            : product.quantity
       );
       let quantityDownSum = 0;
       state.cart.forEach(
