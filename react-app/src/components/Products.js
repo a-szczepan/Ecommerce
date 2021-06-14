@@ -97,7 +97,7 @@ const Products = (products, wishlist) => {
 
   const filteredProducts = (index, el) => {
     if (
-      el.category_id === post.shop.currentCategory ||
+      el.categoryId === post.shop.currentCategory ||
       post.shop.currentCategory === "all"
     )
       return <ImgMediaCard key={index} product={el} wishlist={wishlist} />;

@@ -169,7 +169,7 @@ export function CartDialog() {
                         currency: "PLN",
                       }).format(x.price * x.quantity)}
                     </Typography>
-                    <Button onClick={() => dispatch(deleteFromCart(x.cart_id))}>
+                    <Button onClick={() => dispatch(deleteFromCart(x.cartId))}>
                       {" "}
                       <DeleteIcon />{" "}
                     </Button>

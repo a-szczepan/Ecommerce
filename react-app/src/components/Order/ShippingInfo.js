@@ -38,9 +38,9 @@ export const ShippingInfo = (props) => {
   const dispatch = useDispatch();
 
   const ShippingInfoSchema = Yup.object().shape({
-    street_name: Yup.string().required("Pole nie może być puste"),
-    building_number: Yup.string().required("Pole nie może być puste"),
-    postal_code: Yup.string().required("Pole nie może być puste"),
+    streetName: Yup.string().required("Pole nie może być puste"),
+    buildingNumber: Yup.string().required("Pole nie może być puste"),
+    postalCode: Yup.string().required("Pole nie może być puste"),
     city: Yup.string().required("Pole nie może być puste"),
   });
 
@@ -49,9 +49,9 @@ export const ShippingInfo = (props) => {
       dispatch(
         createShippingInfo(
           props.user,
-          values.street_name,
-          values.building_number,
-          values.postal_code,
+          values.streetName,
+          values.buildingNumber,
+          values.postalCode,
           values.city
         )
       );
@@ -66,9 +66,9 @@ export const ShippingInfo = (props) => {
         </Typography>
         <Formik
           initialValues={{
-            street_name: "",
-            building_number: "",
-            postal_code: "",
+            streetName: "",
+            buildingNumber: "",
+            postalCode: "",
             city: "",
           }}
           validationSchema={ShippingInfoSchema}
@@ -81,34 +81,34 @@ export const ShippingInfo = (props) => {
               </Box>
               <Field
                 as={TextField}
-                name="street_name"
+                name="streetName"
                 autoComplete="off"
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errInfo(errors.street_name, touched.street_name)}
+              {errInfo(errors.streetName, touched.streetName)}
               <Box fontSize={17} fontWeight={500} style={{ paddingTop: "2%" }}>
                 Numer budynku / mieszkania:
               </Box>
               <Field
                 as={TextField}
-                name="building_number"
+                name="buildingNumber"
                 autoComplete="off"
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errInfo(errors.building_number, touched.building_number)}
+              {errInfo(errors.buildingNumber, touched.buildingNumber)}
               <Box fontSize={17} fontWeight={500} style={{ paddingTop: "2%" }}>
                 Kod pocztowy:
               </Box>
               <Field
                 as={TextField}
-                name="postal_code"
+                name="postalCode"
                 autoComplete="off"
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errInfo(errors.postal_code, touched.postal_code)}
+              {errInfo(errors.postalCode, touched.postalCode)}
               <Box fontSize={17} fontWeight={500} style={{ paddingTop: "2%" }}>
                 Miasto:
               </Box>
@@ -140,19 +140,19 @@ export const ShippingInfo = (props) => {
           <Box fontSize={16} fontWeight={600} style={{ paddingTop: "1%" }}>
             Ulica:
           </Box>
-          {props.shipping.street_name}
+          {props.shipping.streetName}
         </Row>
         <Row>
           <Box fontSize={16} fontWeight={600} style={{ paddingTop: "1%" }}>
             Numer budynku/mieszkania:
           </Box>
-          {props.shipping.building_number}
+          {props.shipping.buildingNumber}
         </Row>
         <Row>
           <Box fontSize={16} fontWeight={600} style={{ paddingTop: "1%" }}>
             Kod pocztowy:
           </Box>
-          {props.shipping.postal_code}
+          {props.shipping.postalCode}
         </Row>
         <Row>
           <Box fontSize={16} fontWeight={600} style={{ paddingTop: "1%" }}>

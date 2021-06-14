@@ -70,7 +70,7 @@ function ImgMediaCard(props) {
             onClick={(e) => {
               e.preventDefault();
               const wishlist = post.shop.wishlist.filter(
-                (x) => x.product_id === props.product.id
+                (x) => x.productId === props.product.id
               );
               dispatch(deleteFromWishlist(wishlist));
             }}

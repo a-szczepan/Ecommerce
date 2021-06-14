@@ -46,13 +46,13 @@ export const getAccountInfo = (providerKey) => async (dispatch) => {
 };
 
 export const createAccountInfo =
-  (providerKey, first_name, last_name) => async (dispatch) => {
+  (providerKey, firstName, lastName) => async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:9000/accounts`, {
         id: 0,
         providerKey: providerKey,
-        first_name: first_name,
-        last_name: last_name,
+        firstName: firstName,
+        lastName: lastName,
       });
       dispatch({
         type: actionTypes.CREATE_ACCOUNT_INFO,
@@ -63,9 +63,9 @@ export const createAccountInfo =
     }
   };
 
-export const deleteAccountInfo = (account_id) => async (dispatch) => {
+export const deleteAccountInfo = (accountId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:9000/accounts/${account_id}`);
+    await axios.delete(`http://localhost:9000/accounts/${accountId}`);
     dispatch({
       type: actionTypes.DELETE_ACCOUNT_INFO,
       payload: "create",
@@ -95,15 +95,15 @@ export const getShippingInfo = (providerKey) => async (dispatch) => {
 };
 
 export const createShippingInfo =
-  (providerKey, street_name, building_number, postal_code, city) =>
+  (providerKey, streetName, buildingNumber, postalCode, city) =>
   async (dispatch) => {
     try {
       const res = await axios.post(`http://localhost:9000/shipping`, {
         id: 0,
         providerKey: providerKey,
-        street_name: street_name,
-        building_number: building_number,
-        postal_code: postal_code,
+        streetName: streetName,
+        buildingNumber: buildingNumber,
+        postalCode: postalCode,
         city: city,
       });
       dispatch({
@@ -115,9 +115,9 @@ export const createShippingInfo =
     }
   };
 
-export const deleteShippingInfo = (shipping_id) => async (dispatch) => {
+export const deleteShippingInfo = (shippingId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:9000/shipping/${shipping_id}`);
+    await axios.delete(`http://localhost:9000/shipping/${shippingId}`);
     dispatch({
       type: actionTypes.DELETE_SHIPMENT_INFO,
       payload: "create",
@@ -167,12 +167,12 @@ export const fetchCart = (providerKey) => {
   };
 };
 
-export const addToCart = (providerKey, product_id) => async (dispatch) => {
+export const addToCart = (providerKey, productId) => async (dispatch) => {
   try {
     const res = await axios.post(`http://localhost:9000/cart`, {
       id: 0,
       providerKey: providerKey,
-      product_id: product_id,
+      productId: productId,
       quantity: 1,
     });
     console.log(res);
@@ -185,12 +185,12 @@ export const addToCart = (providerKey, product_id) => async (dispatch) => {
   }
 };
 
-export const deleteFromCart = (cart_id) => async (dispatch) => {
+export const deleteFromCart = (cartId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:9000/cart/${cart_id}`);
+    await axios.delete(`http://localhost:9000/cart/${cartId}`);
     dispatch({
       type: actionTypes.REMOVE_FROM_CART,
-      payload: cart_id,
+      payload: cartId,
     });
   } catch (err) {
     console.log(err);
@@ -200,15 +200,15 @@ export const deleteFromCart = (cart_id) => async (dispatch) => {
 export const quantityUp = (cart_state) => async (dispatch) => {
   try {
     const newQuantity = cart_state.quantity + 1;
-    await axios.put(`http://localhost:9000/cart/${cart_state.cart_id}`, {
-      id: cart_state.cart_id,
+    await axios.put(`http://localhost:9000/cart/${cart_state.cartId}`, {
+      id: cart_state.cartId,
       providerKey: cart_state.providerKey,
-      product_id: cart_state.id,
+      productId: cart_state.id,
       quantity: newQuantity,
     });
     dispatch({
       type: actionTypes.CART_QUANTITY_UP,
-      payload: cart_state.cart_id,
+      payload: cart_state.cartId,
     });
   } catch (err) {
     console.log(err);
@@ -221,15 +221,15 @@ export const quantityDown = (cart_state) => async (dispatch) => {
     if (cart_state.quantity > 0) {
       newQuantity = cart_state.quantity - 1;
     }
-    await axios.put(`http://localhost:9000/cart/${cart_state.cart_id}`, {
-      id: cart_state.cart_id,
+    await axios.put(`http://localhost:9000/cart/${cart_state.cartId}`, {
+      id: cart_state.cartId,
       providerKey: cart_state.providerKey,
-      product_id: cart_state.id,
+      productId: cart_state.id,
       quantity: newQuantity,
     });
     dispatch({
       type: actionTypes.CART_QUANTITY_DOWN,
-      payload: cart_state.cart_id,
+      payload: cart_state.cartId,
     });
   } catch (err) {
     console.log(err);
@@ -238,7 +238,7 @@ export const quantityDown = (cart_state) => async (dispatch) => {
 
 export const loadWishlistProducts = (wishlist, products) => {
   return (dispatch, getState) => {
-    const productsId = wishlist.map((x) => x.product_id);
+    const productsId = wishlist.map((x) => x.productId);
     const data = products.filter((p) => productsId.includes(p.id));
     dispatch({
       type: actionTypes.LOAD_WISHLIST_PRODUCTS,
@@ -247,12 +247,12 @@ export const loadWishlistProducts = (wishlist, products) => {
   };
 };
 
-export const addToWishlist = (providerKey, product_id) => async (dispatch) => {
+export const addToWishlist = (providerKey, productId) => async (dispatch) => {
   try {
     const res = await axios.post(`http://localhost:9000/wishlist/create-new`, {
       id: 0,
       providerKey: providerKey,
-      product_id: product_id,
+      productId: productId,
     });
     dispatch({
       type: actionTypes.ADD_TO_WISHLIST,
@@ -268,19 +268,19 @@ export const deleteFromWishlist = (wishlist_id) => async (dispatch) => {
     await axios.delete(`http://localhost:9000/wishlist/${wishlist_id[0].id}`);
     dispatch({
       type: actionTypes.REMOVE_FROM_WISHLIST,
-      payload: wishlist_id[0].product_id,
+      payload: wishlist_id[0].productId,
     });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const fetchPayments = (order_id) => {
+export const fetchPayments = (orderId) => {
   console.log("tuu");
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        `http://localhost:9000/payments/order/${order_id}`
+        `http://localhost:9000/payments/order/${orderId}`
       );
       console.log(res);
       dispatch({
@@ -291,11 +291,11 @@ export const fetchPayments = (order_id) => {
   };
 };
 
-export const fetchOrders = (cart_id) => {
+export const fetchOrders = (cartId) => {
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        `http://localhost:9000/orders/cart/${cart_id}`
+        `http://localhost:9000/orders/cart/${cartId}`
       );
       dispatch({
         type: actionTypes.LOAD_ORDERS,
@@ -305,12 +305,12 @@ export const fetchOrders = (cart_id) => {
   };
 };
 
-export const createOrder = (cart_id, shipping_id) => async (dispatch) => {
+export const createOrder = (cartId, shippingId) => async (dispatch) => {
   try {
     const res = await axios.post(`http://localhost:9000/orders`, {
       id: 0,
-      cart_id: cart_id,
-      shipping_id: shipping_id,
+      cartId: cartId,
+      shippingId: shippingId,
     });
 
     dispatch({
@@ -320,14 +320,14 @@ export const createOrder = (cart_id, shipping_id) => async (dispatch) => {
   } catch (err) {}
 };
 
-export const createPayment = (order_id, amount) => async (dispatch) => {
+export const createPayment = (orderId, amount) => async (dispatch) => {
   console.log(amount);
   try {
     const date = new Date().toLocaleString();
 
     const res = await axios.post(`http://localhost:9000/payments`, {
       id: 0,
-      order_id: order_id,
+      orderId: orderId,
       date: date,
       amount: amount,
     });
