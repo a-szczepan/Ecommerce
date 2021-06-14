@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   loading: false,
 };
 
-const shopReducer = (action, state = INITIAL_STATE) => {
+const shopReducer = (state = INITIAL_STATE, action={}) => {
   switch (action.type) {
     case actionTypes.LOAD_CART:
       const cart = [];
