@@ -121,13 +121,7 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.map((product) =>
-        product.cart_id === action.payload
-            ? product.quantity > 0
-            ? (product.quantity--)
-            : product.quantity
-            : product.quantity
-      );
+      state.cart.forEach((product) => product.cart_id === action.payload ? product.quantity > 0 ? (product.quantity--) : product.quantity : product.quantity);
       let quantityDownSum = 0;
       state.cart.forEach(
         (product) =>
@@ -168,12 +162,6 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
 
     case actionTypes.LOAD_PAYMENTS:
-      state.payments.push(action.payload);
-      return {
-        ...state,
-        loading: false,
-        payments: state.payments,
-      };
     case actionTypes.CREATE_PAYMENT:
       state.payments.push(action.payload);
       return {
@@ -208,11 +196,6 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         currentCategory: action.payload,
       };
     case actionTypes.SET_USER:
-      return {
-        ...state,
-        loading: false,
-        user: action.payload,
-      };
     case actionTypes.LOG_OUT:
       return {
         ...state,
@@ -220,12 +203,6 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         user: action.payload,
       };
     case actionTypes.LOAD_ACCOUNT_INFO:
-      return {
-        ...state,
-        loading: false,
-        account: action.payload,
-      };
-
     case actionTypes.CREATE_ACCOUNT_INFO:
       return {
         ...state,
@@ -239,12 +216,6 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         account: action.payload,
       };
     case actionTypes.LOAD_SHIPMENT_INFO:
-      return {
-        ...state,
-        loading: false,
-        shipping: action.payload,
-      };
-
     case actionTypes.CREATE_SHIPMENT_INFO:
       return {
         ...state,
