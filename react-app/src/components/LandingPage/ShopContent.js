@@ -1,4 +1,4 @@
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Products from "../Products";
 import { SideBar } from "./SideBar";
 

@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import {
   createAccountInfo,
   deleteAccountInfo,
-  deleteShippingInfo,
 } from "../../redux/Shopping/shopping-actions";
 import EditIcon from "@material-ui/icons/Edit";
 

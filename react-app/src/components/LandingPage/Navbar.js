@@ -4,13 +4,11 @@ import { Col } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchCategories,
   fetchOrders,
   fetchProducts,
   fetchWishlist,
   loadWishlistProducts,
   logOut,
-  setUser,
 } from "../../redux/Shopping/shopping-actions";
 import { CartDialog } from "../Cart/Cart";
 import Menu from "@material-ui/core/Menu";
@@ -20,6 +18,23 @@ import {
   GoogleLoginButton,
 } from "react-social-login-buttons";
 import { withStyles } from "@material-ui/core/styles";
+
+
+const setMenu = (props) => {
+    return (    <Menu
+        elevation={-1}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+        }}
+        transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+        }}
+        {...props}
+    />);
+}
 
 function AccountButton() {
   const dispatch = useDispatch();
@@ -31,19 +46,7 @@ function AccountButton() {
       backgroundColor: "#dee7de",
     },
   })((props) => (
-    <Menu
-      elevation={-1}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      {...props}
-    />
+      setMenu(props)
   ));
 
   const [anchorElement, setAnchorElement] = React.useState(null);
@@ -99,6 +102,8 @@ function AccountButton() {
   );
 }
 
+
+
 const SignIn = () => {
   const StyledMenu = withStyles({
     paper: {
@@ -106,19 +111,7 @@ const SignIn = () => {
       backgroundImage: "linear-gradient(160deg, #8BB06C 0%, #27401A 100%)",
     },
   })((props) => (
-    <Menu
-      elevation={-1}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      {...props}
-    />
+        setMenu(props)
   ));
 
   const [anchorEl, setAnchorEl] = React.useState(null);

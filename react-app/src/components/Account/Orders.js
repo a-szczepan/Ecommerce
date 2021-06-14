@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   fetchCart,
-  fetchOrders,
-  fetchPayments,
   setUser,
 } from "../../redux/Shopping/shopping-actions";
 
