@@ -204,11 +204,6 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
     case actionTypes.LOAD_ACCOUNT_INFO:
     case actionTypes.CREATE_ACCOUNT_INFO:
-      return {
-        ...state,
-        loading: false,
-        account: action.payload,
-      };
     case actionTypes.DELETE_ACCOUNT_INFO:
       return {
         ...state,
