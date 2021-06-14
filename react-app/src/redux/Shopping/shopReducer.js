@@ -101,8 +101,8 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
     case actionTypes.CART_QUANTITY_UP:
       state.cart.forEach((product) =>
         product.cart_id === action.payload
-          ? (product.quantity += 1)
-          : product.quantity
+            ? product.quantity++
+            : product.quantity
       );
       let quantityUpSum = 0;
       state.cart.forEach(
