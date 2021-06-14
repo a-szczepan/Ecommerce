@@ -47,8 +47,8 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     product.result
   }
 
-  def update(id: Int, new_product: Product): Future[Int] = {
-    val productToUpdate: Product = new_product.copy(id)
+  def update(id: Int, newProduct: Product): Future[Int] = {
+    val productToUpdate: Product = newProduct.copy(id)
     db.run(product.filter(_.id === id).update(productToUpdate))
   }
 

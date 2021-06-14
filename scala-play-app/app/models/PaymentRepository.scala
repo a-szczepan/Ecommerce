@@ -43,8 +43,8 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     payment.result
   }
 
-  def update(id: Int, new_payment: Payment): Future[Int] = {
-    val paymentToUpdate: Payment = new_payment.copy(id)
+  def update(id: Int, newPayment: Payment): Future[Int] = {
+    val paymentToUpdate: Payment = newPayment.copy(id)
     db.run(payment.filter(_.id === id).update(paymentToUpdate))
   }
 

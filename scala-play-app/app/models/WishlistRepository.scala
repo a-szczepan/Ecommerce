@@ -45,8 +45,8 @@ class WishlistRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val
     wishlist.result
   }
 
-  def update(id: Int, new_wishlist: Wishlist): Future[Int] = {
-    val wishlistToUpdate: Wishlist = new_wishlist.copy(id)
+  def update(id: Int, newWishlist: Wishlist): Future[Int] = {
+    val wishlistToUpdate: Wishlist = newWishlist.copy(id)
     db.run(wishlist.filter(_.id === id).update(wishlistToUpdate))
   }
 

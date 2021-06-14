@@ -47,8 +47,8 @@ class OpinionRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     opinion.result
   }
 
-  def update(id: Int, new_opinion: Opinion): Future[Int] = {
-    val opinionToUpdate: Opinion = new_opinion.copy(id)
+  def update(id: Int, newOpinion: Opinion): Future[Int] = {
+    val opinionToUpdate: Opinion = newOpinion.copy(id)
     db.run(opinion.filter(_.id === id).update(opinionToUpdate))
   }
 
