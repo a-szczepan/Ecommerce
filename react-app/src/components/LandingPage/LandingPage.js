@@ -1,5 +1,5 @@
 import "./LandingPage.css";
-import { Row, Col, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import React from "react";
 import { Header } from "./Header";
 import { ShopContent } from "./ShopContent";

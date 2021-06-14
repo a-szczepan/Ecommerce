@@ -1,6 +1,6 @@
 import "../components/styles/Categories.css";
 import { Row } from "react-bootstrap";
-import React, { useEffect } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";
 import Typography from "@material-ui/core/Typography";
