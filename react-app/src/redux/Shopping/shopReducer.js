@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   loading: false,
 };
 
-const shopReducer = (state = INITIAL_STATE, action={}) => {
+const shopReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
     case actionTypes.LOAD_CART:
       const cart = [];
@@ -25,7 +25,8 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       allProducts.forEach((product) => {
         action.payload.forEach((cart_item) => {
           if (product.id === cart_item.product_id) {
-            let loadCartNew = {...product,
+            let loadCartNew = {
+              ...product,
               quantity: cart_item.quantity,
               cart_id: cart_item.id,
               providerKey: cart_item.providerKey,
@@ -54,12 +55,12 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         (product) => product.id === action.payload.product_id
       );
       filteredProd = filteredProd[0];
-      let addToCartProd= {
+      let addToCartProd = {
         ...filteredProd,
         quantity: action.payload.quantity,
         cart_id: action.payload.id,
         providerKey: action.payload.providerKey,
-      }
+      };
       state.cart.push(addToCartProd);
       let sum = 0;
       state.cart.forEach(
@@ -76,14 +77,7 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         cartSum: sum,
       };
     case actionTypes.REMOVE_FROM_CART:
-      let newCart = [];
-      if (state.cart.length > 0) {
-        newCart = state.cart.filter(
-          (product) => product.cart_id !== action.payload
-        );
-      } else {
-        newCart = [];
-      }
+      const cartWithoutItem = removeFromCart(state, action.payload);
       let newSum = 0;
       newCart.forEach(
         (product) => (newSum += parseFloat(product.price) * product.quantity)
@@ -95,14 +89,14 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       return {
         ...state,
         loading: false,
-        cart: newCart,
+        cart: cartWithoutItem,
         cartSum: newSum,
       };
     case actionTypes.CART_QUANTITY_UP:
       state.cart.forEach((product) =>
         product.cart_id === action.payload
-            ? product.quantity++
-            : product.quantity
+          ? product.quantity++
+          : product.quantity
       );
       let quantityUpSum = 0;
       state.cart.forEach(
@@ -121,7 +115,13 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.forEach((product) => product.cart_id === action.payload ? product.quantity > 0 ? (product.quantity--) : product.quantity : product.quantity);
+      state.cart.forEach((product) =>
+        product.cart_id === action.payload
+          ? product.quantity > 0
+            ? product.quantity--
+            : product.quantity
+          : product.quantity
+      );
       let quantityDownSum = 0;
       state.cart.forEach(
         (product) =>
@@ -140,7 +140,7 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
 
     case actionTypes.REMOVE_FROM_WISHLIST:
-      const wishlistWithoutItem = removeFromWishlist(state, action.payload)
+      const wishlistWithoutItem = removeFromWishlist(state, action.payload);
       return {
         ...state,
         loading: false,
@@ -247,14 +247,18 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
 /*UTILS*/
 const removeFromWishlist = (state, action) => {
   if (state.wishlistProducts.length > 0) {
-    return state.wishlistProducts.filter(
-        ({ id }) => id !== action
-    );
+    return state.wishlistProducts.filter(({ id }) => id !== action);
   } else {
     return [];
   }
-}
+};
 
-
+const removeFromCart = (state, action) => {
+  if (state.cart.length > 0) {
+    return state.cart.filter((product) => product.cart_id !== action.payload);
+  } else {
+    return [];
+  }
+};
 
 export default shopReducer;
