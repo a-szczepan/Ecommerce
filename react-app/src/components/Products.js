@@ -18,73 +18,7 @@ import {
   fetchProducts,
   fetchWishlist,
 } from "../redux/Shopping/shopping-actions";
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-  },
-});
-
-function ImgMediaCard(props) {
-  const dispatch = useDispatch();
-  const post = useSelector((state) => state);
-
-  useEffect(() => {
-    dispatch(fetchWishlist(post.shop.user));
-    dispatch(fetchCart(post.shop.user));
-  }, []);
-
-  const classes = useStyles();
-  return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="product"
-          height="320"
-          image={props.product.image}
-          title={props.product.name}
-        />
-        <CardContent
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            width: "19rem",
-          }}
-        >
-          <Typography noWrap gutterBottom variant="h5" component="h2">
-            {props.product.name}
-          </Typography>
-          <Typography>
-            {new Intl.NumberFormat("pl-PL", {
-              style: "currency",
-              currency: "PLN",
-            }).format(props.product.price)}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" style={{ color: "#212529" }}>
-          <FavoriteBorderIcon
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(addToWishlist(post.shop.user, props.product.id));
-            }}
-          />
-        </Button>
-        <Button
-          size="small"
-          style={{ color: "#212529" }}
-          onClick={() => {
-            dispatch(addToCart(post.shop.user, props.product.id));
-          }}
-        >
-          Do koszyka
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
+import { ProductCard } from "./ProductCard";
 
 const Products = (products, wishlist) => {
   const dispatch = useDispatch();
@@ -97,14 +31,21 @@ const Products = (products, wishlist) => {
 
   const filteredProducts = (index, el) => {
     if (
-      el.categoryId === post.shop.currentCategory ||
-      post.shop.currentCategory === "all"
+        el.categoryId === post.shop.currentCategory ||
+        post.shop.currentCategory === "all"
     )
-      return <ImgMediaCard key={index} product={el} wishlist={wishlist} />;
+      return (
+          <ProductCard
+              key={index}
+              product={el}
+              wishlist={wishlist}
+              type="product"
+          />
+      );
   };
 
   return (
-    <>{post.shop.products.map((el, index) => filteredProducts(index, el))}</>
+      <>{post.shop.products.map((el, index) => filteredProducts(index, el))}</>
   );
 };
 
