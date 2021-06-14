@@ -8,7 +8,7 @@
 @form(controllers.routes.OpinionFormController.updateOpinionHandle()) {
     @helper.CSRF.formField
     <input name="id" id="id" value="@opinion("id").value" type="hidden" />
-    @inputText(opinion("opinion_txt"))
+    @inputText(opinion("opinionTxt"))
     <div class="buttons">
         <input type="submit" value="Update Opinion"/>
     </div>

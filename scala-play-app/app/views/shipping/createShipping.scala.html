@@ -7,9 +7,9 @@
 
 @form(controllers.routes.ShippingFormController.createShippingHandle()) {
     @helper.CSRF.formField
-    @inputText(shipping("street_name"))
-    @inputText(shipping("building_number"))
-    @inputText(shipping("postal_code"))
+    @inputText(shipping("streetName"))
+    @inputText(shipping("buildingNumber"))
+    @inputText(shipping("postalCode"))
     @inputText(shipping("city"))
 
     <div class="buttons">

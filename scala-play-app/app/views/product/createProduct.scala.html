@@ -12,7 +12,7 @@
     @inputText(product("image"))
     @inputText(product("price"))
     <label for="category"></label>
-    <select name="category_id" id="category">
+    <select name="categoryId" id="category">
     @for(entry <- categories) {
         <option value="@entry.id">@entry.name</option>
     }

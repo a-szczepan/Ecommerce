@@ -3,18 +3,18 @@
 CREATE TABLE "apporder"
 (
     "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "cart_id"     INT     NOT NULL,
-    "shipping_id" INT     NOT NULL,
-    FOREIGN KEY (cart_id) REFERENCES cart (id),
-    FOREIGN KEY (shipping_id) REFERENCES shipping (id)
+    "cartId"     INT     NOT NULL,
+    "shippingId" INT     NOT NULL,
+    FOREIGN KEY (cartId) REFERENCES cart (id),
+    FOREIGN KEY (shippingId) REFERENCES shipping (id)
 );
 
 CREATE TABLE "account"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "providerKey"    VARCHAR     NOT NULL,
-    "first_name" VARCHAR NOT NULL,
-    "last_name"  VARCHAR NOT NULL,
+    "firstName" VARCHAR NOT NULL,
+    "lastName"  VARCHAR NOT NULL,
     FOREIGN KEY (providerKey) REFERENCES appuser (providerKey)
 );
 
@@ -23,30 +23,30 @@ CREATE TABLE "wishlist"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "providerKey"    VARCHAR NOT NULL,
-    "product_id" INTEGER NOT NULL,
-    UNIQUE (product_id, providerKey)
+    "productId" INTEGER NOT NULL,
+    UNIQUE (productId, providerKey)
         FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
-    FOREIGN KEY (product_id) REFERENCES product (id)
+    FOREIGN KEY (productId) REFERENCES product (id)
 );
 
 CREATE TABLE "cart"
 (
     "id"         INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "providerKey"    VARCHAR NOT NULL,
-    "product_id" INTEGER NOT NULL,
+    "productId" INTEGER NOT NULL,
     "quantity"   INTEGER NOT NULL,
-    UNIQUE (product_id, providerKey)
+    UNIQUE (productId, providerKey)
         FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
-    FOREIGN KEY (product_id) REFERENCES product (id)
+    FOREIGN KEY (productId) REFERENCES product (id)
 );
 
 CREATE TABLE "shipping"
 (
     "id"               INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "providerKey"    VARCHAR     NOT NULL,
-    "street_name"      VARCHAR NOT NULL,
-    "building_number"  VARCHAR     NOT NULL,
-    "postal_code"      VARCHAR NOT NULL,
+    "streetName"      VARCHAR NOT NULL,
+    "buildingNumber"  VARCHAR     NOT NULL,
+    "postalCode"      VARCHAR NOT NULL,
     "city"             VARCHAR NOT NULL,
     FOREIGN KEY (providerKey) REFERENCES appuser (providerKey)
 );
@@ -54,12 +54,12 @@ CREATE TABLE "shipping"
 CREATE TABLE "product"
 (
     "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "category_id" INTEGER NOT NULL,
+    "categoryId" INTEGER NOT NULL,
     "name"        VARCHAR NOT NULL,
     "description" VARCHAR NOT NULL,
     "image"       VARCHAR NOT NULL,
     "price"       VARCHAR NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES category (id)
+    FOREIGN KEY (categoryId) REFERENCES category (id)
 );
 
 CREATE TABLE "category"
@@ -72,19 +72,19 @@ CREATE TABLE "opinion"
 (
     "id"          INTEGER NOT NULL PRIMARY KEY UNIQUE,
     "providerKey"     VARCHAR NOT NULL,
-    "product_id"  INTEGER NOT NULL,
-    "opinion_txt" VARCHAR NOT NULL,
+    "productId"  INTEGER NOT NULL,
+    "opinionTxt" VARCHAR NOT NULL,
     FOREIGN KEY (providerKey) REFERENCES appuser (providerKey),
-    FOREIGN KEY (product_id) REFERENCES product (id)
+    FOREIGN KEY (productId) REFERENCES product (id)
 );
 
 CREATE TABLE "payment"
 (
     "id"       INTEGER NOT NULL PRIMARY KEY UNIQUE,
-    "order_id" INTEGER NOT NULL,
+    "orderId" INTEGER NOT NULL,
     "date"     VARCHAR NOT NULL,
     "amount"   VARCHAR NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES apporder (id)
+    FOREIGN KEY (orderId) REFERENCES apporder (id)
 );
 
 CREATE TABLE "appuser"

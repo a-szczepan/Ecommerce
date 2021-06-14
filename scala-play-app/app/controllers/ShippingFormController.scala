@@ -25,9 +25,9 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,us
   val shippingForm: Form[CreateShippingForm] = Form {
     mapping(
       "providerKey" -> nonEmptyText,
-      "street_name" -> nonEmptyText,
-      "building_number" -> nonEmptyText,
-      "postal_code" -> nonEmptyText,
+      "streetName" -> nonEmptyText,
+      "buildingNumber" -> nonEmptyText,
+      "postalCode" -> nonEmptyText,
       "city" -> nonEmptyText,
     )(CreateShippingForm.apply)(CreateShippingForm.unapply)
   }
@@ -36,9 +36,9 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,us
     mapping(
       "id" -> number,
       "providerKey" -> nonEmptyText,
-      "street_name" -> nonEmptyText,
-      "building_number" -> nonEmptyText,
-      "postal_code" -> nonEmptyText,
+      "streetName" -> nonEmptyText,
+      "buildingNumber" -> nonEmptyText,
+      "postalCode" -> nonEmptyText,
       "city" -> nonEmptyText,
     )(UpdateShippingForm.apply)(UpdateShippingForm.unapply)
   }
@@ -46,7 +46,7 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,us
   def updateShipping(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val shipping = shippingRepository.getById(id)
     shipping.map(shipping => {
-      val shippingForm = updateShippingForm.fill(UpdateShippingForm(shipping.get.id,shipping.get.providerKey, shipping.get.street_name, shipping.get.building_number, shipping.get.postal_code, shipping.get.city))
+      val shippingForm = updateShippingForm.fill(UpdateShippingForm(shipping.get.id,shipping.get.providerKey, shipping.get.streetName, shipping.get.buildingNumber, shipping.get.postalCode, shipping.get.city))
       Ok(views.html.shipping.updateShipping(shippingForm))
     })
   }
@@ -59,7 +59,7 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,us
         )
       },
       shipping => {
-        shippingRepository.update(shipping.id, Shipping(shipping.id, shipping.providerKey, shipping.street_name, shipping.building_number, shipping.postal_code, shipping.city)).map { _ =>
+        shippingRepository.update(shipping.id, Shipping(shipping.id, shipping.providerKey, shipping.streetName, shipping.buildingNumber, shipping.postalCode, shipping.city)).map { _ =>
           Redirect("/shipping")
         }
       }
@@ -96,7 +96,7 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,us
         )
       },
       shipping => {
-        shippingRepository.create(shipping.providerKey, shipping.street_name, shipping.building_number, shipping.postal_code, shipping.city).map { _ =>
+        shippingRepository.create(shipping.providerKey, shipping.streetName, shipping.buildingNumber, shipping.postalCode, shipping.city).map { _ =>
           Redirect("/shipping/all")
         }
       }
@@ -104,6 +104,6 @@ class ShippingFormController @Inject()(shippingRepository: ShippingRepository,us
   }
 }
 
-case class CreateShippingForm(providerKey: String, street_name: String, building_number: String, postal_code: String, city: String)
+case class CreateShippingForm(providerKey: String, streetName: String, buildingNumber: String, postalCode: String, city: String)
 
-case class UpdateShippingForm(id: Int = 0, providerKey: String, street_name: String, building_number: String, postal_code: String, city: String)
+case class UpdateShippingForm(id: Int = 0, providerKey: String, streetName: String, buildingNumber: String, postalCode: String, city: String)

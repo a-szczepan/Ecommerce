@@ -18,7 +18,7 @@ class WishlistController @Inject()(val wishlistRepository: WishlistRepository,
     implicit request =>
       request.body.validate[Wishlist].map {
         wishlist =>
-          wishlistRepository.create(wishlist.providerKey, wishlist.product_id).map { res =>
+          wishlistRepository.create(wishlist.providerKey, wishlist.productId).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))
@@ -61,8 +61,8 @@ class WishlistController @Inject()(val wishlistRepository: WishlistRepository,
     }
   }
 
-  def getWishlistByProduct(product_id: Int): Action[AnyContent] = Action.async{
-    val wishlists = wishlistRepository.getByProduct(product_id)
+  def getWishlistByProduct(productId: Int): Action[AnyContent] = Action.async{
+    val wishlists = wishlistRepository.getByProduct(productId)
     wishlists.map {
       wishlists => Ok(Json.toJson(wishlists))
     }

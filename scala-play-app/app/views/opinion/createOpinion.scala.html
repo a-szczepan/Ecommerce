@@ -7,7 +7,7 @@
 
 @form(controllers.routes.OpinionFormController.createOpinionHandle()) {
     @helper.CSRF.formField
-    @inputText(opinion("opinion_txt"))
+    @inputText(opinion("opinionTxt"))
 
     <label for="user"></label>
     <select name="user_id" id="user">

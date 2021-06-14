@@ -1,8 +1,8 @@
 @(orders: Seq[Order])
 @for(order <- orders) {
     <strong>@order.id</strong>
-    @order.cart_id
-    @order.shipping_id
+    @order.cartId
+    @order.shippingId
     <a href="@controllers.routes.OrderFormController.updateOrder(order.id)">Edit</a>
     <a href="@controllers.routes.OrderFormController.deleteOrder(order.id)">Delete</a>
     <br>

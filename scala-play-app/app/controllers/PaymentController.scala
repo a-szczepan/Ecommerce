@@ -18,7 +18,7 @@ class PaymentController @Inject()(paymentRepository: PaymentRepository,
     implicit request =>
       request.body.validate[Payment].map {
         payment =>
-          paymentRepository.create(payment.order_id, payment.date, payment.amount).map { res =>
+          paymentRepository.create(payment.orderId, payment.date, payment.amount).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))
@@ -45,8 +45,8 @@ class PaymentController @Inject()(paymentRepository: PaymentRepository,
     }
   }
 
-  def getPaymentByOrder(order_id: Int): Action[AnyContent] = Action.async{
-    val payments = paymentRepository.getByOrder(order_id)
+  def getPaymentByOrder(orderId: Int): Action[AnyContent] = Action.async{
+    val payments = paymentRepository.getByOrder(orderId)
     payments.map {
       products => Ok(Json.toJson(products))
     }

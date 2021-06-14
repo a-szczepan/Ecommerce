@@ -17,24 +17,24 @@ class AccountRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def providerKey = column[String]("providerKey")
 
-    def user_fk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
+    def userFk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
 
-    def first_name: Rep[String] = column[String]("first_name")
+    def firstName: Rep[String] = column[String]("firstName")
 
-    def last_name: Rep[String] = column[String]("last_name")
+    def lastName: Rep[String] = column[String]("lastName")
 
-    def * = (id,providerKey, first_name, last_name) <> ((Account.apply _).tupled, Account.unapply)
+    def * = (id,providerKey, firstName, lastName) <> ((Account.apply _).tupled, Account.unapply)
   }
 
   import userRepository.UserTable
   val account = TableQuery[AccountTable]
   val usr = TableQuery[UserTable]
 
-  def create(providerKey: String, first_name: String, last_name: String): Future[Account] = db.run {
-    (account.map(a => (a.providerKey, a.first_name, a.last_name))
+  def create(providerKey: String, firstName: String, lastName: String): Future[Account] = db.run {
+    (account.map(a => (a.providerKey, a.firstName, a.lastName))
       returning account.map(_.id)
-      into { case ((providerKey, first_name, last_name), id) => Account(id, providerKey, first_name,last_name) }
-      ) += (providerKey, first_name, last_name)
+      into { case ((providerKey, firstName, lastName), id) => Account(id, providerKey, firstName,lastName) }
+      ) += (providerKey, firstName, lastName)
   }
 
   def list(): Future[Seq[Account]] = db.run {

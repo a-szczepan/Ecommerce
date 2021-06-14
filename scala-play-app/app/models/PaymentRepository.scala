@@ -16,15 +16,15 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   class PaymentTable(tag: Tag) extends Table[Payment](tag, "payment") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def order_id = column[Int]("order_id")
+    def orderId = column[Int]("orderId")
 
-    def order_fk = foreignKey("order_id", order_id, order)(_.id)
+    def orderFk = foreignKey("orderId", orderId, order)(_.id)
 
     def date = column[String]("date")
 
     def amount = column[String]("amount")
 
-    def * = (id, order_id, date, amount) <> ((Payment.apply _).tupled, Payment.unapply)
+    def * = (id, orderId, date, amount) <> ((Payment.apply _).tupled, Payment.unapply)
   }
 
   import orderRepository.OrderTable
@@ -32,11 +32,11 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   val order = TableQuery[OrderTable]
   val payment = TableQuery[PaymentTable]
 
-  def create(order_id: Int, date: String, amount: String): Future[Payment] = db.run {
-    (payment.map(o => (o.order_id, o.date, o.amount))
+  def create(orderId: Int, date: String, amount: String): Future[Payment] = db.run {
+    (payment.map(o => (o.orderId, o.date, o.amount))
       returning payment.map(_.id)
-      into { case ((order_id, date, amount), id) => Payment(id, order_id, date, amount) }
-      ) += (order_id, date, amount)
+      into { case ((orderId, date, amount), id) => Payment(id, orderId, date, amount) }
+      ) += (orderId, date, amount)
   }
 
   def list(): Future[Seq[Payment]] = db.run {
@@ -54,8 +54,8 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     payment.filter(_.id === id).result.headOption
   }
 
-  def getByOrder(order_id: Int): Future[Seq[Payment]] = db.run {
-    payment.filter(_.order_id === order_id).result
+  def getByOrder(orderId: Int): Future[Seq[Payment]] = db.run {
+    payment.filter(_.orderId === orderId).result
   }
 
 }

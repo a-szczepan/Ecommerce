@@ -31,16 +31,16 @@ class OrderFormController @Inject()(orderRepository: OrderRepository,
 
   val orderForm: Form[CreateOrderForm] = Form {
     mapping(
-      "cart_id" -> number,
-      "shipping_id" -> number,
+      "cartId" -> number,
+      "shippingId" -> number,
     )(CreateOrderForm.apply)(CreateOrderForm.unapply)
   }
 
   val updateOrderForm: Form[UpdateOrderForm] = Form {
     mapping(
       "id" -> number,
-      "cart_id" -> number,
-      "shipping_id" -> number,
+      "cartId" -> number,
+      "shippingId" -> number,
     )(UpdateOrderForm.apply)(UpdateOrderForm.unapply)
   }
 
@@ -49,7 +49,7 @@ class OrderFormController @Inject()(orderRepository: OrderRepository,
   def updateOrder(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val order = orderRepository.getById(id)
     order.map(order => {
-      val orderForm = updateOrderForm.fill(UpdateOrderForm(order.get.id, order.get.cart_id, order.get.shipping_id))
+      val orderForm = updateOrderForm.fill(UpdateOrderForm(order.get.id, order.get.cartId, order.get.shippingId))
       Ok(views.html.order.updateOrder(orderForm, cartList, shippingList))
     })
   }
@@ -62,7 +62,7 @@ class OrderFormController @Inject()(orderRepository: OrderRepository,
         )
       },
       order => {
-        orderRepository.update(order.id, Order(order.id, order.cart_id, order.shipping_id)).map { _ =>
+        orderRepository.update(order.id, Order(order.id, order.cartId, order.shippingId)).map { _ =>
           Redirect("/orders/all")
         }
       }
@@ -100,7 +100,7 @@ class OrderFormController @Inject()(orderRepository: OrderRepository,
         )
       },
       order => {
-        orderRepository.create(order.cart_id, order.shipping_id).map { _ =>
+        orderRepository.create(order.cartId, order.shippingId).map { _ =>
           Redirect("/orders/all")
         }
       }
@@ -108,6 +108,6 @@ class OrderFormController @Inject()(orderRepository: OrderRepository,
   }
 
 }
-case class CreateOrderForm(cart_id: Int, shipping_id: Int)
+case class CreateOrderForm(cartId: Int, shippingId: Int)
 
-case class UpdateOrderForm(id: Int = 0, cart_id: Int, shipping_id: Int)
+case class UpdateOrderForm(id: Int = 0, cartId: Int, shippingId: Int)

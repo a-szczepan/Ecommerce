@@ -16,15 +16,15 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val ca
   class OrderTable(tag: Tag) extends Table[Order](tag, "apporder") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def cart_id = column[Int]("cart_id")
+    def cartId = column[Int]("cartId")
 
-    def cart_fk = foreignKey("cart_id", cart_id, cart)(_.id)
+    def cartFk = foreignKey("cartId", cartId, cart)(_.id)
 
-    def shipping_id = column[Int]("shipping_id")
+    def shippingId = column[Int]("shippingId")
 
-    def shipping_fk = foreignKey("shipping_id", shipping_id, shipping)(_.id)
+    def shippingFk = foreignKey("shippingId", shippingId, shipping)(_.id)
 
-    def * = (id, cart_id, shipping_id) <> ((Order.apply _).tupled, Order.unapply)
+    def * = (id, cartId, shippingId) <> ((Order.apply _).tupled, Order.unapply)
   }
 
   import cartRepository.CartTable
@@ -34,11 +34,11 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val ca
   val shipping = TableQuery[ShippingTable]
   var order = TableQuery[OrderTable]
 
-  def create(cart_id: Int, shipping_id: Int): Future[Order] = db.run {
-    (order.map(o => (o.cart_id, o.shipping_id))
+  def create(cartId: Int, shippingId: Int): Future[Order] = db.run {
+    (order.map(o => (o.cartId, o.shippingId))
       returning order.map(_.id)
-      into { case ((cart_id, shipping_id), id) => Order(id, cart_id, shipping_id) }
-      ) += (cart_id, shipping_id)
+      into { case ((cartId, shippingId), id) => Order(id, cartId, shippingId) }
+      ) += (cartId, shippingId)
   }
 
   def list(): Future[Seq[Order]] = db.run {
@@ -56,12 +56,12 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val ca
     order.filter(_.id === id).result.headOption
   }
 
-  def getByCart(cart_id: Int): Future[Seq[Order]] = db.run {
-    order.filter(_.cart_id === cart_id).result
+  def getByCart(cartId: Int): Future[Seq[Order]] = db.run {
+    order.filter(_.cartId === cartId).result
   }
 
-  def getByShipping(shipping_id: Int): Future[Seq[Order]] = db.run {
-    order.filter(_.shipping_id === shipping_id).result
+  def getByShipping(shippingId: Int): Future[Seq[Order]] = db.run {
+    order.filter(_.shippingId === shippingId).result
   }
 
 }

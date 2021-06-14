@@ -18,15 +18,15 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
 
     def providerKey = column[String]("providerKey")
 
-    def user_fk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
+    def userFk = foreignKey("providerKey", providerKey, usr)(_.providerKey)
 
-    def product_id = column[Int]("product_id")
+    def productId = column[Int]("productId")
 
-    def product_fk = foreignKey("product_id", product_id, product)(_.id)
+    def productFk = foreignKey("productId", productId, product)(_.id)
 
     def quantity = column[Int]("quantity")
 
-    def * = (id, providerKey, product_id, quantity) <> ((Cart.apply _).tupled, Cart.unapply)
+    def * = (id, providerKey, productId, quantity) <> ((Cart.apply _).tupled, Cart.unapply)
   }
 
   import userRepository.UserTable
@@ -36,11 +36,11 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
   val product = TableQuery[ProductTable]
   var cart = TableQuery[CartTable]
 
-  def create(providerKey: String, product_id: Int, quantity: Int): Future[Cart] = db.run {
-    (cart.map(c => (c.providerKey, c.product_id, c.quantity))
+  def create(providerKey: String, productId: Int, quantity: Int): Future[Cart] = db.run {
+    (cart.map(c => (c.providerKey, c.productId, c.quantity))
       returning cart.map(_.id)
-      into { case ((providerKey, product_id, quantity), id) => Cart(id, providerKey, product_id, quantity) }
-      ) += (providerKey, product_id, quantity)
+      into { case ((providerKey, productId, quantity), id) => Cart(id, providerKey, productId, quantity) }
+      ) += (providerKey, productId, quantity)
   }
 
   def list(): Future[Seq[Cart]] = db.run {
@@ -62,8 +62,8 @@ class CartRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val use
     cart.filter(_.providerKey === providerKey).result
   }
 
-  def getByProductId(product_id: Int): Future[Seq[Cart]] = db.run {
-    cart.filter(_.product_id === product_id).result
+  def getByProductId(productId: Int): Future[Seq[Cart]] = db.run {
+    cart.filter(_.productId === productId).result
   }
 
 }

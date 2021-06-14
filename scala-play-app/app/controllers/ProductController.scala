@@ -16,7 +16,7 @@ class ProductController @Inject()(val productRepository: ProductRepository,
     implicit request =>
       request.body.validate[Product].map {
         product =>
-          productRepository.create(product.category_id, product.name, product.description, product.image, product.price).map { res =>
+          productRepository.create(product.categoryId, product.name, product.description, product.image, product.price).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))
@@ -37,8 +37,8 @@ class ProductController @Inject()(val productRepository: ProductRepository,
     }
   }
 
-  def getProductsByCategory(category_id: Int): Action[AnyContent] = Action.async{
-    val products = productRepository.getByCategoryId(category_id)
+  def getProductsByCategory(categoryId: Int): Action[AnyContent] = Action.async{
+    val products = productRepository.getByCategoryId(categoryId)
     products.map {
       products => Ok(Json.toJson(products))
     }

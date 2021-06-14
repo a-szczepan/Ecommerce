@@ -20,7 +20,7 @@ class OrderController @Inject()(orderRepository: OrderRepository,
     implicit request =>
       request.body.validate[Order].map {
         order =>
-          orderRepository.create(order.cart_id, order.shipping_id).map { res =>
+          orderRepository.create(order.cartId, order.shippingId).map { res =>
             Ok(Json.toJson(res))
           }
       }.getOrElse(Future.successful(BadRequest("")))
@@ -56,15 +56,15 @@ class OrderController @Inject()(orderRepository: OrderRepository,
     }
   }
 
-  def getOrdersByCart(cart_id: Int): Action[AnyContent] = Action.async{
-    val orders = orderRepository.getByCart(cart_id)
+  def getOrdersByCart(cartId: Int): Action[AnyContent] = Action.async{
+    val orders = orderRepository.getByCart(cartId)
     orders.map {
       orders => Ok(Json.toJson(orders))
     }
   }
 
-  def getOrdersByShipping(shipping_id: Int): Action[AnyContent] = Action.async{
-    val orders = orderRepository.getByShipping(shipping_id)
+  def getOrdersByShipping(shippingId: Int): Action[AnyContent] = Action.async{
+    val orders = orderRepository.getByShipping(shippingId)
     orders.map {
       orders => Ok(Json.toJson(orders))
     }

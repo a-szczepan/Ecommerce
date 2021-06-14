@@ -16,9 +16,9 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   class ProductTable(tag: Tag) extends Table[Product](tag, "product") {
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
-    def category_id = column[Int]("category_id")
+    def categoryId = column[Int]("categoryId")
 
-    def category_fk = foreignKey("category_id", category_id, category)(_.id)
+    def categoryFk = foreignKey("categoryId", categoryId, category)(_.id)
 
     def name: Rep[String] = column[String]("name")
 
@@ -28,7 +28,7 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def price: Rep[String] = column[String]("price")
 
-    def * = (id, category_id, name, description, image, price) <> ((Product.apply _).tupled, Product.unapply)
+    def * = (id, categoryId, name, description, image, price) <> ((Product.apply _).tupled, Product.unapply)
   }
 
   import categoryRepository.CategoryTable
@@ -36,11 +36,11 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
   val category = TableQuery[CategoryTable]
   val product = TableQuery[ProductTable]
 
-  def create(category_id: Int, name: String, description: String, image: String, price: String): Future[Product] = db.run {
-    (product.map(p => (p.category_id, p.name, p.description, p.image, p.price))
+  def create(categoryId: Int, name: String, description: String, image: String, price: String): Future[Product] = db.run {
+    (product.map(p => (p.categoryId, p.name, p.description, p.image, p.price))
       returning product.map(_.id)
-      into { case ((category_id, name, description, image, price), id) => Product(id, category_id, name, description, image, price) }
-      ) += (category_id, name, description, image, price)
+      into { case ((categoryId, name, description, image, price), id) => Product(id, categoryId, name, description, image, price) }
+      ) += (categoryId, name, description, image, price)
   }
 
   def list(): Future[Seq[Product]] = db.run {
@@ -58,8 +58,8 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     product.filter(_.id === id).result.headOption
   }
 
-  def getByCategoryId(category_id: Int): Future[Seq[Product]] = db.run {
-    product.filter(_.category_id === category_id).result
+  def getByCategoryId(categoryId: Int): Future[Seq[Product]] = db.run {
+    product.filter(_.categoryId === categoryId).result
   }
 
 

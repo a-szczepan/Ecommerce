@@ -16,7 +16,7 @@ class ShippingController @Inject()(shippingRepository: ShippingRepository, val u
   def createShipping(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     request.body.validate[Shipping].map {
       shipping =>
-        shippingRepository.create(shipping.providerKey, shipping.street_name, shipping.building_number, shipping.postal_code, shipping.city).map { res =>
+        shippingRepository.create(shipping.providerKey, shipping.streetName, shipping.buildingNumber, shipping.postalCode, shipping.city).map { res =>
           Ok(Json.toJson(res))
         }
     }.getOrElse(Future.successful(BadRequest("")))

@@ -32,8 +32,8 @@ class OpinionFormController @Inject()(opinionRepository: OpinionRepository,
   val opinionForm: Form[CreateOpinionForm] = Form {
     mapping(
       "providerKey" -> nonEmptyText,
-      "product_id" -> number,
-      "opinion_txt" -> nonEmptyText,
+      "productId" -> number,
+      "opinionTxt" -> nonEmptyText,
     )(CreateOpinionForm.apply)(CreateOpinionForm.unapply)
   }
 
@@ -41,8 +41,8 @@ class OpinionFormController @Inject()(opinionRepository: OpinionRepository,
     mapping(
       "id" -> number,
       "providerKey" -> nonEmptyText,
-      "product_id" -> number,
-      "opinion_txt" -> nonEmptyText,
+      "productId" -> number,
+      "opinionTxt" -> nonEmptyText,
     )(UpdateOpinionForm.apply)(UpdateOpinionForm.unapply)
   }
 
@@ -51,7 +51,7 @@ class OpinionFormController @Inject()(opinionRepository: OpinionRepository,
   def updateOpinion(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val opinion = opinionRepository.getById(id)
     opinion.map(opinion => {
-      val opinionForm = updateOpinionForm.fill(UpdateOpinionForm(opinion.get.id, opinion.get.providerKey, opinion.get.product_id, opinion.get.opinion_txt))
+      val opinionForm = updateOpinionForm.fill(UpdateOpinionForm(opinion.get.id, opinion.get.providerKey, opinion.get.productId, opinion.get.opinionTxt))
       Ok(views.html.opinion.updateOpinion(opinionForm, userList, productList))
     })
   }
@@ -64,7 +64,7 @@ class OpinionFormController @Inject()(opinionRepository: OpinionRepository,
         )
       },
       opinion => {
-        opinionRepository.update(opinion.id, Opinion(opinion.id, opinion.providerKey, opinion.product_id, opinion.opinion_txt)).map { _ =>
+        opinionRepository.update(opinion.id, Opinion(opinion.id, opinion.providerKey, opinion.productId, opinion.opinionTxt)).map { _ =>
           Redirect("/opinion/all")
         }
       }
@@ -102,7 +102,7 @@ class OpinionFormController @Inject()(opinionRepository: OpinionRepository,
         )
       },
       opinion => {
-        opinionRepository.create(opinion.providerKey, opinion.product_id, opinion.opinion_txt).map { _ =>
+        opinionRepository.create(opinion.providerKey, opinion.productId, opinion.opinionTxt).map { _ =>
           Redirect("/opinions/all")
         }
       }
@@ -111,6 +111,6 @@ class OpinionFormController @Inject()(opinionRepository: OpinionRepository,
 
 }
 
-case class CreateOpinionForm(providerKey: String, product_id: Int, opinion_txt: String)
+case class CreateOpinionForm(providerKey: String, productId: Int, opinionTxt: String)
 
-case class UpdateOpinionForm(id: Int = 0, providerKey: String, product_id: Int, opinion_txt: String)
+case class UpdateOpinionForm(id: Int = 0, providerKey: String, productId: Int, opinionTxt: String)

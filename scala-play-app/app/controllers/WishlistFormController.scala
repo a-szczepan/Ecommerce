@@ -32,7 +32,7 @@ class WishlistFormController @Inject()(wishlistRepository: WishlistRepository,
   val wishlistForm: Form[CreateWishlistForm] = Form {
     mapping(
       "providerKey" -> nonEmptyText,
-      "product_id" -> number,
+      "productId" -> number,
     )(CreateWishlistForm.apply)(CreateWishlistForm.unapply)
   }
 
@@ -40,7 +40,7 @@ class WishlistFormController @Inject()(wishlistRepository: WishlistRepository,
     mapping(
       "id" -> number,
       "providerKey" -> nonEmptyText,
-      "product_id" -> number,
+      "productId" -> number,
     )(UpdateWishlistForm.apply)(UpdateWishlistForm.unapply)
   }
 
@@ -49,7 +49,7 @@ class WishlistFormController @Inject()(wishlistRepository: WishlistRepository,
   def updateWishlist(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val wishlist = wishlistRepository.getById(id)
     wishlist.map(wishlist => {
-      val wishlistForm = updateWishlistForm.fill(UpdateWishlistForm(wishlist.get.id, wishlist.get.providerKey, wishlist.get.product_id))
+      val wishlistForm = updateWishlistForm.fill(UpdateWishlistForm(wishlist.get.id, wishlist.get.providerKey, wishlist.get.productId))
       Ok(views.html.wishlist.updateWishlist(wishlistForm, userList, productList))
     })
   }
@@ -62,7 +62,7 @@ class WishlistFormController @Inject()(wishlistRepository: WishlistRepository,
         )
       },
       wishlist => {
-        wishlistRepository.update(wishlist.id, Wishlist(wishlist.id, wishlist.providerKey, wishlist.product_id)).map { _ =>
+        wishlistRepository.update(wishlist.id, Wishlist(wishlist.id, wishlist.providerKey, wishlist.productId)).map { _ =>
           Redirect("/wishlist/all")
         }
       }
@@ -100,7 +100,7 @@ class WishlistFormController @Inject()(wishlistRepository: WishlistRepository,
         )
       },
       wishlist => {
-        wishlistRepository.create(wishlist.providerKey, wishlist.product_id).map { _ =>
+        wishlistRepository.create(wishlist.providerKey, wishlist.productId).map { _ =>
           Redirect("/wishlist/all")
         }
       }
@@ -108,6 +108,6 @@ class WishlistFormController @Inject()(wishlistRepository: WishlistRepository,
   }
 
 }
-case class CreateWishlistForm(providerKey: String, product_id: Int)
+case class CreateWishlistForm(providerKey: String, productId: Int)
 
-case class UpdateWishlistForm(id: Int = 0, providerKey: String, product_id: Int)
+case class UpdateWishlistForm(id: Int = 0, providerKey: String, productId: Int)

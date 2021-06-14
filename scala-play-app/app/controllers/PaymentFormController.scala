@@ -24,7 +24,7 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
 
   val paymentForm: Form[CreatePaymentForm] = Form {
     mapping(
-      "order_id" -> number,
+      "orderId" -> number,
       "date" -> nonEmptyText,
       "amount" -> nonEmptyText,
     )(CreatePaymentForm.apply)(CreatePaymentForm.unapply)
@@ -33,7 +33,7 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
   val updatePaymentForm: Form[UpdatePaymentForm] = Form {
     mapping(
       "id" -> number,
-      "order_id" -> number,
+      "orderId" -> number,
       "date" -> nonEmptyText,
       "amount" -> nonEmptyText,
     )(UpdatePaymentForm.apply)(UpdatePaymentForm.unapply)
@@ -71,7 +71,7 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
         )
       },
       payment => {
-        paymentRepository.create(payment.order_id, payment.date, payment.amount).map { _ =>
+        paymentRepository.create(payment.orderId, payment.date, payment.amount).map { _ =>
           Redirect("/payments/all")
         }
       }
@@ -79,6 +79,6 @@ class PaymentFormController @Inject()(paymentRepository: PaymentRepository,
   }
 
 }
-case class CreatePaymentForm(order_id: Int, date: String, amount: String)
+case class CreatePaymentForm(orderId: Int, date: String, amount: String)
 
-case class UpdatePaymentForm(id: Int = 0, order_id: Int, date: String, amount: String)
+case class UpdatePaymentForm(id: Int = 0, orderId: Int, date: String, amount: String)

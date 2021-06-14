@@ -27,7 +27,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   val cartForm: Form[CreateCartForm] = Form {
     mapping(
       "providerKey" -> nonEmptyText,
-      "product_id" -> number,
+      "productId" -> number,
       "quantity" -> number,
     )(CreateCartForm.apply)(CreateCartForm.unapply)
   }
@@ -36,7 +36,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
     mapping(
       "id" -> number,
       "providerKey" -> nonEmptyText,
-      "product_id" -> number,
+      "productId" -> number,
       "quantity" -> number,
     )(UpdateCartForm.apply)(UpdateCartForm.unapply)
   }
@@ -46,7 +46,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   def updateCart(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val cart = cartRepository.getById(id)
     cart.map(cart => {
-      val cartForm = updateCartForm.fill(UpdateCartForm(cart.get.id, cart.get.providerKey, cart.get.product_id, cart.get.quantity))
+      val cartForm = updateCartForm.fill(UpdateCartForm(cart.get.id, cart.get.providerKey, cart.get.productId, cart.get.quantity))
       Ok(views.html.cart.updateCart(cartForm,userList,productList))
     })
   }
@@ -59,7 +59,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
         )
       },
       cart => {
-        cartRepository.update(cart.id, Cart(cart.id, cart.providerKey, cart.product_id, cart.quantity)).map { _ =>
+        cartRepository.update(cart.id, Cart(cart.id, cart.providerKey, cart.productId, cart.quantity)).map { _ =>
           Redirect("/carts/all")
         }
       }
@@ -97,7 +97,7 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
         )
       },
       cart => {
-        cartRepository.create(cart.providerKey, cart.product_id, cart.quantity).map { _ =>
+        cartRepository.create(cart.providerKey, cart.productId, cart.quantity).map { _ =>
           Redirect("/carts/all")
         }
       }
@@ -105,5 +105,5 @@ class CartFormController @Inject() (cartRepository: CartRepository,productReposi
   }
 
 }
-case class CreateCartForm(providerKey: String, product_id: Int, quantity: Int)
-case class UpdateCartForm(id: Int = 0, providerKey: String, product_id: Int, quantity: Int)
+case class CreateCartForm(providerKey: String, productId: Int, quantity: Int)
+case class UpdateCartForm(id: Int = 0, providerKey: String, productId: Int, quantity: Int)
