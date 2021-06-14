@@ -23,7 +23,12 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         user: action.payload,
       };
-
+    case  actionTypes.LOG_OUT:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      }
     case actionTypes.LOAD_ACCOUNT_INFO:
       return {
         ...state,

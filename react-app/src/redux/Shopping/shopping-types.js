@@ -1,6 +1,7 @@
 export const LOAD_PRODUCTS = "LOAD_PRODUCTS";
 
 export const SET_USER = "SET_USER";
+export const LOG_OUT = "LOG_OUT"
 
 export const LOAD_CART = "LOAD_CART";
 export const ADD_TO_CART = "ADD_TO_CART";

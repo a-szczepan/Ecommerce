@@ -35,20 +35,6 @@ export const Header = () => {
       <Col className="headerImage">
         <img height="600px" src={headerImage} alt="header" />
       </Col>
-      <Button
-        onClick={() => {
-          document.cookie.split(";").forEach(function (c) {
-            document.cookie = c
-              .replace(/^ +/, "")
-              .replace(
-                /=.*/,
-                "=;expires=" + new Date().toUTCString() + ";path=/"
-              );
-          });
-        }}
-      >
-        Wyczyść cookie
-      </Button>
       <Navbar />
     </Row>
   );

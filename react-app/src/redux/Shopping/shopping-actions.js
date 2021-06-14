@@ -12,6 +12,23 @@ export const setUser = () => {
   };
 };
 
+export const logOut = () => {
+  return async (dispatch) => {
+    document.cookie.split(";").forEach(function (c) {
+      document.cookie = c
+          .replace(/^ +/, "")
+          .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+          );
+    });
+    dispatch({
+      type: actionTypes.LOG_OUT,
+      payload: ''
+        })
+  }
+}
+
 export const getAccountInfo = (providerKey) => async (dispatch) => {
   try {
     const res = await axios.get(

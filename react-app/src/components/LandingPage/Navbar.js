@@ -4,9 +4,9 @@ import { Col } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchProducts,
-  fetchWishlist,
-  loadWishlistProducts,
+    fetchProducts,
+    fetchWishlist,
+    loadWishlistProducts, logOut,
 } from "../../redux/Shopping/shopping-actions";
 import { CartDialog } from "../Cart/Cart";
 import Menu from "@material-ui/core/Menu";
@@ -18,15 +18,70 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 
 function AccountButton() {
-  const history = useHistory();
-  function handleClick() {
-    history.push("/account");
-  }
+  const dispatch = useDispatch()
+    const history = useHistory()
+
+    const StyledAccountMenu = withStyles({
+        paper: {
+            backgroundColor: "#dee7de",
+        },
+    })((props) => (
+        <Menu
+            elevation={-1}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+            }}
+            transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+            }}
+            {...props}
+        />
+    ));
+
+    const [anchorElement, setAnchorElement] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorElement(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorElement(null);
+    };
 
   return (
-    <Button type="button" onClick={handleClick}>
-      Konto
-    </Button>
+      <>
+          <Button
+              aria-controls="customized-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+          >
+              Konto
+          </Button>
+          <StyledAccountMenu
+              id="customized-menu"
+              anchorEl={anchorElement}
+              keepMounted
+              open={Boolean(anchorElement)}
+              onClose={handleClose}
+          >
+              <MenuItem >
+                  <Button onClick={()=>history.push("/settings")}>Ustawienia</Button>
+              </MenuItem>
+              <MenuItem >
+                  <Button onClick={()=> history.push("/orders")}>Zamówienia</Button>
+              </MenuItem>
+              <MenuItem >
+                  <Button onClick={() => {
+                      dispatch(logOut())
+                  }}>Wyloguj</Button>
+              </MenuItem>
+          </StyledAccountMenu>
+      </>
+
+
   );
 }
 
