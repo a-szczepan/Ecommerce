@@ -17,79 +17,20 @@ const INITIAL_STATE = {
   loading: false,
 };
 
-const shopReducer = (state = INITIAL_STATE, action) => {
+const shopReducer = (state = INITIAL_STATE, action={}) => {
   switch (action.type) {
-    case actionTypes.SET_USER:
-      return {
-        ...state,
-        loading: false,
-        user: action.payload,
-      };
-    case actionTypes.LOG_OUT:
-      return {
-        ...state,
-        loading: false,
-        user: action.payload,
-      };
-    case actionTypes.LOAD_ACCOUNT_INFO:
-      return {
-        ...state,
-        loading: false,
-        account: action.payload,
-      };
-
-    case actionTypes.CREATE_ACCOUNT_INFO:
-      return {
-        ...state,
-        loading: false,
-        account: action.payload,
-      };
-    case actionTypes.DELETE_ACCOUNT_INFO:
-      return {
-        ...state,
-        loading: false,
-        account: action.payload,
-      };
-    case actionTypes.LOAD_SHIPMENT_INFO:
-      return {
-        ...state,
-        loading: false,
-        shipping: action.payload,
-      };
-
-    case actionTypes.CREATE_SHIPMENT_INFO:
-      return {
-        ...state,
-        loading: false,
-        shipping: action.payload,
-      };
-    case actionTypes.DELETE_SHIPMENT_INFO:
-      return {
-        ...state,
-        loading: false,
-        shipping: action.payload,
-      };
-
-    case actionTypes.LOAD_PRODUCTS:
-      return {
-        ...state,
-        loading: false,
-        wishlist: state.wishlist,
-        products: action.payload,
-        wishlistProducts: state.wishlistProducts,
-      };
-
     case actionTypes.LOAD_CART:
       const cart = [];
       const allProducts = state.products;
       allProducts.forEach((product) => {
         action.payload.forEach((cart_item) => {
           if (product.id === cart_item.product_id) {
-            let newProd = product;
-            newProd["quantity"] = cart_item.quantity;
-            newProd["cart_id"] = cart_item.id;
-            newProd["providerKey"] = cart_item.providerKey;
-            cart.push(newProd);
+            let loadCartNew = {...product,
+              quantity: cart_item.quantity,
+              cart_id: cart_item.id,
+              providerKey: cart_item.providerKey,
+            };
+            cart.push(loadCartNew);
           }
         });
       });
@@ -109,17 +50,20 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: sumAfterLoad,
       };
     case actionTypes.ADD_TO_CART:
-      let product = state.products.filter(
+      let filteredProd = state.products.filter(
         (product) => product.id === action.payload.product_id
       );
-      product = product[0];
-      product["quantity"] = action.payload.quantity;
-      product["cart_id"] = action.payload.id;
-      product["providerKey"] = action.payload.providerKey;
-      state.cart.push(product);
+      filteredProd = filteredProd[0];
+      let addToCartProd= {
+        ...filteredProd,
+        quantity: action.payload.quantity,
+        cart_id: action.payload.id,
+        providerKey: action.payload.providerKey,
+      }
+      state.cart.push(addToCartProd);
       let sum = 0;
       state.cart.forEach(
-        (product) => (sum += parseFloat(product.price) * product.quantity)
+        (cartItem) => (sum += parseFloat(cartItem.price) * cartItem.quantity)
       );
       sum = new Intl.NumberFormat("pl-PL", {
         style: "currency",
@@ -132,17 +76,9 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: sum,
       };
     case actionTypes.REMOVE_FROM_CART:
-      let newCart = [];
-
-      if (state.cart.length > 0) {
-        newCart = state.cart.filter(
-          (product) => product.cart_id !== action.payload
-        );
-      } else {
-        newCart = [];
-      }
+      const cartWthItem = removeFromCart(state, action)
       let newSum = 0;
-      newCart.forEach(
+      cartWthItem.forEach(
         (product) => (newSum += parseFloat(product.price) * product.quantity)
       );
       newSum = new Intl.NumberFormat("pl-PL", {
@@ -152,16 +88,15 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        cart: newCart,
+        cart: cartWthItem,
         cartSum: newSum,
       };
     case actionTypes.CART_QUANTITY_UP:
       state.cart.forEach((product) =>
         product.cart_id === action.payload
-          ? (product.quantity += 1)
-          : product.quantity
+            ? product.quantity++
+            : product.quantity
       );
-
       let quantityUpSum = 0;
       state.cart.forEach(
         (product) =>
@@ -179,14 +114,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.forEach((product) =>
-        product.cart_id === action.payload
-          ? product.quantity > 0
-            ? (product.quantity -= 1)
-            : product.quantity
-          : product.quantity
-      );
-
+      state.cart.forEach((product) => product.cart_id === action.payload ? product.quantity > 0 ? (product.quantity--) : product.quantity : product.quantity);
       let quantityDownSum = 0;
       state.cart.forEach(
         (product) =>
@@ -204,33 +132,12 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: quantityDownSum,
       };
 
-    case actionTypes.LOAD_WISHLIST:
-      return {
-        ...state,
-        loading: false,
-        wishlist: action.payload,
-        products: state.products,
-        wishlistProducts: state.wishlistProducts,
-      };
-    case actionTypes.LOAD_WISHLIST_PRODUCTS:
-      return {
-        ...state,
-        loading: false,
-        wishlistProducts: action.payload,
-      };
     case actionTypes.REMOVE_FROM_WISHLIST:
-      let newWishlistProducts = [];
-      if (state.wishlistProducts.length > 0) {
-        newWishlistProducts = state.wishlistProducts.filter(
-          ({ id }) => id !== action.payload
-        );
-      } else {
-        newWishlistProducts = [];
-      }
+      const wishlistWithoutItem = rmvFromWishlist(state, action.payload)
       return {
         ...state,
         loading: false,
-        wishlistProducts: newWishlistProducts,
+        wishlistProducts: wishlistWithoutItem,
       };
     case actionTypes.ADD_TO_WISHLIST:
       state.wishlist.push(action.payload);
@@ -241,13 +148,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       };
 
     case actionTypes.LOAD_PAYMENTS:
-      console.log(action.payments);
-      state.payments.push(action.payload);
-      return {
-        ...state,
-        loading: false,
-        payments: state.payments,
-      };
     case actionTypes.CREATE_PAYMENT:
       state.payments.push(action.payload);
       return {
@@ -256,12 +156,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         payments: state.payments,
       };
 
-    case actionTypes.LOAD_ORDERS:
-      return {
-        ...state,
-        loading: false,
-        orders: action.payload,
-      };
     case actionTypes.CREATE_ORDER:
       state.orders.push(action.payload);
       return {
@@ -287,9 +181,83 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         currentCategory: action.payload,
       };
+    case actionTypes.SET_USER:
+    case actionTypes.LOG_OUT:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+    case actionTypes.LOAD_ACCOUNT_INFO:
+    case actionTypes.CREATE_ACCOUNT_INFO:
+    case actionTypes.DELETE_ACCOUNT_INFO:
+      return {
+        ...state,
+        loading: false,
+        account: action.payload,
+      };
+    case actionTypes.LOAD_SHIPMENT_INFO:
+    case actionTypes.CREATE_SHIPMENT_INFO:
+    case actionTypes.DELETE_SHIPMENT_INFO:
+      return {
+        ...state,
+        loading: false,
+        shipping: action.payload,
+      };
+
+    case actionTypes.LOAD_PRODUCTS:
+      return {
+        ...state,
+        loading: false,
+        wishlist: state.wishlist,
+        products: action.payload,
+        wishlistProducts: state.wishlistProducts,
+      };
+    case actionTypes.LOAD_WISHLIST:
+      return {
+        ...state,
+        loading: false,
+        wishlist: action.payload,
+        products: state.products,
+        wishlistProducts: state.wishlistProducts,
+      };
+    case actionTypes.LOAD_WISHLIST_PRODUCTS:
+      return {
+        ...state,
+        loading: false,
+        wishlistProducts: action.payload,
+      };
+    case actionTypes.LOAD_ORDERS:
+      return {
+        ...state,
+        loading: false,
+        orders: action.payload,
+      };
     default:
       return state;
   }
 };
+/*UTILS*/
+const rmvFromWishlist = (state, action) => {
+  if (state.wishlistProducts.length > 0) {
+    return state.wishlistProducts.filter(
+        ({ id }) => id !== action
+    );
+  } else {
+    return [];
+  }
+}
+
+const removeFromCart = (state, action) => {
+  if (state.cart.length > 0) {
+    return state.cart.filter(
+        (product) => product.cart_id !== action.payload
+    );
+  } else {
+    return [];
+  }
+}
+
+
 
 export default shopReducer;

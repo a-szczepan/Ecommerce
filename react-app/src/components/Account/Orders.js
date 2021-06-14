@@ -1,10 +1,7 @@
 import "./Account.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import {
-  fetchCart,
-  setUser,
-} from "../../redux/Shopping/shopping-actions";
+import { fetchCart, setUser } from "../../redux/Shopping/shopping-actions";
 
 export const Orders = () => {
   const dispatch = useDispatch();
