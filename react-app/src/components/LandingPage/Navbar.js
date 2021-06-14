@@ -19,22 +19,23 @@ import {
 } from "react-social-login-buttons";
 import { withStyles } from "@material-ui/core/styles";
 
-
 const setMenu = (props) => {
-    return (    <Menu
-        elevation={-1}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-        }}
-        transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-        }}
-        {...props}
-    />);
-}
+  return (
+    <Menu
+      elevation={-1}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+      {...props}
+    />
+  );
+};
 
 function AccountButton() {
   const dispatch = useDispatch();
@@ -45,9 +46,7 @@ function AccountButton() {
     paper: {
       backgroundColor: "#dee7de",
     },
-  })((props) => (
-      setMenu(props)
-  ));
+  })((props) => setMenu(props));
 
   const [anchorElement, setAnchorElement] = React.useState(null);
 
@@ -102,17 +101,13 @@ function AccountButton() {
   );
 }
 
-
-
 const SignIn = () => {
   const StyledMenu = withStyles({
     paper: {
       backgroundColor: "#27401A",
       backgroundImage: "linear-gradient(160deg, #8BB06C 0%, #27401A 100%)",
     },
-  })((props) => (
-        setMenu(props)
-  ));
+  })((props) => setMenu(props));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
