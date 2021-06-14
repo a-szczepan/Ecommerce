@@ -140,18 +140,11 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
 
     case actionTypes.REMOVE_FROM_WISHLIST:
-      let newWishlistProducts = [];
-      if (state.wishlistProducts.length > 0) {
-        newWishlistProducts = state.wishlistProducts.filter(
-          ({ id }) => id !== action.payload
-        );
-      } else {
-        newWishlistProducts = [];
-      }
+      const wishlistWithoutItem = removeFromWishlist(state, action.payload)
       return {
         ...state,
         loading: false,
-        wishlistProducts: newWishlistProducts,
+        wishlistProducts: wishlistWithoutItem,
       };
     case actionTypes.ADD_TO_WISHLIST:
       state.wishlist.push(action.payload);
@@ -251,5 +244,17 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       return state;
   }
 };
+/*UTILS*/
+const removeFromWishlist = (state, action) => {
+  if (state.wishlistProducts.length > 0) {
+    return state.wishlistProducts.filter(
+        ({ id }) => id !== action
+    );
+  } else {
+    return [];
+  }
+}
+
+
 
 export default shopReducer;
