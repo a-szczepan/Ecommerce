@@ -13,6 +13,27 @@ import {
 } from "../../redux/Shopping/shopping-actions";
 import EditIcon from "@material-ui/icons/Edit";
 
+const errInfo = (errors, touched) => {
+    return (
+        <>
+            {errors && touched ? (
+                <div
+                    style={{
+                        display: "flex",
+                        padding: "15px 0 0 0",
+                        fontSize: "12px",
+                    }}
+                >
+                    <WarningIcon style={{ color: "#ecb544" }} fontSize="small" />
+                    <Box style={{ paddingLeft: "10px" }}>
+                        {errors}
+                    </Box>
+                </div>
+            ) : null}
+        </>
+    );
+}
+
 export const ShippingInfo = (props) => {
   const dispatch = useDispatch();
 
@@ -65,20 +86,7 @@ export const ShippingInfo = (props) => {
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errors.street_name && touched.street_name ? (
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "15px 0 0 0",
-                    fontSize: "12px",
-                  }}
-                >
-                  <WarningIcon style={{ color: "#ecb544" }} fontSize="small" />
-                  <Box style={{ paddingLeft: "10px" }}>
-                    {errors.street_name}
-                  </Box>
-                </div>
-              ) : null}
+              {errInfo(errors.street_name, touched.street_name)}
               <Box fontSize={17} fontWeight={500} style={{ paddingTop: "2%" }}>
                 Numer budynku / mieszkania:
               </Box>
@@ -89,20 +97,7 @@ export const ShippingInfo = (props) => {
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errors.building_number && touched.building_number ? (
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "15px 0 0 0",
-                    fontSize: "12px",
-                  }}
-                >
-                  <WarningIcon style={{ color: "#ecb544" }} fontSize="small" />
-                  <Box style={{ paddingLeft: "10px" }}>
-                    {errors.building_number}
-                  </Box>
-                </div>
-              ) : null}
+              {errInfo(errors.building_number, touched.building_number)}
               <Box fontSize={17} fontWeight={500} style={{ paddingTop: "2%" }}>
                 Kod pocztowy:
               </Box>
@@ -113,20 +108,7 @@ export const ShippingInfo = (props) => {
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errors.postal_code && touched.postal_code ? (
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "15px 0 0 0",
-                    fontSize: "12px",
-                  }}
-                >
-                  <WarningIcon style={{ color: "#ecb544" }} fontSize="small" />
-                  <Box style={{ paddingLeft: "10px" }}>
-                    {errors.postal_code}
-                  </Box>
-                </div>
-              ) : null}
+              {errInfo(errors.postal_code, touched.postal_code)}
               <Box fontSize={17} fontWeight={500} style={{ paddingTop: "2%" }}>
                 Miasto:
               </Box>
@@ -137,18 +119,7 @@ export const ShippingInfo = (props) => {
                 style={{ minWidth: "300px" }}
                 required
               />
-              {errors.city && touched.city ? (
-                <div
-                  style={{
-                    display: "flex",
-                    padding: "15px 0 0 0",
-                    fontSize: "12px",
-                  }}
-                >
-                  <WarningIcon style={{ color: "#ecb544" }} fontSize="small" />
-                  <Box style={{ paddingLeft: "10px" }}>{errors.city}</Box>
-                </div>
-              ) : null}
+              {errInfo(errors.city, touched.city)}
               <Row style={{ display: "flex", padding: "1% 0 0 240px" }}>
                 <Field as={Button} type="submit">
                   Potwierdź
