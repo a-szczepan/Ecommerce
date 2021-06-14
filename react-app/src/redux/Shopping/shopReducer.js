@@ -25,11 +25,12 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       allProducts.forEach((product) => {
         action.payload.forEach((cart_item) => {
           if (product.id === cart_item.product_id) {
-            let newProd = product;
-            newProd["quantity"] = cart_item.quantity;
-            newProd["cart_id"] = cart_item.id;
-            newProd["providerKey"] = cart_item.providerKey;
-            cart.push(newProd);
+            let loadCartNew = {...product,
+              quantity: cart_item.quantity,
+              cart_id: cart_item.id,
+              providerKey: cart_item.providerKey,
+            };
+            cart.push(loadCartNew);
           }
         });
       });
@@ -49,17 +50,20 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
         cartSum: sumAfterLoad,
       };
     case actionTypes.ADD_TO_CART:
-      let product = state.products.filter(
+      let filteredProd = state.products.filter(
         (product) => product.id === action.payload.product_id
       );
-      product = product[0];
-      product["quantity"] = action.payload.quantity;
-      product["cart_id"] = action.payload.id;
-      product["providerKey"] = action.payload.providerKey;
-      state.cart.push(product);
+      filteredProd = filteredProd[0];
+      let addToCartProd= {
+        ...filteredProd,
+        quantity: action.payload.quantity,
+        cart_id: action.payload.id,
+        providerKey: action.payload.providerKey,
+      }
+      state.cart.push(addToCartProd);
       let sum = 0;
       state.cart.forEach(
-        (product) => (sum += parseFloat(product.price) * product.quantity)
+        (cartItem) => (sum += parseFloat(cartItem.price) * cartItem.quantity)
       );
       sum = new Intl.NumberFormat("pl-PL", {
         style: "currency",
