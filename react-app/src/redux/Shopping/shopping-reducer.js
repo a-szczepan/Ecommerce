@@ -2,6 +2,8 @@ import * as actionTypes from "./shopping-types";
 
 const INITIAL_STATE = {
   user: "",
+  categories: [],
+  currentCategory: "all",
   account: "create",
   shipping: "create",
   products: [],
@@ -23,12 +25,12 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         user: action.payload,
       };
-    case  actionTypes.LOG_OUT:
+    case actionTypes.LOG_OUT:
       return {
         ...state,
         loading: false,
         user: action.payload,
-      }
+      };
     case actionTypes.LOAD_ACCOUNT_INFO:
       return {
         ...state,
@@ -61,7 +63,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         shipping: action.payload,
       };
-
     case actionTypes.DELETE_SHIPMENT_INFO:
       return {
         ...state,
@@ -93,7 +94,10 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         });
       });
       let sumAfterLoad = 0;
-      cart.map((product) => (sumAfterLoad += parseFloat(product.price)));
+      cart.map(
+        (product) =>
+          (sumAfterLoad += parseFloat(product.price * product.quantity))
+      );
       sumAfterLoad = new Intl.NumberFormat("pl-PL", {
         style: "currency",
         currency: "PLN",
@@ -131,7 +135,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       let newCart = [];
 
       if (state.cart.length > 0) {
-        console.log("tuu");
         newCart = state.cart.filter(
           (product) => product.cart_id !== action.payload
         );
@@ -237,6 +240,28 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         wishlist: state.wishlist,
       };
 
+    case actionTypes.LOAD_PAYMENTS:
+      console.log(action.payments);
+      state.payments.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        payments: state.payments,
+      };
+    case actionTypes.CREATE_PAYMENT:
+      state.payments.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        payments: state.payments,
+      };
+
+    case actionTypes.LOAD_ORDERS:
+      return {
+        ...state,
+        loading: false,
+        orders: action.payload,
+      };
     case actionTypes.CREATE_ORDER:
       state.orders.push(action.payload);
       return {
@@ -244,16 +269,24 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         orders: state.orders,
         cartSum: state.cartSum,
-        cartId: action.payload.id
+        cartId: action.payload.id,
       };
 
-    case actionTypes.CREATE_PAYMENT:
-      state.payments.push(action.payload)
+    case actionTypes.LOAD_CATEGORIES:
+      state.categories.push(action.payload);
       return {
         ...state,
         loading: false,
-        payments: state.payments
-      }
+        categories: action.payload,
+        currentCategory: "all",
+      };
+
+    case actionTypes.SET_CURRENT_CATEGORY:
+      return {
+        ...state,
+        loading: false,
+        currentCategory: action.payload,
+      };
     default:
       return state;
   }

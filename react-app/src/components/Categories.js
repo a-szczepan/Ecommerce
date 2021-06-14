@@ -1,28 +1,36 @@
 import "../components/styles/Categories.css";
-import { Row, Col, Container } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Box from "@material-ui/core/Box";
+import { Row } from "react-bootstrap";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
+import { useDispatch, useSelector } from "react-redux";
+import Typography from "@material-ui/core/Typography";
+import { setCurrentCategory } from "../redux/Shopping/shopping-actions";
+
+const CategoryButton = (props) => {
+  const dispatch = useDispatch();
+  return (
+    <Button onClick={() => dispatch(setCurrentCategory(props.catId))}>
+      {props.category}
+    </Button>
+  );
+};
+
+const ResetButton = () => {
+  return <Button>Wszystkie kategorie</Button>;
+};
 
 export const Categories = () => {
-  const url = `http://localhost:9000/categories`;
-  const [categories, setCategories] = useState(null);
-  useEffect(() => {
-    axios.get(url).then((response) => {
-      setCategories(response.data);
-    });
-  }, [url]);
+  const post = useSelector((state) => state);
 
   return (
     <div>
-      <h1 className="categoryHeading">Kategorie produktów</h1>
-      {categories &&
-        categories.map((category, index) => (
-          <Row key={index} className="shippingData">
-            <Button color="primary">{category.name}</Button>
-          </Row>
+      <Typography variant="h5">Kategorie</Typography>
+      <ResetButton />
+      <Row>
+        {post.shop.categories.map((x) => (
+          <CategoryButton catId={x.id} category={x.name} />
         ))}
+      </Row>
     </div>
   );
 };
