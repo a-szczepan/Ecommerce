@@ -15,15 +15,19 @@ import ListItem from "@material-ui/core/ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteFromCart,
+  fetchCart,
   fetchProducts,
+  getAccountInfo,
   quantityDown,
   quantityUp,
+  setUser,
 } from "../../redux/Shopping/shopping-actions";
 import { Row } from "react-bootstrap";
 import Box from "@material-ui/core/Box";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { useHistory } from "react-router-dom";
 
 const styles = (theme) => ({
   root: {
@@ -37,6 +41,24 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
+
+function OrderButton() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const post = useSelector((state) => state);
+  function handleClick() {
+    history.push("/order");
+  }
+  useEffect(() => {
+    dispatch(getAccountInfo(post.shop.user));
+  }, []);
+
+  return (
+    <Button type="button" onClick={handleClick}>
+      Przejdź do zamówienia
+    </Button>
+  );
+}
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -159,9 +181,7 @@ export function CartDialog() {
           <Box fontSize="20px"> Suma: {post.shop.cartSum} </Box>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Przejdź do płatności
-          </Button>
+          <OrderButton autoFocus color="primary" />
         </DialogActions>
       </Dialog>
     </div>

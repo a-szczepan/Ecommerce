@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { Col } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";

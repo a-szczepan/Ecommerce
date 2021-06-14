@@ -12,37 +12,146 @@ export const setUser = () => {
   };
 };
 
-export const fetchProducts = () => {
-  return async (dispatch, getState) => {
-    const res = await axios.get(`http://localhost:9000/products`);
+export const getAccountInfo = (providerKey) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:9000/accounts/user/${providerKey}`
+    );
     dispatch({
-      type: actionTypes.LOAD_PRODUCTS,
+      type: actionTypes.LOAD_ACCOUNT_INFO,
       payload: res.data,
     });
+  } catch (err) {
+    if (err.response.status === 404) {
+      dispatch({
+        type: actionTypes.LOAD_ACCOUNT_INFO,
+        payload: "create",
+      });
+    }
+  }
+};
+
+export const createAccountInfo =
+  (providerKey, first_name, last_name) => async (dispatch) => {
+    try {
+      const res = await axios.post(`http://localhost:9000/accounts`, {
+        id: 0,
+        providerKey: providerKey,
+        first_name: first_name,
+        last_name: last_name,
+      });
+      console.log(res);
+      dispatch({
+        type: actionTypes.CREATE_ACCOUNT_INFO,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+export const deleteAccountInfo = (account_id) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:9000/accounts/${account_id}`);
+    dispatch({
+      type: actionTypes.DELETE_ACCOUNT_INFO,
+      payload: "create",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getShippingInfo = (providerKey) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:9000/shipping/user/${providerKey}`
+    );
+    dispatch({
+      type: actionTypes.LOAD_SHIPMENT_INFO,
+      payload: res.data,
+    });
+  } catch (err) {
+    if (err.response.status === 404) {
+      dispatch({
+        type: actionTypes.LOAD_SHIPMENT_INFO,
+        payload: "create",
+      });
+    }
+  }
+};
+
+export const createShippingInfo =
+  (providerKey, street_name, building_number, postal_code, city) =>
+  async (dispatch) => {
+    try {
+      const res = await axios.post(`http://localhost:9000/shipping`, {
+        id: 0,
+        providerKey: providerKey,
+        street_name: street_name,
+        building_number: building_number,
+        postal_code: postal_code,
+        city: city,
+      });
+      console.log(res);
+      dispatch({
+        type: actionTypes.CREATE_SHIPMENT_INFO,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+export const deleteShippingInfo = (shipping_id) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:9000/shipping/${shipping_id}`);
+    dispatch({
+      type: actionTypes.DELETE_SHIPMENT_INFO,
+      payload: "create",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const fetchProducts = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.get(`http://localhost:9000/products`);
+      dispatch({
+        type: actionTypes.LOAD_PRODUCTS,
+        payload: res.data,
+      });
+    } catch (err) {}
   };
 };
 
 export const fetchWishlist = (providerKey) => {
   return async (dispatch, getState) => {
-    const res = await axios.get(
-      `http://localhost:9000/wishlist/user/${providerKey}`
-    );
-    dispatch({
-      type: actionTypes.LOAD_WISHLIST,
-      payload: res.data,
-    });
+    try {
+      const res = await axios.get(
+        `http://localhost:9000/wishlist/user/${providerKey}`
+      );
+      dispatch({
+        type: actionTypes.LOAD_WISHLIST,
+        payload: res.data,
+      });
+    } catch (err) {}
   };
 };
 
 export const fetchCart = (providerKey) => {
   return async (dispatch) => {
-    const res = await axios.get(
-      `http://localhost:9000/cart/user/${providerKey}`
-    );
-    dispatch({
-      type: actionTypes.LOAD_CART,
-      payload: res.data,
-    });
+    try {
+      const res = await axios.get(
+        `http://localhost:9000/cart/user/${providerKey}`
+      );
+      dispatch({
+        type: actionTypes.LOAD_CART,
+        payload: res.data,
+      });
+    } catch (err) {}
   };
 };
 
