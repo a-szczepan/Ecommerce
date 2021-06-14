@@ -106,7 +106,7 @@ const Products = (products, wishlist) => {
   return (
     <>
       {post.shop.products.map((el, index) =>
-        filteredProducts(index, el, wishlist)
+        filteredProducts(index, el)
       )}
     </>
   );
