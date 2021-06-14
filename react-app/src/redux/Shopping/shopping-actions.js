@@ -187,7 +187,7 @@ export const addToCart = (providerKey, product_id) => async (dispatch) => {
 
 export const deleteFromCart = (cart_id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`http://localhost:9000/cart/${cart_id}`);
+    await axios.delete(`http://localhost:9000/cart/${cart_id}`);
     dispatch({
       type: actionTypes.REMOVE_FROM_CART,
       payload: cart_id,
@@ -200,7 +200,7 @@ export const deleteFromCart = (cart_id) => async (dispatch) => {
 export const quantityUp = (cart_state) => async (dispatch) => {
   try {
     const newQuantity = cart_state.quantity + 1;
-    const res = await axios.put(
+    await axios.put(
       `http://localhost:9000/cart/${cart_state.cart_id}`,
       {
         id: cart_state.cart_id,
@@ -224,7 +224,7 @@ export const quantityDown = (cart_state) => async (dispatch) => {
     if (cart_state.quantity > 0) {
       newQuantity = cart_state.quantity - 1;
     }
-    const res = await axios.put(
+    await axios.put(
       `http://localhost:9000/cart/${cart_state.cart_id}`,
       {
         id: cart_state.cart_id,
@@ -271,7 +271,7 @@ export const addToWishlist = (providerKey, product_id) => async (dispatch) => {
 
 export const deleteFromWishlist = (wishlist_id) => async (dispatch) => {
   try {
-    const res = await axios.delete(
+    await axios.delete(
       `http://localhost:9000/wishlist/${wishlist_id[0].id}`
     );
     dispatch({

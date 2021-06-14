@@ -1,7 +1,6 @@
 import "../components/styles/Product.css";
 import { useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -10,17 +9,15 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
   addToWishlist,
   fetchCart,
   fetchCategories,
-  fetchOrders,
   fetchProducts,
   fetchWishlist,
 } from "../redux/Shopping/shopping-actions";
-import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -98,7 +95,7 @@ const Products = (products, wishlist) => {
     dispatch(fetchCategories());
   }, []);
 
-  const filteredProducts = (index, el, wishlist) => {
+  const filteredProducts = (index, el) => {
     if (
       el.category_id === post.shop.currentCategory ||
       post.shop.currentCategory === "all"
@@ -116,7 +113,6 @@ const Products = (products, wishlist) => {
 };
 
 const mapStateToProps = (state) => {
-  //co chce ze state reducera - mamy dostęp do propsów
   return {
     products: state.shop.products,
     wishlist: state.shop.wishlist,
