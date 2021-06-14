@@ -16,7 +16,12 @@ const CategoryButton = (props) => {
 };
 
 const ResetButton = () => {
-  return <Button>Wszystkie kategorie</Button>;
+    const dispatch = useDispatch();
+    return (
+        <Button onClick={() => dispatch(setCurrentCategory("all"))}>
+            Wszystkie kategorie
+        </Button>
+    );
 };
 
 export const Categories = () => {
