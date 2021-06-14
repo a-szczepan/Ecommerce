@@ -12,6 +12,20 @@ export const setUser = () => {
   };
 };
 
+export const logOut = () => {
+  return async (dispatch) => {
+    document.cookie.split(";").forEach(function (c) {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+    dispatch({
+      type: actionTypes.LOG_OUT,
+      payload: "",
+    });
+  };
+};
+
 export const getAccountInfo = (providerKey) => async (dispatch) => {
   try {
     const res = await axios.get(
@@ -40,7 +54,6 @@ export const createAccountInfo =
         first_name: first_name,
         last_name: last_name,
       });
-      console.log(res);
       dispatch({
         type: actionTypes.CREATE_ACCOUNT_INFO,
         payload: res.data,
@@ -93,7 +106,6 @@ export const createShippingInfo =
         postal_code: postal_code,
         city: city,
       });
-      console.log(res);
       dispatch({
         type: actionTypes.CREATE_SHIPMENT_INFO,
         payload: res.data,
@@ -163,6 +175,7 @@ export const addToCart = (providerKey, product_id) => async (dispatch) => {
       product_id: product_id,
       quantity: 1,
     });
+    console.log(res);
     dispatch({
       type: actionTypes.ADD_TO_CART,
       payload: res.data,
@@ -268,4 +281,91 @@ export const deleteFromWishlist = (wishlist_id) => async (dispatch) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const fetchPayments = (order_id) => {
+  console.log("tuu");
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:9000/payments/order/${order_id}`
+      );
+      console.log(res);
+      dispatch({
+        type: actionTypes.LOAD_PAYMENTS,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+};
+
+export const fetchOrders = (cart_id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:9000/orders/cart/${cart_id}`
+      );
+      dispatch({
+        type: actionTypes.LOAD_ORDERS,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+};
+
+export const createOrder = (cart_id, shipping_id) => async (dispatch) => {
+  try {
+    const res = await axios.post(`http://localhost:9000/orders`, {
+      id: 0,
+      cart_id: cart_id,
+      shipping_id: shipping_id,
+    });
+
+    dispatch({
+      type: actionTypes.CREATE_ORDER,
+      payload: res.data,
+    });
+  } catch (err) {}
+};
+
+export const createPayment = (order_id, amount) => async (dispatch) => {
+  console.log(amount);
+  try {
+    const date = new Date().toLocaleString();
+
+    const res = await axios.post(`http://localhost:9000/payments`, {
+      id: 0,
+      order_id: order_id,
+      date: date,
+      amount: amount,
+    });
+    console.log(res);
+    dispatch({
+      type: actionTypes.CREATE_PAYMENT,
+      payload: res.data,
+    });
+  } catch (err) {}
+};
+
+export const fetchCategories = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`http://localhost:9000/categories`);
+
+      dispatch({
+        type: actionTypes.LOAD_CATEGORIES,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+};
+
+export const setCurrentCategory = (category) => {
+  console.log(category);
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.SET_CURRENT_CATEGORY,
+      payload: category,
+    });
+  };
 };

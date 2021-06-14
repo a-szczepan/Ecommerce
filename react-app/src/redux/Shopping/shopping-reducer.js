@@ -2,6 +2,8 @@ import * as actionTypes from "./shopping-types";
 
 const INITIAL_STATE = {
   user: "",
+  categories: [],
+  currentCategory: "all",
   account: "create",
   shipping: "create",
   products: [],
@@ -9,6 +11,9 @@ const INITIAL_STATE = {
   wishlistProducts: [],
   cart: [],
   cartSum: 0,
+  cartId: 0,
+  orders: [],
+  payments: [],
   loading: false,
 };
 
@@ -20,7 +25,12 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         user: action.payload,
       };
-
+    case actionTypes.LOG_OUT:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
     case actionTypes.LOAD_ACCOUNT_INFO:
       return {
         ...state,
@@ -53,7 +63,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         shipping: action.payload,
       };
-
     case actionTypes.DELETE_SHIPMENT_INFO:
       return {
         ...state,
@@ -73,8 +82,8 @@ const shopReducer = (state = INITIAL_STATE, action) => {
     case actionTypes.LOAD_CART:
       const cart = [];
       const allProducts = state.products;
-      allProducts.map((product) => {
-        action.payload.map((cart_item) => {
+      allProducts.forEach((product) => {
+        action.payload.forEach((cart_item) => {
           if (product.id === cart_item.product_id) {
             let newProd = product;
             newProd["quantity"] = cart_item.quantity;
@@ -85,7 +94,10 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         });
       });
       let sumAfterLoad = 0;
-      cart.map((product) => (sumAfterLoad += parseFloat(product.price)));
+      cart.forEach(
+        (product) =>
+          (sumAfterLoad += parseFloat(product.price * product.quantity))
+      );
       sumAfterLoad = new Intl.NumberFormat("pl-PL", {
         style: "currency",
         currency: "PLN",
@@ -106,7 +118,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       product["providerKey"] = action.payload.providerKey;
       state.cart.push(product);
       let sum = 0;
-      state.cart.map(
+      state.cart.forEach(
         (product) => (sum += parseFloat(product.price) * product.quantity)
       );
       sum = new Intl.NumberFormat("pl-PL", {
@@ -123,7 +135,6 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       let newCart = [];
 
       if (state.cart.length > 0) {
-        console.log("tuu");
         newCart = state.cart.filter(
           (product) => product.cart_id !== action.payload
         );
@@ -131,7 +142,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         newCart = [];
       }
       let newSum = 0;
-      newCart.map(
+      newCart.forEach(
         (product) => (newSum += parseFloat(product.price) * product.quantity)
       );
       newSum = new Intl.NumberFormat("pl-PL", {
@@ -145,14 +156,14 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: newSum,
       };
     case actionTypes.CART_QUANTITY_UP:
-      state.cart.map((product) =>
+      state.cart.forEach((product) =>
         product.cart_id === action.payload
           ? (product.quantity += 1)
           : product.quantity
       );
 
       let quantityUpSum = 0;
-      state.cart.map(
+      state.cart.forEach(
         (product) =>
           (quantityUpSum += parseFloat(product.price) * product.quantity)
       );
@@ -168,7 +179,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         cartSum: quantityUpSum,
       };
     case actionTypes.CART_QUANTITY_DOWN:
-      state.cart.map((product) =>
+      state.cart.forEach((product) =>
         product.cart_id === action.payload
           ? product.quantity > 0
             ? (product.quantity -= 1)
@@ -177,7 +188,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       );
 
       let quantityDownSum = 0;
-      state.cart.map(
+      state.cart.forEach(
         (product) =>
           (quantityDownSum += parseFloat(product.price) * product.quantity)
       );
@@ -229,6 +240,53 @@ const shopReducer = (state = INITIAL_STATE, action) => {
         wishlist: state.wishlist,
       };
 
+    case actionTypes.LOAD_PAYMENTS:
+      console.log(action.payments);
+      state.payments.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        payments: state.payments,
+      };
+    case actionTypes.CREATE_PAYMENT:
+      state.payments.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        payments: state.payments,
+      };
+
+    case actionTypes.LOAD_ORDERS:
+      return {
+        ...state,
+        loading: false,
+        orders: action.payload,
+      };
+    case actionTypes.CREATE_ORDER:
+      state.orders.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        orders: state.orders,
+        cartSum: state.cartSum,
+        cartId: action.payload.id,
+      };
+
+    case actionTypes.LOAD_CATEGORIES:
+      state.categories.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        categories: action.payload,
+        currentCategory: "all",
+      };
+
+    case actionTypes.SET_CURRENT_CATEGORY:
+      return {
+        ...state,
+        loading: false,
+        currentCategory: action.payload,
+      };
     default:
       return state;
   }

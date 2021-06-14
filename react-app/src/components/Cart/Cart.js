@@ -20,7 +20,6 @@ import {
   getAccountInfo,
   quantityDown,
   quantityUp,
-  setUser,
 } from "../../redux/Shopping/shopping-actions";
 import { Row } from "react-bootstrap";
 import Box from "@material-ui/core/Box";
@@ -98,6 +97,7 @@ export function CartDialog() {
 
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCart(post.shop.user));
   }, []);
 
   const handleClickOpen = () => {

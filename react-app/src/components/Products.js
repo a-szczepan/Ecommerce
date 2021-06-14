@@ -15,9 +15,10 @@ import {
   addToCart,
   addToWishlist,
   fetchCart,
+  fetchCategories,
+  fetchOrders,
   fetchProducts,
   fetchWishlist,
-  updateCartSum,
 } from "../redux/Shopping/shopping-actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -81,7 +82,6 @@ function ImgMediaCard(props) {
             dispatch(addToCart(post.shop.user, props.product.id));
           }}
         >
-          {" "}
           Do koszyka
         </Button>
       </CardActions>
@@ -95,13 +95,22 @@ const Products = (products, wishlist) => {
 
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCategories());
   }, []);
+
+  const filteredProducts = (index, el, wishlist) => {
+    if (
+      el.category_id === post.shop.currentCategory ||
+      post.shop.currentCategory === "all"
+    )
+      return <ImgMediaCard key={index} product={el} wishlist={wishlist} />;
+  };
 
   return (
     <>
-      {post.shop.products.map((el, index) => (
-        <ImgMediaCard key={index} product={el} wishlist={wishlist} />
-      ))}
+      {post.shop.products.map((el, index) =>
+        filteredProducts(index, el, wishlist)
+      )}
     </>
   );
 };

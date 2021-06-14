@@ -5,14 +5,19 @@ import React, { useEffect } from "react";
 import { Navbar } from "./Navbar";
 import logo from "../../images/logo.png";
 import Button from "@material-ui/core/Button";
-import { getAccountInfo, setUser } from "../../redux/Shopping/shopping-actions";
+import {
+  fetchCategories,
+  fetchOrders,
+  getAccountInfo,
+  setUser,
+} from "../../redux/Shopping/shopping-actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Header = () => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(setUser());
+    dispatch(fetchCategories());
   }, []);
 
   return (
@@ -35,20 +40,6 @@ export const Header = () => {
       <Col className="headerImage">
         <img height="600px" src={headerImage} alt="header" />
       </Col>
-      <Button
-        onClick={() => {
-          document.cookie.split(";").forEach(function (c) {
-            document.cookie = c
-              .replace(/^ +/, "")
-              .replace(
-                /=.*/,
-                "=;expires=" + new Date().toUTCString() + ";path=/"
-              );
-          });
-        }}
-      >
-        Wyczyść cookie
-      </Button>
       <Navbar />
     </Row>
   );

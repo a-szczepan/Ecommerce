@@ -8,6 +8,8 @@ import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {
+  createOrder,
+  createPayment,
   deleteFromCart,
   fetchCart,
   fetchProducts,
@@ -24,12 +26,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "@material-ui/core";
 import { AccountInfo } from "./AccountInfo";
 import { ShippingInfo } from "./ShippingInfo";
+import { useHistory } from "react-router-dom";
 
 const AcceptButton = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const post = useSelector((state) => state);
+
+  const redirect = () => {
+    dispatch(createPayment(post.shop.cartId, post.shop.cartSum));
+    history.push("/");
+  };
+
   if (props.account !== "create" && props.shipping !== "create") {
     return (
-      <Button variant="contained" color="primary">
-        Przejdź dalej
+      <Button
+        onClick={() => {
+          dispatch(createOrder(props.cart, props.shipping.id));
+          redirect();
+        }}
+        variant="contained"
+        color="primary"
+      >
+        Potwierdź
       </Button>
     );
   } else {
@@ -131,6 +150,8 @@ export const Order = () => {
           <AcceptButton
             account={post.shop.account}
             shipping={post.shop.shipping}
+            cart={post.shop.cart[0].cart_id}
+            amount={post.shop.cartSum}
           />
         </Row>
       </Row>
