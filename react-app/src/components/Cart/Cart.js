@@ -14,7 +14,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteFromCart, fetchCart,
+  deleteFromCart,
+  fetchCart,
   fetchProducts,
   getAccountInfo,
   quantityDown,
@@ -96,7 +97,7 @@ export function CartDialog() {
 
   useEffect(() => {
     dispatch(fetchProducts());
-    dispatch(fetchCart(post.shop.user))
+    dispatch(fetchCart(post.shop.user));
   }, []);
 
   const handleClickOpen = () => {
