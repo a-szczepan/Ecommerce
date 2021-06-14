@@ -212,11 +212,6 @@ const shopReducer = (state = INITIAL_STATE, action={}) => {
       };
     case actionTypes.LOAD_SHIPMENT_INFO:
     case actionTypes.CREATE_SHIPMENT_INFO:
-      return {
-        ...state,
-        loading: false,
-        shipping: action.payload,
-      };
     case actionTypes.DELETE_SHIPMENT_INFO:
       return {
         ...state,
