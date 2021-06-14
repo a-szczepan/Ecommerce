@@ -11,7 +11,7 @@ class AccountController @Inject()(accountRepository: AccountRepository,userRepos
   def createAccount: Action[JsValue] = Action.async(parse.json) { implicit request =>
     request.body.validate[Account].map {
       account =>
-        accountRepository.create(account.providerKey, account.first_name, account.last_name).map { res =>
+        accountRepository.create(account.providerKey, account.firstName, account.lastName).map { res =>
           Ok(Json.toJson(res))
         }
     }.getOrElse(Future.successful(BadRequest("")))

@@ -17,12 +17,12 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, user
     case Failure(e) => print("", e)
   }
 
-
+  val path = "/accounts/all"
   val accountForm: Form[CreateAccountForm] = Form {
     mapping(
       "providerKey" -> nonEmptyText,
-      "first_name" -> nonEmptyText,
-      "last_name" -> nonEmptyText,
+      "firstName" -> nonEmptyText,
+      "lastName" -> nonEmptyText,
     )(CreateAccountForm.apply)(CreateAccountForm.unapply)
   }
 
@@ -30,15 +30,15 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, user
     mapping(
       "id" -> number,
       "providerKey" -> nonEmptyText,
-      "first_name" -> nonEmptyText,
-      "last_name" -> nonEmptyText,
+      "firstName" -> nonEmptyText,
+      "lastName" -> nonEmptyText,
     )(UpdateAccountForm.apply)(UpdateAccountForm.unapply)
   }
 
   def updateAccount(id: Int): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val account = accountRepository.getById(id)
     account.map(account => {
-      val accountForm = updateAccountForm.fill(UpdateAccountForm(account.get.id, account.get.providerKey, account.get.first_name, account.get.last_name))
+      val accountForm = updateAccountForm.fill(UpdateAccountForm(account.get.id, account.get.providerKey, account.get.firstName, account.get.lastName))
       Ok(views.html.account.updateAccount(accountForm, userList))
     })
   }
@@ -51,8 +51,8 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, user
         )
       },
       account => {
-        accountRepository.update(account.id, Account(account.id, account.providerKey, account.first_name, account.last_name)).map { _ =>
-          Redirect("/accounts/all")
+        accountRepository.update(account.id, Account(account.id, account.providerKey, account.firstName, account.lastName)).map { _ =>
+          Redirect(path)
         }
       }
     )
@@ -60,7 +60,7 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, user
 
   def deleteAccount(id: Int): Action[AnyContent] = Action {
     accountRepository.delete(id)
-    Redirect("/accounts/all")
+    Redirect(path)
   }
 
   def allAccounts: Action[AnyContent] = Action.async { implicit request =>
@@ -88,12 +88,12 @@ class AccountFormController @Inject()(accountRepository: AccountRepository, user
         )
       },
       account => {
-        accountRepository.create(account.providerKey, account.first_name, account.last_name).map { _ =>
-          Redirect("/accounts/all")
+        accountRepository.create(account.providerKey, account.firstName, account.lastName).map { _ =>
+          Redirect(path)
         }
       }
     )
   }
 }
-case class CreateAccountForm(providerKey: String, first_name: String, last_name: String)
-case class UpdateAccountForm(id: Int, providerKey: String, first_name: String, last_name: String)
+case class CreateAccountForm(providerKey: String, firstName: String, lastName: String)
+case class UpdateAccountForm(id: Int, providerKey: String, firstName: String, lastName: String)

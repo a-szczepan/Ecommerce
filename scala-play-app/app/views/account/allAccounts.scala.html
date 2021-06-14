@@ -2,8 +2,8 @@
 @(accounts: Seq[Account])
 
 @for(account <- accounts) {
-    <h4>@account.first_name</h4>
-    <h4>@account.last_name</h4>
+    <h4>@account.firstName</h4>
+    <h4>@account.lastName</h4>
     @account.id
     <a href="@controllers.routes.AccountFormController.updateAccount(account.id)">Edit</a>
     <a href="@controllers.routes.AccountFormController.deleteAccount(account.id)">Delete</a>
